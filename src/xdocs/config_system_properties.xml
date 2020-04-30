@@ -33,7 +33,7 @@
       </p>
     </section>
 
-    <section name="Localisation Support">
+    <section name="Localization Support">
       <p>
         Checkstyle supports a mechanism for localising the output
         messages. If your language is not supported, please consider

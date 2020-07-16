@@ -39,6 +39,8 @@ import net.sf.saxon.sxpath.XPathEvaluator;
 import net.sf.saxon.sxpath.XPathExpression;
 import net.sf.saxon.trans.XPathException;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Contains utility methods for xpath.
  *
@@ -150,7 +152,7 @@ public final class XpathUtil {
             final XPathExpression xpathExpression = xpathEvaluator.createExpression(xpath);
             final XPathDynamicContext xpathDynamicContext =
                 xpathExpression.createDynamicContext(rootNode);
-            final List<Item<?>> matchingItems = xpathExpression.evaluate(xpathDynamicContext);
+            final @Det List<Item<?>> matchingItems = xpathExpression.evaluate(xpathDynamicContext);
             return matchingItems.stream()
                 .map(item -> ((AbstractNode) item).getUnderlyingNode())
                 .map(AstTreeStringPrinter::printBranch)

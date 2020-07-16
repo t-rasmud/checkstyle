@@ -33,6 +33,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that a local variable or a parameter does not shadow
@@ -643,10 +645,10 @@ public class HiddenFieldCheck
         private final FieldFrame parent;
 
         /** Set of instance field names. */
-        private final Set<String> instanceFields = new HashSet<>();
+        private final @OrderNonDet Set<String> instanceFields = new HashSet<>();
 
         /** Set of static field names. */
-        private final Set<String> staticFields = new HashSet<>();
+        private final @OrderNonDet Set<String> staticFields = new HashSet<>();
 
         /**
          * Creates new frame.

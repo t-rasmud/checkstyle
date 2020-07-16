@@ -30,6 +30,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Controls the indentation between comments and surrounding code.
@@ -764,7 +766,7 @@ public class CommentsIndentationCheck extends AbstractCheck {
             root = root.getParent();
         }
 
-        final Deque<DetailAST> stack = new ArrayDeque<>();
+        final @Det Deque<DetailAST> stack = new ArrayDeque<>();
         DetailAST previousStatement = null;
         while (root != null || !stack.isEmpty()) {
             if (!stack.isEmpty()) {

@@ -51,6 +51,8 @@ import com.puppycrawl.tools.checkstyle.api.LocalizedMessage;
 import com.puppycrawl.tools.checkstyle.api.MessageDispatcher;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Ensures the correct translation of code by checking property files for consistency
@@ -276,7 +278,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
     /**
      * Specify language codes of required translations which must exist in project.
      */
-    private Set<String> requiredTranslations = new HashSet<>();
+    private @OrderNonDet Set<String> requiredTranslations = new HashSet<>();
 
     /**
      * Creates a new {@code TranslationCheck} instance.
@@ -358,7 +360,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
 
     @Override
     public void finishProcessing() {
-        final Set<ResourceBundle> bundles = groupFilesIntoBundles(filesToProcess, baseName);
+        final @Det Set<ResourceBundle> bundles = groupFilesIntoBundles(filesToProcess, baseName);
         for (ResourceBundle currentBundle : bundles) {
             checkExistenceOfDefaultTranslation(currentBundle);
             checkExistenceOfRequiredTranslations(currentBundle);
@@ -453,7 +455,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      */
     private static Set<ResourceBundle> groupFilesIntoBundles(Set<File> files,
                                                              Pattern baseNameRegexp) {
-        final Set<ResourceBundle> resourceBundles = new HashSet<>();
+        final @OrderNonDet Set<ResourceBundle> resourceBundles = new HashSet<>();
         for (File currentFile : files) {
             final String fileName = currentFile.getName();
             final String baseName = extractBaseName(fileName);
@@ -549,12 +551,12 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param bundle resource bundle.
      */
     private void checkTranslationKeys(ResourceBundle bundle) {
-        final Set<File> filesInBundle = bundle.getFiles();
+        final @Det Set<File> filesInBundle = bundle.getFiles();
         // build a map from files to the keys they contain
-        final Set<String> allTranslationKeys = new HashSet<>();
-        final Map<File, Set<String>> filesAssociatedWithKeys = new HashMap<>();
+        final @OrderNonDet Set<String> allTranslationKeys = new HashSet<>();
+        final @OrderNonDet Map<File, Set<String>> filesAssociatedWithKeys = new HashMap<>();
         for (File currentFile : filesInBundle) {
-            final Set<String> keysInCurrentFile = getTranslationKeys(currentFile);
+            final @Det Set<String> keysInCurrentFile = getTranslationKeys(currentFile);
             allTranslationKeys.addAll(keysInCurrentFile);
             filesAssociatedWithKeys.put(currentFile, keysInCurrentFile);
         }
@@ -571,7 +573,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
     private void checkFilesForConsistencyRegardingTheirKeys(Map<File, Set<String>> fileKeys,
                                                             Set<String> keysThatMustExist) {
         for (Entry<File, Set<String>> fileKey : fileKeys.entrySet()) {
-            final Set<String> currentFileKeys = fileKey.getValue();
+            final @Det Set<String> currentFileKeys = fileKey.getValue();
             final Set<String> missingKeys = keysThatMustExist.stream()
                 .filter(key -> !currentFileKeys.contains(key)).collect(Collectors.toSet());
             if (!missingKeys.isEmpty()) {
@@ -594,9 +596,9 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @return a Set object which holds the loaded keys.
      */
     private Set<String> getTranslationKeys(File file) {
-        Set<String> keys = new HashSet<>();
+        @OrderNonDet Set<String> keys = new HashSet<>();
         try (InputStream inStream = Files.newInputStream(file.toPath())) {
-            final Properties translations = new Properties();
+            final @Det Properties translations = new Properties();
             translations.load(inStream);
             keys = translations.stringPropertyNames();
         }
@@ -633,7 +635,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
                 args,
                 getId(),
                 getClass(), null);
-        final SortedSet<LocalizedMessage> messages = new TreeSet<>();
+        final @Det SortedSet<LocalizedMessage> messages = new TreeSet<>();
         messages.add(message);
         getMessageDispatcher().fireErrors(file.getPath(), messages);
         log.debug("Exception occurred.", exception);
@@ -649,7 +651,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
         /** Common path of files which are included in the resource bundle. */
         private final String path;
         /** Set of files which are included in the resource bundle. */
-        private final Set<File> files;
+        private final @OrderNonDet Set<File> files;
 
         /**
          * Creates a ResourceBundle object with specific base name, common files extension.

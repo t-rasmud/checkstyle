@@ -37,6 +37,8 @@ import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTag;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for unused import statements. Checkstyle uses a simple but very
@@ -138,10 +140,10 @@ public class UnusedImportsCheck extends AbstractCheck {
     private static final String STAR_IMPORT_SUFFIX = ".*";
 
     /** Set of the imports. */
-    private final Set<FullIdent> imports = new HashSet<>();
+    private final @OrderNonDet Set<FullIdent> imports = new HashSet<>();
 
     /** Set of references - possibly to imports or other things. */
-    private final Set<String> referenced = new HashSet<>();
+    private final @OrderNonDet Set<String> referenced = new HashSet<>();
 
     /** Flag to indicate when time to start collecting references. */
     private boolean collect;
@@ -299,14 +301,14 @@ public class UnusedImportsCheck extends AbstractCheck {
      * @return a set of classes referenced in the javadoc block
      */
     private static Set<String> collectReferencesFromJavadoc(TextBlock textBlock) {
-        final List<JavadocTag> tags = new ArrayList<>();
+        final @Det List<JavadocTag> tags = new ArrayList<>();
         // gather all the inline tags, like @link
         // INLINE tags inside BLOCKs get hidden when using ALL
         tags.addAll(getValidTags(textBlock, JavadocUtil.JavadocTagType.INLINE));
         // gather all the block-level tags, like @throws and @see
         tags.addAll(getValidTags(textBlock, JavadocUtil.JavadocTagType.BLOCK));
 
-        final Set<String> references = new HashSet<>();
+        final @OrderNonDet Set<String> references = new HashSet<>();
 
         tags.stream()
             .filter(JavadocTag::canReferenceImports)
@@ -333,7 +335,7 @@ public class UnusedImportsCheck extends AbstractCheck {
      * @return A list of references found in this tag
      */
     private static Set<String> processJavadocTag(JavadocTag tag) {
-        final Set<String> references = new HashSet<>();
+        final @OrderNonDet Set<String> references = new HashSet<>();
         final String identifier = tag.getFirstArg().trim();
         for (Pattern pattern : new Pattern[]
         {FIRST_CLASS_NAME, ARGUMENT_NAME}) {
@@ -351,7 +353,7 @@ public class UnusedImportsCheck extends AbstractCheck {
      * @return A list of texts which matched the pattern
      */
     private static Set<String> matchPattern(String identifier, Pattern pattern) {
-        final Set<String> references = new HashSet<>();
+        final @OrderNonDet Set<String> references = new HashSet<>();
         final Matcher matcher = pattern.matcher(identifier);
         while (matcher.find()) {
             references.add(topLevelType(matcher.group(1)));

@@ -33,6 +33,8 @@ import com.puppycrawl.tools.checkstyle.gui.MainFrameModel.ParseMode;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * The model that backs the parse tree in the GUI.
  *
@@ -57,7 +59,7 @@ public class ParseTreeTablePresentation {
     private final Object root;
 
     /** Cache to store already parsed Javadoc comments. Used for optimisation purposes. */
-    private final Map<DetailAST, DetailNode> blockCommentToJavadocTree = new HashMap<>();
+    private final @OrderNonDet Map<DetailAST, DetailNode> blockCommentToJavadocTree = new HashMap<>();
 
     /** Parsing mode. */
     private ParseMode parseMode;

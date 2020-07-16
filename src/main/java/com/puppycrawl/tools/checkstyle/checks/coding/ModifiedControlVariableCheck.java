@@ -33,6 +33,8 @@ import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that for loop control variables are not modified
@@ -301,7 +303,7 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @param ast ident to check.
      */
     private void checkIdent(DetailAST ast) {
-        final Deque<String> currentVariables = getCurrentVariables();
+        final @Det Deque<String> currentVariables = getCurrentVariables();
         final DetailAST identAST = ast.getFirstChild();
 
         if (identAST != null && identAST.getType() == TokenTypes.IDENT
@@ -316,7 +318,7 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @param ast a for definition.
      */
     private void leaveForIter(DetailAST ast) {
-        final Set<String> variablesToPutInScope = getVariablesManagedByForLoop(ast);
+        final @Det Set<String> variablesToPutInScope = getVariablesManagedByForLoop(ast);
         for (String variableName : variablesToPutInScope) {
             getCurrentVariables().push(variableName);
         }
@@ -330,8 +332,8 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @return Set of Variable Name which are managed by for
      */
     private static Set<String> getVariablesManagedByForLoop(DetailAST ast) {
-        final Set<String> initializedVariables = getForInitVariables(ast);
-        final Set<String> iteratingVariables = getForIteratorVariables(ast);
+        final @Det Set<String> initializedVariables = getForInitVariables(ast);
+        final @Det Set<String> iteratingVariables = getForIteratorVariables(ast);
         return initializedVariables.stream().filter(iteratingVariables::contains)
             .collect(Collectors.toSet());
     }
@@ -360,7 +362,7 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
             }
         }
         else {
-            final Set<String> variablesManagedByForLoop = getVariablesManagedByForLoop(ast);
+            final @Det Set<String> variablesManagedByForLoop = getVariablesManagedByForLoop(ast);
             popCurrentVariables(variablesManagedByForLoop.size());
         }
     }
@@ -383,7 +385,7 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @return set of variables initialized in for loop
      */
     private static Set<String> getForInitVariables(DetailAST ast) {
-        final Set<String> initializedVariables = new HashSet<>();
+        final @OrderNonDet Set<String> initializedVariables = new HashSet<>();
         final DetailAST forInitAST = ast.findFirstToken(TokenTypes.FOR_INIT);
 
         for (DetailAST parameterDefAST = forInitAST.findFirstToken(TokenTypes.VARIABLE_DEF);
@@ -406,7 +408,7 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @return names of variables change in iterating part of for
      */
     private static Set<String> getForIteratorVariables(DetailAST ast) {
-        final Set<String> iteratorVariables = new HashSet<>();
+        final @OrderNonDet Set<String> iteratorVariables = new HashSet<>();
         final DetailAST forIteratorAST = ast.findFirstToken(TokenTypes.FOR_ITERATOR);
         final DetailAST forUpdateListAST = forIteratorAST.findFirstToken(TokenTypes.ELIST);
 
@@ -428,7 +430,7 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @return all child of given ast
      */
     private static List<DetailAST> findChildrenOfExpressionType(DetailAST ast) {
-        final List<DetailAST> foundExpressions = new LinkedList<>();
+        final @Det List<DetailAST> foundExpressions = new LinkedList<>();
         if (ast != null) {
             for (DetailAST iteratingExpressionAST = ast.findFirstToken(TokenTypes.EXPR);
                  iteratingExpressionAST != null;

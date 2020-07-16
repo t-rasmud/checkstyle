@@ -37,6 +37,8 @@ import com.puppycrawl.tools.checkstyle.checks.javadoc.utils.BlockTagUtil;
 import com.puppycrawl.tools.checkstyle.checks.javadoc.utils.InlineTagUtil;
 import com.puppycrawl.tools.checkstyle.checks.javadoc.utils.TagInfo;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Contains utility methods for working with Javadoc.
  */
@@ -100,7 +102,7 @@ public final class JavadocUtil {
         final boolean getInlineTags = tagType == JavadocTagType.ALL
                                           || tagType == JavadocTagType.INLINE;
 
-        final List<TagInfo> tags = new ArrayList<>();
+        final @Det List<TagInfo> tags = new ArrayList<>();
 
         if (getBlockTags) {
             tags.addAll(BlockTagUtil.extractBlockTags(textBlock.getText()));
@@ -110,8 +112,8 @@ public final class JavadocUtil {
             tags.addAll(InlineTagUtil.extractInlineTags(textBlock.getText()));
         }
 
-        final List<JavadocTag> validTags = new ArrayList<>();
-        final List<InvalidJavadocTag> invalidTags = new ArrayList<>();
+        final @Det List<JavadocTag> validTags = new ArrayList<>();
+        final @Det List<InvalidJavadocTag> invalidTags = new ArrayList<>();
 
         for (TagInfo tag : tags) {
             final int col = tag.getPosition().getColumn();

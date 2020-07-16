@@ -28,6 +28,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Factory for handlers. Looks up constructor via reflection.
  *
@@ -37,10 +39,10 @@ public class HandlerFactory {
     /**
      * Registered handlers.
      */
-    private final Map<Integer, Constructor<?>> typeHandlers = new HashMap<>();
+    private final @OrderNonDet Map<Integer, Constructor<?>> typeHandlers = new HashMap<>();
 
     /** Cache for created method call handlers. */
-    private final Map<DetailAST, AbstractExpressionHandler> createdHandlers = new HashMap<>();
+    private final @OrderNonDet Map<DetailAST, AbstractExpressionHandler> createdHandlers = new HashMap<>();
 
     /** Creates a HandlerFactory. */
     public HandlerFactory() {
@@ -106,7 +108,7 @@ public class HandlerFactory {
      * @return true if handler is registered, false otherwise
      */
     public boolean isHandledType(int type) {
-        final Set<Integer> typeSet = typeHandlers.keySet();
+        final @OrderNonDet Set<Integer> typeSet = typeHandlers.keySet();
         return typeSet.contains(type);
     }
 
@@ -116,7 +118,7 @@ public class HandlerFactory {
      * @return int[] of TokenType types
      */
     public int[] getHandledTypes() {
-        final Set<Integer> typeSet = typeHandlers.keySet();
+        final @OrderNonDet Set<Integer> typeSet = typeHandlers.keySet();
         final int[] types = new int[typeSet.size()];
         int index = 0;
         for (final Integer val : typeSet) {

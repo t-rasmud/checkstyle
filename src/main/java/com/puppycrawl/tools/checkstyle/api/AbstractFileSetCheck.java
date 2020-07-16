@@ -26,6 +26,8 @@ import java.util.TreeSet;
 
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Provides common functionality for many FileSetChecks.
  *
@@ -79,14 +81,14 @@ public abstract class AbstractFileSetCheck
     @Override
     public final SortedSet<LocalizedMessage> process(File file, FileText fileText)
             throws CheckstyleException {
-        final SortedSet<LocalizedMessage> messages = context.get().messages;
+        final @Det SortedSet<LocalizedMessage> messages = context.get().messages;
         context.get().fileContents = new FileContents(fileText);
         messages.clear();
         // Process only what interested in
         if (CommonUtil.matchesFileExtension(file, fileExtensions)) {
             processFiltered(file, fileText);
         }
-        final SortedSet<LocalizedMessage> result = new TreeSet<>(messages);
+        final @Det SortedSet<LocalizedMessage> result = new TreeSet<>(messages);
         messages.clear();
         return result;
     }
@@ -237,7 +239,7 @@ public abstract class AbstractFileSetCheck
      * @param fileName the audited file
      */
     protected final void fireErrors(String fileName) {
-        final SortedSet<LocalizedMessage> errors = new TreeSet<>(context.get().messages);
+        final @Det SortedSet<LocalizedMessage> errors = new TreeSet<>(context.get().messages);
         context.get().messages.clear();
         messageDispatcher.fireErrors(fileName, errors);
     }

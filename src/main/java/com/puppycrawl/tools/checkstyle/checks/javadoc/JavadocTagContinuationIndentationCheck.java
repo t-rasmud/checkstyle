@@ -28,6 +28,8 @@ import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks the indentation of the continuation lines in at-clauses. That is whether the continued
@@ -172,7 +174,7 @@ public class JavadocTagContinuationIndentationCheck extends AbstractJavadocCheck
     @Override
     public void visitJavadocToken(DetailNode ast) {
         if (!isInlineDescription(ast)) {
-            final List<DetailNode> textNodes = getAllNewlineNodes(ast);
+            final @Det List<DetailNode> textNodes = getAllNewlineNodes(ast);
             for (DetailNode newlineNode : textNodes) {
                 final DetailNode textNode = JavadocUtil.getNextSibling(newlineNode);
                 if (textNode.getType() == JavadocTokenTypes.TEXT) {
@@ -194,7 +196,7 @@ public class JavadocTagContinuationIndentationCheck extends AbstractJavadocCheck
      * @return List with NEWLINE nodes.
      */
     private static List<DetailNode> getAllNewlineNodes(DetailNode descriptionNode) {
-        final List<DetailNode> textNodes = new ArrayList<>();
+        final @Det List<DetailNode> textNodes = new ArrayList<>();
         DetailNode node = JavadocUtil.getFirstChild(descriptionNode);
         while (JavadocUtil.getNextSibling(node) != null) {
             if (node.getType() == JavadocTokenTypes.LEADING_ASTERISK) {

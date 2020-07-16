@@ -28,6 +28,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for restricted tokens beneath other tokens.
@@ -475,7 +477,7 @@ public class DescendantTokenCheck extends AbstractCheck {
     @Override
     public int[] getAcceptableTokens() {
         // Any tokens set by property 'tokens' are acceptable
-        final Set<String> tokenNames = getTokenNames();
+        final @OrderNonDet Set<String> tokenNames = getTokenNames();
         final int[] result = new int[tokenNames.size()];
         int index = 0;
         for (String name : tokenNames) {

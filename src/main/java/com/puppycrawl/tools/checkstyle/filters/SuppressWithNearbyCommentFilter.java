@@ -35,6 +35,8 @@ import com.puppycrawl.tools.checkstyle.api.FileContents;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Filter {@code SuppressWithNearbyCommentFilter} uses nearby comments to suppress audit events.
@@ -447,7 +449,7 @@ public class SuppressWithNearbyCommentFilter
             tagSuppressions(contents.getSingleLineComments().values());
         }
         if (checkC) {
-            final Collection<List<TextBlock>> cComments =
+            final @Det Collection<List<TextBlock>> cComments =
                 contents.getBlockComments().values();
             cComments.forEach(this::tagSuppressions);
         }

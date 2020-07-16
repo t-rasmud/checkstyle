@@ -32,6 +32,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks the distance between declaration of variable and its first usage.
@@ -528,7 +530,7 @@ public class VariableDeclarationUsageDistanceCheck extends AbstractCheck {
 
             currentScopeAst = null;
 
-            final List<DetailAST> variableUsageExpressions = searchResult.getKey();
+            final @Det List<DetailAST> variableUsageExpressions = searchResult.getKey();
             dist += searchResult.getValue();
 
             // If variable usage exists in a single scope, then look into
@@ -597,7 +599,7 @@ public class VariableDeclarationUsageDistanceCheck extends AbstractCheck {
      */
     private static Entry<List<DetailAST>, Integer>
         searchVariableUsageExpressions(final DetailAST variableAst, final DetailAST statementAst) {
-        final List<DetailAST> variableUsageExpressions = new ArrayList<>();
+        final @Det List<DetailAST> variableUsageExpressions = new ArrayList<>();
         int distance = 0;
         DetailAST currentStatementAst = statementAst;
         while (currentStatementAst != null
@@ -679,7 +681,7 @@ public class VariableDeclarationUsageDistanceCheck extends AbstractCheck {
 
         if (!isVariableInOperatorExpr(block, variable)) {
             DetailAST currentNode = block.getLastChild();
-            final List<DetailAST> variableUsageExpressions =
+            final @Det List<DetailAST> variableUsageExpressions =
                     new ArrayList<>();
 
             while (currentNode != null
@@ -739,7 +741,7 @@ public class VariableDeclarationUsageDistanceCheck extends AbstractCheck {
             DetailAST block, DetailAST variable) {
         DetailAST currentNode = block
                 .findFirstToken(TokenTypes.CASE_GROUP);
-        final List<DetailAST> variableUsageExpressions =
+        final @Det List<DetailAST> variableUsageExpressions =
                 new ArrayList<>();
 
         // Checking variable usage inside all CASE blocks.
@@ -780,7 +782,7 @@ public class VariableDeclarationUsageDistanceCheck extends AbstractCheck {
     private static DetailAST getFirstNodeInsideTryCatchFinallyBlocks(
             DetailAST block, DetailAST variable) {
         DetailAST currentNode = block.getFirstChild();
-        final List<DetailAST> variableUsageExpressions =
+        final @Det List<DetailAST> variableUsageExpressions =
                 new ArrayList<>();
 
         // Checking variable usage inside TRY block.

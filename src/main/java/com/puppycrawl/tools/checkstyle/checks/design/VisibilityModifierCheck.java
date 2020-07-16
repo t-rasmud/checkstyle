@@ -36,6 +36,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.AnnotationUtil;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks visibility of class members. Only static final, immutable or annotated
@@ -593,12 +595,12 @@ public class VisibilityModifierCheck
     @Override
     public void beginTree(DetailAST rootAst) {
         immutableClassShortNames.clear();
-        final List<String> classShortNames =
+        final @Det List<String> classShortNames =
                 getClassShortNames(immutableClassCanonicalNames);
         immutableClassShortNames.addAll(classShortNames);
 
         ignoreAnnotationShortNames.clear();
-        final List<String> annotationShortNames =
+        final @Det List<String> annotationShortNames =
                 getClassShortNames(ignoreAnnotationCanonicalNames);
         ignoreAnnotationShortNames.addAll(annotationShortNames);
     }
@@ -742,7 +744,7 @@ public class VisibilityModifierCheck
      * @return true of variable has static final modifiers.
      */
     private static boolean isStaticFinalVariable(DetailAST variableDef) {
-        final Set<String> modifiers = getModifiers(variableDef);
+        final @Det Set<String> modifiers = getModifiers(variableDef);
         return modifiers.contains(STATIC_KEYWORD)
                 && modifiers.contains(FINAL_KEYWORD);
     }
@@ -778,7 +780,7 @@ public class VisibilityModifierCheck
      */
     private boolean isImmutableFieldDefinedInFinalClass(DetailAST variableDef) {
         final DetailAST classDef = variableDef.getParent().getParent();
-        final Set<String> classModifiers = getModifiers(classDef);
+        final @Det Set<String> classModifiers = getModifiers(classDef);
         return (classModifiers.contains(FINAL_KEYWORD) || classDef.getType() == TokenTypes.ENUM_DEF)
                 && isImmutableField(variableDef);
     }
@@ -791,7 +793,7 @@ public class VisibilityModifierCheck
      */
     private static Set<String> getModifiers(DetailAST defAST) {
         final DetailAST modifiersAST = defAST.findFirstToken(TokenTypes.MODIFIERS);
-        final Set<String> modifiersSet = new HashSet<>();
+        final @OrderNonDet Set<String> modifiersSet = new HashSet<>();
         if (modifiersAST != null) {
             DetailAST modifier = modifiersAST.getFirstChild();
             while (modifier != null) {
@@ -809,7 +811,7 @@ public class VisibilityModifierCheck
      * @return one of "public", "private", "protected", "package"
      */
     private static String getVisibilityScope(DetailAST variableDef) {
-        final Set<String> modifiers = getModifiers(variableDef);
+        final @Det Set<String> modifiers = getModifiers(variableDef);
         String accessModifier = PACKAGE_ACCESS_MODIFIER;
         for (final String modifier : EXPLICIT_MODS) {
             if (modifiers.contains(modifier)) {
@@ -844,7 +846,7 @@ public class VisibilityModifierCheck
                     result = true;
                 }
                 else {
-                    final List<String> argsClassNames = getTypeArgsClassNames(typeArgs);
+                    final @Det List<String> argsClassNames = getTypeArgsClassNames(typeArgs);
                     result = areImmutableTypeArguments(argsClassNames);
                 }
             }
@@ -891,7 +893,7 @@ public class VisibilityModifierCheck
      * @return a list of type parameters class names.
      */
     private static List<String> getTypeArgsClassNames(DetailAST typeArgs) {
-        final List<String> typeClassNames = new ArrayList<>();
+        final @Det List<String> typeClassNames = new ArrayList<>();
         DetailAST type = typeArgs.findFirstToken(TokenTypes.TYPE_ARGUMENT);
         boolean isCanonicalName = isCanonicalName(type);
         String typeName = getTypeName(type, isCanonicalName);
@@ -1025,7 +1027,7 @@ public class VisibilityModifierCheck
      * @return the list of short names of classes.
      */
     private static List<String> getClassShortNames(List<String> canonicalClassNames) {
-        final List<String> shortNames = new ArrayList<>();
+        final @Det List<String> shortNames = new ArrayList<>();
         for (String canonicalClassName : canonicalClassNames) {
             final String shortClassName = canonicalClassName
                     .substring(canonicalClassName.lastIndexOf('.') + 1);

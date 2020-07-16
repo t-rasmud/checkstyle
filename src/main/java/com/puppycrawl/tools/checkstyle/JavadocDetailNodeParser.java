@@ -50,6 +50,8 @@ import com.puppycrawl.tools.checkstyle.grammar.javadoc.JavadocLexer;
 import com.puppycrawl.tools.checkstyle.grammar.javadoc.JavadocParser;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Used for parsing Javadoc comment as DetailNode tree.
  *
@@ -485,9 +487,9 @@ public class JavadocDetailNodeParser {
     private static Token getMissedHtmlTag(RecognitionException exception) {
         Token htmlTagNameStart = null;
         final Interval sourceInterval = exception.getCtx().getSourceInterval();
-        final List<Token> tokenList = ((BufferedTokenStream) exception.getInputStream())
+        final @Det List<Token> tokenList = ((BufferedTokenStream) exception.getInputStream())
                 .getTokens(sourceInterval.a, sourceInterval.b);
-        final Deque<Token> stack = new ArrayDeque<>();
+        final @Det Deque<Token> stack = new ArrayDeque<>();
         int prevTokenType = JavadocTokenTypes.EOF;
         for (final Token token : tokenList) {
             final int tokenType = token.getType();

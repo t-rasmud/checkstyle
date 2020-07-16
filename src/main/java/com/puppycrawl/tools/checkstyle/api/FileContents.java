@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 import com.puppycrawl.tools.checkstyle.grammar.CommentListener;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
 /**
  * Represents the contents of a file.
  *
@@ -55,15 +56,15 @@ public final class FileContents implements CommentListener {
      * Map of the Javadoc comments indexed on the last line of the comment.
      * The hack is it assumes that there is only one Javadoc comment per line.
      */
-    private final Map<Integer, TextBlock> javadocComments = new HashMap<>();
+    private final @OrderNonDet Map<Integer, TextBlock> javadocComments = new HashMap<>();
     /** Map of the C++ comments indexed on the first line of the comment. */
-    private final Map<Integer, TextBlock> cppComments = new HashMap<>();
+    private final @OrderNonDet Map<Integer, TextBlock> cppComments = new HashMap<>();
 
     /**
      * Map of the C comments indexed on the first line of the comment to a list
      * of comments on that line.
      */
-    private final Map<Integer, List<TextBlock>> clangComments = new HashMap<>();
+    private final @OrderNonDet Map<Integer, List<TextBlock>> clangComments = new HashMap<>();
 
     /**
      * Creates a new {@code FileContents} instance.
@@ -155,11 +156,11 @@ public final class FileContents implements CommentListener {
 
         // save the comment
         if (clangComments.containsKey(startLineNo)) {
-            final List<TextBlock> entries = clangComments.get(startLineNo);
+            final @Det List<TextBlock> entries = clangComments.get(startLineNo);
             entries.add(comment);
         }
         else {
-            final List<TextBlock> entries = new ArrayList<>();
+            final @Det List<TextBlock> entries = new ArrayList<>();
             entries.add(comment);
             clangComments.put(startLineNo, entries);
         }
@@ -282,7 +283,7 @@ public final class FileContents implements CommentListener {
             int endLineNo, int endColNo) {
         boolean hasIntersection = false;
         // Check C comments (all comments should be checked)
-        final Collection<List<TextBlock>> values = clangComments.values();
+        final @OrderNonDet Collection<List<TextBlock>> values = clangComments.values();
         for (final List<TextBlock> row : values) {
             for (final TextBlock comment : row) {
                 if (comment.intersects(startLineNo, startColNo, endLineNo, endColNo)) {

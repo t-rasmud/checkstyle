@@ -30,6 +30,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for redundant modifiers.
@@ -497,7 +499,7 @@ public class RedundantModifierCheck
      */
     private static boolean isAnnotatedWithSafeVarargs(DetailAST methodDef) {
         boolean result = false;
-        final List<DetailAST> methodAnnotationsList = getMethodAnnotationsList(methodDef);
+        final @Det List<DetailAST> methodAnnotationsList = getMethodAnnotationsList(methodDef);
         for (DetailAST annotationNode : methodAnnotationsList) {
             if ("SafeVarargs".equals(annotationNode.getLastChild().getText())) {
                 result = true;
@@ -514,7 +516,7 @@ public class RedundantModifierCheck
      * @return List of annotations
      */
     private static List<DetailAST> getMethodAnnotationsList(DetailAST methodDef) {
-        final List<DetailAST> annotationsList = new ArrayList<>();
+        final @Det List<DetailAST> annotationsList = new ArrayList<>();
         final DetailAST modifiers = methodDef.findFirstToken(TokenTypes.MODIFIERS);
         TokenUtil.forEachChild(modifiers, TokenTypes.ANNOTATION, annotationsList::add);
         return annotationsList;

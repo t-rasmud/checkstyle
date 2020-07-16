@@ -40,6 +40,8 @@ import java.util.regex.Pattern;
 
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Represents the text contents of a file of arbitrary plain text type.
  * <p>
@@ -172,7 +174,7 @@ public final class FileText {
         // is about 30% faster than using the
         // LINE_TERMINATOR.split(fullText, -1) method
         try (BufferedReader reader = new BufferedReader(new StringReader(fullText))) {
-            final ArrayList<String> textLines = new ArrayList<>();
+            final @Det ArrayList<String> textLines = new ArrayList<>();
             while (true) {
                 final String line = reader.readLine();
                 if (line == null) {

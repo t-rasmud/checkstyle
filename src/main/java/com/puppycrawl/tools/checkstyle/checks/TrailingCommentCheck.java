@@ -31,6 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * The check to ensure that requires that comments be the only thing on a line.
@@ -188,11 +190,11 @@ public class TrailingCommentCheck extends AbstractCheck {
 
     @Override
     public void beginTree(DetailAST rootAST) {
-        final Map<Integer, TextBlock> cppComments = getFileContents()
+        final @Det Map<Integer, TextBlock> cppComments = getFileContents()
                 .getSingleLineComments();
-        final Map<Integer, List<TextBlock>> cComments = getFileContents()
+        final @Det Map<Integer, List<TextBlock>> cComments = getFileContents()
                 .getBlockComments();
-        final Set<Integer> lines = new HashSet<>();
+        final @OrderNonDet Set<Integer> lines = new HashSet<>();
         lines.addAll(cppComments.keySet());
         lines.addAll(cComments.keySet());
 

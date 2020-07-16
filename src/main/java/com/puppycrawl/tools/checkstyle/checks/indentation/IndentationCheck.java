@@ -28,6 +28,8 @@ import com.puppycrawl.tools.checkstyle.FileStatefulCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks correct indentation of Java code.
@@ -318,7 +320,7 @@ public class IndentationCheck extends AbstractCheck {
     private final HandlerFactory handlerFactory = new HandlerFactory();
 
     /** Lines logged as having incorrect indentation. */
-    private Set<Integer> incorrectIndentationLines;
+    private @OrderNonDet Set<@Det Integer> incorrectIndentationLines;
 
     /** Specify how far new indentation level should be indented when on the next line. */
     private int basicOffset = DEFAULT_INDENTATION;

@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Value object for combining the list of valid validTags with information
  * about invalid validTags encountered in a certain Javadoc comment.
@@ -41,9 +43,9 @@ public final class JavadocTags {
      * @param invalidTags the list of invalid tags
      */
     public JavadocTags(List<JavadocTag> tags, List<InvalidJavadocTag> invalidTags) {
-        final List<JavadocTag> validTagsCopy = new ArrayList<>(tags);
+        final @Det List<JavadocTag> validTagsCopy = new ArrayList<>(tags);
         validTags = Collections.unmodifiableList(validTagsCopy);
-        final List<InvalidJavadocTag> invalidTagsCopy = new ArrayList<>(invalidTags);
+        final @Det List<InvalidJavadocTag> invalidTagsCopy = new ArrayList<>(invalidTags);
         this.invalidTags = Collections.unmodifiableList(invalidTagsCopy);
     }
 

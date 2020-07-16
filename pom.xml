@@ -195,6 +195,8 @@
   </ciManagement>
 
   <properties>
+    <!-- These properties will be set by the Maven Dependency plugin -->
+    <errorProneJavac>${com.google.errorprone:javac:jar}</errorProneJavac>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <projectVersion>${project.version}</projectVersion>
@@ -223,6 +225,18 @@
   </properties>
 
   <dependencies>
+    <!-- Annotations from the Checker Framework: nullness, interning, locking, ... -->
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>3.5.0</version>
+    </dependency>
+    <!-- If using JDK 8, add the following additional dependency. -->
+    <dependency>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>javac</artifactId>
+      <version>9+181-r4173-1</version>
+    </dependency>
     <dependency>
       <groupId>com.tngtech.archunit</groupId>
       <artifactId>archunit-junit5</artifactId>
@@ -599,6 +613,17 @@
     </pluginManagement>
     <plugins>
 
+      <plugin><!-- This plugin will set properties values using dependency information -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>properties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -709,8 +734,33 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
+          <fork>true</fork> <!-- Must fork or else JVM arguments are ignored. -->
+          <!-- If using JDK 8, add source and target. -->
+          <source>1.8</source>
+          <target>1.8</target>
+          <compilerArguments>
+            <Xmaxerrs>10000</Xmaxerrs>
+            <Xmaxwarns>10000</Xmaxwarns>
+          </compilerArguments>
+          <!-- Without showWarnings and verbose, maven-compiler-plugin may not show output. -->
+          <showWarnings>true</showWarnings>
+          <verbose>true</verbose>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.checkerframework</groupId>
+              <artifactId>checker</artifactId>
+              <version>3.5.0</version>
+            </path>
+          </annotationProcessorPaths>
+          <annotationProcessors>
+            <!-- Add all the checkers you want to enable here -->
+            <annotationProcessor>org.checkerframework.checker.determinism.DeterminismChecker</annotationProcessor>
+          </annotationProcessors>
+          <compilerArgs>
+            <!-- If using JDK 8, use only the argument immediately below. -->
+            <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
+            <arg>-AsuppressWarnings="type.argument.type.incompatible"</arg>
+          </compilerArgs>
         </configuration>
         <!-- till https://github.com/checkstyle/checkstyle/issues/2160
         <executions>

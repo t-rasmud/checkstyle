@@ -33,6 +33,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FileText;
 import com.puppycrawl.tools.checkstyle.xpath.XpathQueryGenerator;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Class for constructing xpath queries to suppress nodes
  * with specified line and column number.
@@ -96,7 +98,7 @@ public final class SuppressionsStringPrinter {
         final XpathQueryGenerator queryGenerator =
                 new XpathQueryGenerator(detailAST, lineNumber, columnNumber, fileText,
                         tabWidth);
-        final List<String> suppressions = queryGenerator.generate();
+        final @Det List<String> suppressions = queryGenerator.generate();
         return suppressions.stream().collect(Collectors.joining(LINE_SEPARATOR,
                 "", LINE_SEPARATOR));
     }

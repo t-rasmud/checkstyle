@@ -30,6 +30,8 @@ import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.FileText;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks the header of a source file against a header that contains a
@@ -344,7 +346,7 @@ public class RegexpHeaderCheck extends AbstractHeaderCheck {
 
     @Override
     protected void postProcessHeaderLines() {
-        final List<String> headerLines = getHeaderLines();
+        final @Det List<String> headerLines = getHeaderLines();
         for (String line : headerLines) {
             try {
                 if (line.isEmpty()) {

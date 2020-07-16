@@ -37,6 +37,8 @@ import org.xml.sax.SAXException;
 import com.puppycrawl.tools.checkstyle.XmlLoader;
 import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Responsible for loading the contents of an import control configuration file.
  */
@@ -103,7 +105,7 @@ public final class ImportControlLoader extends XmlLoader {
         "com/puppycrawl/tools/checkstyle/checks/imports/import_control_1_4.dtd";
 
     /** The map to lookup the resource name by the id. */
-    private static final Map<String, String> DTD_RESOURCE_BY_ID = new HashMap<>();
+    private static final @OrderNonDet Map<String, String> DTD_RESOURCE_BY_ID = new HashMap<>();
 
     /** Name for attribute 'pkg'. */
     private static final String PKG_ATTRIBUTE_NAME = "pkg";

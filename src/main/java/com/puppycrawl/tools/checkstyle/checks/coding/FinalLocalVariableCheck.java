@@ -34,6 +34,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that local variables that never have their values changed are declared final.
@@ -315,7 +317,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
 
     @Override
     public void leaveToken(DetailAST ast) {
-        Map<String, FinalVariableCandidate> scope = null;
+        @OrderNonDet Map<String, FinalVariableCandidate> scope = null;
         switch (ast.getType()) {
             case TokenTypes.OBJBLOCK:
             case TokenTypes.CTOR_DEF:
@@ -326,7 +328,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
             case TokenTypes.SLIST:
                 // -@cs[MoveVariableInsideIf] assignment value is modified later so it can't be
                 // moved
-                final Deque<DetailAST> prevScopeUninitializedVariableData =
+                final @Det Deque<DetailAST> prevScopeUninitializedVariableData =
                     prevScopeUninitializedVariables.peek();
                 boolean containsBreak = false;
                 if (ast.getParent().getType() != TokenTypes.CASE_GROUP
@@ -358,9 +360,9 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      */
     private void updateCurrentScopeAssignedVariables() {
         // -@cs[MoveVariableInsideIf] assignment value is a modification call so it can't be moved
-        final Deque<DetailAST> poppedScopeAssignedVariableData =
+        final @Det Deque<DetailAST> poppedScopeAssignedVariableData =
                 currentScopeAssignedVariables.pop();
-        final Deque<DetailAST> currentScopeAssignedVariableData =
+        final @Det Deque<DetailAST> currentScopeAssignedVariableData =
                 currentScopeAssignedVariables.peek();
         if (currentScopeAssignedVariableData != null) {
             currentScopeAssignedVariableData.addAll(poppedScopeAssignedVariableData);
@@ -413,7 +415,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      */
     private Optional<FinalVariableCandidate> getFinalCandidate(DetailAST ast) {
         Optional<FinalVariableCandidate> result = Optional.empty();
-        final Iterator<ScopeData> iterator = scopeStack.descendingIterator();
+        final @Det Iterator<ScopeData> iterator = scopeStack.descendingIterator();
         while (iterator.hasNext() && !result.isPresent()) {
             final ScopeData scopeData = iterator.next();
             result = scopeData.findFinalVariableCandidateForAst(ast);
@@ -426,7 +428,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      */
     private void storePrevScopeUninitializedVariableData() {
         final ScopeData scopeData = scopeStack.peek();
-        final Deque<DetailAST> prevScopeUninitializedVariableData =
+        final @Det Deque<DetailAST> prevScopeUninitializedVariableData =
                 new ArrayDeque<>();
         scopeData.uninitializedVariables.forEach(prevScopeUninitializedVariableData::push);
         prevScopeUninitializedVariables.push(prevScopeUninitializedVariableData);
@@ -453,7 +455,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      * @param scopeUninitializedVariableData variable for specific stack of uninitialized variables
      */
     private void updateUninitializedVariables(Deque<DetailAST> scopeUninitializedVariableData) {
-        final Iterator<DetailAST> iterator = currentScopeAssignedVariables.peek().iterator();
+        final @Det Iterator<DetailAST> iterator = currentScopeAssignedVariables.peek().iterator();
         while (iterator.hasNext()) {
             final DetailAST assignedVariable = iterator.next();
             boolean shouldRemove = false;
@@ -805,7 +807,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     private static class ScopeData {
 
         /** Contains variable definitions. */
-        private final Map<String, FinalVariableCandidate> scope = new HashMap<>();
+        private final @OrderNonDet Map<String, FinalVariableCandidate> scope = new HashMap<>();
 
         /** Contains definitions of uninitialized variables. */
         private final Deque<DetailAST> uninitializedVariables = new ArrayDeque<>();

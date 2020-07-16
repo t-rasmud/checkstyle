@@ -31,6 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Disallows assignment of parameters.
@@ -75,7 +77,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
     /** Stack of methods' parameters. */
     private final Deque<Set<String>> parameterNamesStack = new ArrayDeque<>();
     /** Current set of parameters. */
-    private Set<String> parameterNames;
+    private @OrderNonDet Set<String> parameterNames;
 
     @Override
     public int[] getDefaultTokens() {

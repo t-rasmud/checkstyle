@@ -59,6 +59,8 @@ import com.puppycrawl.tools.checkstyle.api.RootModule;
 import com.puppycrawl.tools.checkstyle.api.SeverityLevel;
 import com.puppycrawl.tools.checkstyle.api.SeverityLevelCounter;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * An implementation of a ANT task for calling checkstyle. See the documentation
  * of the task for usage.
@@ -347,7 +349,7 @@ public class CheckstyleAntTask extends Task {
     private void processFiles(RootModule rootModule, final SeverityLevelCounter warningCounter,
             final String checkstyleVersion) {
         final long startTime = System.currentTimeMillis();
-        final List<File> files = getFilesToCheck();
+        final @Det List<File> files = getFilesToCheck();
         final long endTime = System.currentTimeMillis();
         log("To locate the files took " + (endTime - startTime) + TIME_SUFFIX,
             Project.MSG_VERBOSE);
@@ -396,7 +398,7 @@ public class CheckstyleAntTask extends Task {
     private RootModule createRootModule() {
         final RootModule rootModule;
         try {
-            final Properties props = createOverridingProperties();
+            final @Det Properties props = createOverridingProperties();
             final ThreadModeSettings threadModeSettings =
                     ThreadModeSettings.SINGLE_THREAD_MODE_INSTANCE;
             final ConfigurationLoader.IgnoredModulesOptions ignoredModulesOptions;
@@ -434,7 +436,7 @@ public class CheckstyleAntTask extends Task {
      * @return the properties for property expansion expansion
      */
     private Properties createOverridingProperties() {
-        final Properties returnValue = new Properties();
+        final @Det Properties returnValue = new Properties();
 
         // Load the properties file if specified
         if (properties != null) {
@@ -448,7 +450,7 @@ public class CheckstyleAntTask extends Task {
         }
 
         // override with Ant properties like ${basedir}
-        final Map<String, Object> antProps = getProject().getProperties();
+        final @Det Map<String, Object> antProps = getProject().getProperties();
         for (Map.Entry<String, Object> entry : antProps.entrySet()) {
             final String value = String.valueOf(entry.getValue());
             returnValue.setProperty(entry.getKey(), value);
@@ -500,7 +502,7 @@ public class CheckstyleAntTask extends Task {
      * @return the list of files included via the fileName, filesets and paths.
      */
     private List<File> getFilesToCheck() {
-        final List<File> allFiles = new ArrayList<>();
+        final @Det List<File> allFiles = new ArrayList<>();
         if (fileName != null) {
             // oops we've got an additional one to process, don't
             // forget it. No sweat, it's fully resolved via the setter.
@@ -508,10 +510,10 @@ public class CheckstyleAntTask extends Task {
             allFiles.add(new File(fileName));
         }
 
-        final List<File> filesFromFileSets = scanFileSets();
+        final @Det List<File> filesFromFileSets = scanFileSets();
         allFiles.addAll(filesFromFileSets);
 
-        final List<File> filesFromPaths = scanPaths();
+        final @Det List<File> filesFromPaths = scanPaths();
         allFiles.addAll(filesFromPaths);
 
         return allFiles;
@@ -523,11 +525,11 @@ public class CheckstyleAntTask extends Task {
      * @return a list of files defined via paths.
      */
     private List<File> scanPaths() {
-        final List<File> allFiles = new ArrayList<>();
+        final @Det List<File> allFiles = new ArrayList<>();
 
         for (int i = 0; i < paths.size(); i++) {
             final Path currentPath = paths.get(i);
-            final List<File> pathFiles = scanPath(currentPath, i + 1);
+            final @Det List<File> pathFiles = scanPath(currentPath, i + 1);
             allFiles.addAll(pathFiles);
         }
 
@@ -544,7 +546,7 @@ public class CheckstyleAntTask extends Task {
     private List<File> scanPath(Path path, int pathIndex) {
         final String[] resources = path.list();
         log(pathIndex + ") Scanning path " + path, Project.MSG_VERBOSE);
-        final List<File> allFiles = new ArrayList<>();
+        final @Det List<File> allFiles = new ArrayList<>();
         int concreteFilesCount = 0;
 
         for (String resource : resources) {
@@ -557,7 +559,7 @@ public class CheckstyleAntTask extends Task {
                 final DirectoryScanner scanner = new DirectoryScanner();
                 scanner.setBasedir(file);
                 scanner.scan();
-                final List<File> scannedFiles = retrieveAllScannedFiles(scanner, pathIndex);
+                final @Det List<File> scannedFiles = retrieveAllScannedFiles(scanner, pathIndex);
                 allFiles.addAll(scannedFiles);
             }
         }
@@ -576,12 +578,12 @@ public class CheckstyleAntTask extends Task {
      * @return the list of files included via the filesets.
      */
     protected List<File> scanFileSets() {
-        final List<File> allFiles = new ArrayList<>();
+        final @Det List<File> allFiles = new ArrayList<>();
 
         for (int i = 0; i < fileSets.size(); i++) {
             final FileSet fileSet = fileSets.get(i);
             final DirectoryScanner scanner = fileSet.getDirectoryScanner(getProject());
-            final List<File> scannedFiles = retrieveAllScannedFiles(scanner, i);
+            final @Det List<File> scannedFiles = retrieveAllScannedFiles(scanner, i);
             allFiles.addAll(scannedFiles);
         }
 

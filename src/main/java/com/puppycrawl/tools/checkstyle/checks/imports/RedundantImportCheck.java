@@ -28,6 +28,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for redundant import statements. An import statement is
@@ -90,9 +92,9 @@ public class RedundantImportCheck
     public static final String MSG_DUPLICATE = "import.duplicate";
 
     /** Set of the imports. */
-    private final Set<FullIdent> imports = new HashSet<>();
+    private final @OrderNonDet Set<FullIdent> imports = new HashSet<>();
     /** Set of static imports. */
-    private final Set<FullIdent> staticImports = new HashSet<>();
+    private final @OrderNonDet Set<FullIdent> staticImports = new HashSet<>();
 
     /** Name of package in file. */
     private String pkgName;

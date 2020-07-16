@@ -40,6 +40,8 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.ExternalResourceHolder;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Abstract super class for header checks.
  * Provides support for header and headerFile properties.
@@ -57,7 +59,7 @@ public abstract class AbstractHeaderCheck extends AbstractFileSetCheck
     private URI headerFile;
 
     /** Specify the character encoding to use when reading the headerFile. */
-    private String charset = System.getProperty("file.encoding", StandardCharsets.UTF_8.name());
+    private @NonDet String charset = System.getProperty("file.encoding", StandardCharsets.UTF_8.name());
 
     /**
      * Hook method for post processing header lines.
@@ -71,7 +73,7 @@ public abstract class AbstractHeaderCheck extends AbstractFileSetCheck
      * @return the header lines to check against.
      */
     protected List<String> getHeaderLines() {
-        final List<String> copy = new ArrayList<>(readerLines);
+        final @Det List<String> copy = new ArrayList<>(readerLines);
         return Collections.unmodifiableList(copy);
     }
 
@@ -186,7 +188,7 @@ public abstract class AbstractHeaderCheck extends AbstractFileSetCheck
 
     @Override
     public Set<String> getExternalResourceLocations() {
-        final Set<String> result;
+        final @Det Set<String> result;
 
         if (headerFile == null) {
             result = Collections.emptySet();

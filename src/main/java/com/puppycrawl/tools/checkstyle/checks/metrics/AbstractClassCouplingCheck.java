@@ -41,6 +41,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Base class for coupling calculation.
  *
@@ -83,7 +85,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
     private final List<Pattern> excludeClassesRegexps = new ArrayList<>();
 
     /** A map of (imported class name -> class name with package) pairs. */
-    private final Map<String, String> importedClassPackages = new HashMap<>();
+    private final @OrderNonDet Map<String, String> importedClassPackages = new HashMap<>();
 
     /** Stack of class contexts. */
     private final Deque<ClassContext> classesContexts = new ArrayDeque<>();

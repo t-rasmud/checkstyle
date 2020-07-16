@@ -43,6 +43,8 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.Configuration;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * This class maintains a persistent(on file-system) store of the files
  * that have checked ok(no validation events) and their associated
@@ -250,7 +252,7 @@ public final class PropertyCacheFile {
      * @param locations locations of external resources.
      */
     public void putExternalResources(Set<String> locations) {
-        final Set<ExternalResource> resources = loadExternalResources(locations);
+        final @Det Set<ExternalResource> resources = loadExternalResources(locations);
         if (areExternalResourcesChanged(resources)) {
             reset();
             fillCacheWithExternalResources(resources);
@@ -264,7 +266,7 @@ public final class PropertyCacheFile {
      * @return a set of {@link ExternalResource}.
      */
     private static Set<ExternalResource> loadExternalResources(Set<String> resourceLocations) {
-        final Set<ExternalResource> resources = new HashSet<>();
+        final @OrderNonDet Set<ExternalResource> resources = new HashSet<>();
         for (String location : resourceLocations) {
             try {
                 final byte[] content = loadExternalResource(location);

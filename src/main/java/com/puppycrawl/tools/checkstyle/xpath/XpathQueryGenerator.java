@@ -30,6 +30,8 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 import com.puppycrawl.tools.checkstyle.utils.XpathUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Generates xpath queries. Xpath queries are generated based on received
  * {@code DetailAst} element, line number, column number and token type.
@@ -231,7 +233,7 @@ public class XpathQueryGenerator {
      * @return list of nodes matching defined line number, column number and token type
      */
     private List<DetailAST> getMatchingAstElements() {
-        final List<DetailAST> result = new ArrayList<>();
+        final @Det List<DetailAST> result = new ArrayList<>();
         DetailAST curNode = rootAst;
         while (curNode != null) {
             if (isMatchingByLineAndColumnAndTokenType(curNode)) {

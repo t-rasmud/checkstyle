@@ -41,6 +41,8 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.FilterSet;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Loads a filter chain of suppressions.
  */
@@ -118,7 +120,7 @@ public final class SuppressionsLoader
     /**
      * The set of the {@code TreeWalkerFilter} filters. Being filled during parsing.
      */
-    private final Set<TreeWalkerFilter> treeWalkerFilters = new HashSet<>();
+    private final @OrderNonDet Set<TreeWalkerFilter> treeWalkerFilters = new HashSet<>();
 
     /**
      * Creates a new {@code SuppressionsLoader} instance.
@@ -307,7 +309,7 @@ public final class SuppressionsLoader
      * @return map between local resources and dtd ids.
      */
     private static Map<String, String> createIdToResourceNameMap() {
-        final Map<String, String> map = new HashMap<>();
+        final @OrderNonDet Map<String, String> map = new HashMap<>();
         map.put(DTD_PUBLIC_ID_1_0, DTD_SUPPRESSIONS_NAME_1_0);
         map.put(DTD_PUBLIC_ID_1_1, DTD_SUPPRESSIONS_NAME_1_1);
         map.put(DTD_PUBLIC_ID_1_2, DTD_SUPPRESSIONS_NAME_1_2);

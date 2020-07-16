@@ -31,6 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that
@@ -178,7 +180,7 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
     private static final String PERIOD = ".";
 
     /** Set of allowed Tokens tags in summary java doc. */
-    private static final Set<Integer> ALLOWED_TYPES = Collections.unmodifiableSet(
+    private static final @OrderNonDet Set<Integer> ALLOWED_TYPES = Collections.unmodifiableSet(
             new HashSet<>(Arrays.asList(JavadocTokenTypes.TEXT,
                     JavadocTokenTypes.WS))
     );

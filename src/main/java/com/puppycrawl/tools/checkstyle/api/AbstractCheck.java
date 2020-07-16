@@ -25,6 +25,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
 /**
@@ -44,7 +46,7 @@ public abstract class AbstractCheck extends AbstractViolationReporter {
     private final ThreadLocal<FileContext> context = ThreadLocal.withInitial(FileContext::new);
 
     /** The tokens the check is interested in. */
-    private final Set<String> tokens = new HashSet<>();
+    private final @OrderNonDet Set<@Det String> tokens = new HashSet<>();
 
     /** The tab width for column reporting. */
     private int tabWidth = CommonUtil.DEFAULT_TAB_WIDTH;
@@ -92,7 +94,7 @@ public abstract class AbstractCheck extends AbstractViolationReporter {
      * @param strRep the string representation of the tokens interested in
      * @noinspection WeakerAccess
      */
-    public final void setTokens(String... strRep) {
+    public final void setTokens(@Det String @Det... strRep) {
         Collections.addAll(tokens, strRep);
     }
 
@@ -101,7 +103,7 @@ public abstract class AbstractCheck extends AbstractViolationReporter {
      *
      * @return the set of token names
      */
-    public final Set<String> getTokenNames() {
+    public final @OrderNonDet Set<@Det String> getTokenNames() {
         return Collections.unmodifiableSet(tokens);
     }
 

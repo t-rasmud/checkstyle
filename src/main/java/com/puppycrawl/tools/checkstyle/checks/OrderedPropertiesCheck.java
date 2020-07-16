@@ -35,6 +35,8 @@ import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractFileSetCheck;
 import com.puppycrawl.tools.checkstyle.api.FileText;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>Detects if keys in properties files are in correct order.</p>
  * <p>
@@ -125,7 +127,7 @@ public class OrderedPropertiesCheck extends AbstractFileSetCheck {
      */
     @Override
     protected void processFiltered(File file, FileText fileText) {
-        final SequencedProperties properties = new SequencedProperties();
+        final @Det SequencedProperties properties = new SequencedProperties();
         try (InputStream inputStream = Files.newInputStream(file.toPath())) {
             properties.load(inputStream);
         }
@@ -220,7 +222,7 @@ public class OrderedPropertiesCheck extends AbstractFileSetCheck {
         /**
          * Holding the keys in the same order than in the file.
          */
-        private final List<Object> keyList = new ArrayList<>();
+        private final @Det List<Object> keyList = new ArrayList<>();
 
         /**
          * Returns a copy of the keys.

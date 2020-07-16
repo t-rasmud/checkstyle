@@ -41,6 +41,8 @@ import org.xml.sax.SAXException;
 import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Loads a list of package names from a package name XML file.
  */
@@ -105,7 +107,7 @@ public final class PackageNamesLoader
      */
     private String getPackageName() {
         final StringBuilder buf = new StringBuilder(256);
-        final Iterator<String> iterator = packageStack.descendingIterator();
+        final @Det Iterator<String> iterator = packageStack.descendingIterator();
         while (iterator.hasNext()) {
             final String subPackage = iterator.next();
             buf.append(subPackage);
@@ -138,7 +140,7 @@ public final class PackageNamesLoader
      */
     public static Set<String> getPackageNames(ClassLoader classLoader)
             throws CheckstyleException {
-        final Set<String> result;
+        final @Det Set<String> result;
         try {
             // create the loader outside the loop to prevent PackageObjectFactory
             // being created anew for each file
@@ -187,7 +189,7 @@ public final class PackageNamesLoader
      * @return map between local resources and dtd ids.
      */
     private static Map<String, String> createIdToResourceNameMap() {
-        final Map<String, String> map = new HashMap<>();
+        final @OrderNonDet Map<String, String> map = new HashMap<>();
         map.put(DTD_PUBLIC_ID, DTD_RESOURCE_NAME);
         map.put(DTD_PUBLIC_CS_ID, DTD_RESOURCE_NAME);
         return map;

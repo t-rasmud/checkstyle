@@ -31,6 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks the order of
@@ -152,7 +154,7 @@ public class AtclauseOrderCheck extends AbstractJavadocCheck {
      * @param targets user's targets.
      */
     public void setTarget(String... targets) {
-        final List<Integer> customTarget = new ArrayList<>();
+        final @Det List<Integer> customTarget = new ArrayList<>();
         for (String temp : targets) {
             customTarget.add(TokenUtil.getTokenId(temp.trim()));
         }
@@ -165,7 +167,7 @@ public class AtclauseOrderCheck extends AbstractJavadocCheck {
      * @param orders user's orders.
      */
     public void setTagOrder(String... orders) {
-        final List<String> customOrder = new ArrayList<>();
+        final @Det List<String> customOrder = new ArrayList<>();
         for (String order : orders) {
             customOrder.add(order.trim());
         }

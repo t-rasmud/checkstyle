@@ -42,6 +42,8 @@ import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Validates Javadoc comments to help ensure they are well formed.
@@ -604,7 +606,7 @@ public class JavadocStyleCheck
     // -@cs[ReturnCount] Too complex to break apart.
     private void checkHtmlTags(final DetailAST ast, final TextBlock comment) {
         final int lineNo = comment.getStartLineNo();
-        final Deque<HtmlTag> htmlStack = new ArrayDeque<>();
+        final @Det Deque<HtmlTag> htmlStack = new ArrayDeque<>();
         final String[] text = comment.getText();
 
         final TagParser parser = new TagParser(text, lineNo);
@@ -647,7 +649,7 @@ public class JavadocStyleCheck
         // Identify any tags left on the stack.
         // Skip multiples, like <b>...<b>
         String lastFound = "";
-        final List<String> typeParameters = CheckUtil.getTypeParameterNames(ast);
+        final @Det List<String> typeParameters = CheckUtil.getTypeParameterNames(ast);
         for (final HtmlTag htmlTag : htmlStack) {
             if (!isSingleTag(htmlTag)
                 && !htmlTag.getId().equals(lastFound)
@@ -669,7 +671,7 @@ public class JavadocStyleCheck
      * @param token the current HTML tag name that has been closed.
      */
     private void checkUnclosedTags(Deque<HtmlTag> htmlStack, String token) {
-        final Deque<HtmlTag> unclosedTags = new ArrayDeque<>();
+        final @Det Deque<HtmlTag> unclosedTags = new ArrayDeque<>();
         HtmlTag lastOpenTag = htmlStack.pop();
         while (!token.equalsIgnoreCase(lastOpenTag.getId())) {
             // Find unclosed elements. Put them on a stack so the

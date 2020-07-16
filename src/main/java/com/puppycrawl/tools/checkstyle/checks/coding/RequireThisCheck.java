@@ -39,6 +39,8 @@ import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that references to instance variables and methods of the present
@@ -288,7 +290,7 @@ public class RequireThisCheck extends AbstractCheck {
     private final Deque<AbstractFrame> current = new ArrayDeque<>();
 
     /** Tree of all the parsed frames. */
-    private Map<DetailAST, AbstractFrame> frames;
+    private @OrderNonDet Map<DetailAST, AbstractFrame> frames;
 
     /** Control whether to check references to fields. */
     private boolean checkFields = true;
@@ -354,7 +356,7 @@ public class RequireThisCheck extends AbstractCheck {
         frames = new HashMap<>();
         current.clear();
 
-        final Deque<AbstractFrame> frameStack = new LinkedList<>();
+        final @Det Deque<AbstractFrame> frameStack = new LinkedList<>();
         DetailAST curNode = rootAST;
         while (curNode != null) {
             collectDeclarations(frameStack, curNode);
@@ -709,7 +711,7 @@ public class RequireThisCheck extends AbstractCheck {
 
         boolean userDefinedArrangementOfThis = false;
 
-        final Set<DetailAST> variableUsagesInsideBlock =
+        final @Det Set<DetailAST> variableUsagesInsideBlock =
             getAllTokensWhichAreEqualToCurrent(definitionToken, ident,
                 blockEndToken.getLineNo());
 
@@ -738,7 +740,7 @@ public class RequireThisCheck extends AbstractCheck {
             blockEndToken = blockNameIdentParent.getNextSibling();
         }
         else {
-            final Set<DetailAST> rcurlyTokens = getAllTokensOfType(blockNameIdent,
+            final @Det Set<DetailAST> rcurlyTokens = getAllTokensOfType(blockNameIdent,
                     TokenTypes.RCURLY);
             for (DetailAST currentRcurly : rcurlyTokens) {
                 final DetailAST parent = currentRcurly.getParent();
@@ -763,7 +765,7 @@ public class RequireThisCheck extends AbstractCheck {
         final DetailAST blockStartToken = definitionToken.findFirstToken(TokenTypes.SLIST);
         final DetailAST blockEndToken = getBlockEndToken(blockFrameNameIdent, blockStartToken);
 
-        final Set<DetailAST> returnsInsideBlock = getAllTokensOfType(definitionToken,
+        final @Det Set<DetailAST> returnsInsideBlock = getAllTokensOfType(definitionToken,
             TokenTypes.LITERAL_RETURN, blockEndToken.getLineNo());
 
         boolean returnedVariable = false;
@@ -914,7 +916,7 @@ public class RequireThisCheck extends AbstractCheck {
             }
             else {
                 final ClassFrame classFrame = (ClassFrame) findFrame(ast, true);
-                final Set<DetailAST> exprIdents = getAllTokensOfType(sibling, TokenTypes.IDENT);
+                final @Det Set<DetailAST> exprIdents = getAllTokensOfType(sibling, TokenTypes.IDENT);
                 overlapping = classFrame.containsFieldOrVariableDef(exprIdents, ast);
             }
         }
@@ -933,7 +935,7 @@ public class RequireThisCheck extends AbstractCheck {
         final DetailAST sibling = ast.getNextSibling();
         if (sibling != null && isAssignToken(parent.getType())) {
             final ClassFrame classFrame = (ClassFrame) findFrame(ast, true);
-            final Set<DetailAST> exprIdents = getAllTokensOfType(sibling, TokenTypes.IDENT);
+            final @Det Set<DetailAST> exprIdents = getAllTokensOfType(sibling, TokenTypes.IDENT);
             overlapping = classFrame.containsFieldOrVariableDef(exprIdents, ast);
         }
         return overlapping;
@@ -948,8 +950,8 @@ public class RequireThisCheck extends AbstractCheck {
      */
     private static Set<DetailAST> getAllTokensOfType(DetailAST ast, int tokenType) {
         DetailAST vertex = ast;
-        final Set<DetailAST> result = new HashSet<>();
-        final Deque<DetailAST> stack = new ArrayDeque<>();
+        final @OrderNonDet Set<DetailAST> result = new HashSet<>();
+        final @Det Deque<DetailAST> stack = new ArrayDeque<>();
         while (vertex != null || !stack.isEmpty()) {
             if (!stack.isEmpty()) {
                 vertex = stack.pop();
@@ -980,8 +982,8 @@ public class RequireThisCheck extends AbstractCheck {
     private static Set<DetailAST> getAllTokensOfType(DetailAST ast, int tokenType,
                                                      int endLineNumber) {
         DetailAST vertex = ast;
-        final Set<DetailAST> result = new HashSet<>();
-        final Deque<DetailAST> stack = new ArrayDeque<>();
+        final @OrderNonDet Set<DetailAST> result = new HashSet<>();
+        final @Det Deque<DetailAST> stack = new ArrayDeque<>();
         while (vertex != null || !stack.isEmpty()) {
             if (!stack.isEmpty()) {
                 vertex = stack.pop();
@@ -1013,8 +1015,8 @@ public class RequireThisCheck extends AbstractCheck {
     private static Set<DetailAST> getAllTokensWhichAreEqualToCurrent(DetailAST ast, DetailAST token,
                                                                      int endLineNumber) {
         DetailAST vertex = ast;
-        final Set<DetailAST> result = new HashSet<>();
-        final Deque<DetailAST> stack = new ArrayDeque<>();
+        final @OrderNonDet Set<DetailAST> result = new HashSet<>();
+        final @Det Deque<DetailAST> stack = new ArrayDeque<>();
         while (vertex != null || !stack.isEmpty()) {
             if (!stack.isEmpty()) {
                 vertex = stack.pop();
@@ -1215,7 +1217,7 @@ public class RequireThisCheck extends AbstractCheck {
     private abstract static class AbstractFrame {
 
         /** Set of name of variables declared in this frame. */
-        private final Set<DetailAST> varIdents;
+        private final @OrderNonDet Set<DetailAST> varIdents;
 
         /** Parent frame. */
         private final AbstractFrame parent;
@@ -1377,13 +1379,13 @@ public class RequireThisCheck extends AbstractCheck {
     private static class ClassFrame extends AbstractFrame {
 
         /** Set of idents of instance members declared in this frame. */
-        private final Set<DetailAST> instanceMembers;
+        private final @OrderNonDet Set<DetailAST> instanceMembers;
         /** Set of idents of instance methods declared in this frame. */
-        private final Set<DetailAST> instanceMethods;
+        private final @OrderNonDet Set<DetailAST> instanceMethods;
         /** Set of idents of variables declared in this frame. */
-        private final Set<DetailAST> staticMembers;
+        private final @OrderNonDet Set<DetailAST> staticMembers;
         /** Set of idents of static methods declared in this frame. */
-        private final Set<DetailAST> staticMethods;
+        private final @OrderNonDet Set<DetailAST> staticMethods;
 
         /**
          * Creates new instance of ClassFrame.

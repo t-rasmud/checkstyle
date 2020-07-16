@@ -27,6 +27,8 @@ import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that overloaded methods are grouped together. Overloaded methods have the same
@@ -120,8 +122,8 @@ public class OverloadMethodsDeclarationOrderCheck extends AbstractCheck {
     private void checkOverloadMethodsGrouping(DetailAST objectBlock) {
         final int allowedDistance = 1;
         DetailAST currentToken = objectBlock.getFirstChild();
-        final Map<String, Integer> methodIndexMap = new HashMap<>();
-        final Map<String, Integer> methodLineNumberMap = new HashMap<>();
+        final @OrderNonDet Map<String, Integer> methodIndexMap = new HashMap<>();
+        final @OrderNonDet Map<String, Integer> methodLineNumberMap = new HashMap<>();
         int currentIndex = 0;
         while (currentToken != null) {
             if (currentToken.getType() == TokenTypes.METHOD_DEF) {

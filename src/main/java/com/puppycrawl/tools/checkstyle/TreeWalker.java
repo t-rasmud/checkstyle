@@ -43,6 +43,8 @@ import com.puppycrawl.tools.checkstyle.api.FileText;
 import com.puppycrawl.tools.checkstyle.api.LocalizedMessage;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Responsible for walking an abstract syntax tree and notifying interested
  * checks at each each node.
@@ -52,21 +54,21 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 public final class TreeWalker extends AbstractFileSetCheck implements ExternalResourceHolder {
 
     /** Maps from token name to ordinary checks. */
-    private final Map<String, Set<AbstractCheck>> tokenToOrdinaryChecks =
+    private final @OrderNonDet Map<String, Set<AbstractCheck>> tokenToOrdinaryChecks =
         new HashMap<>();
 
     /** Maps from token name to comment checks. */
-    private final Map<String, Set<AbstractCheck>> tokenToCommentChecks =
+    private final @OrderNonDet Map<String, Set<AbstractCheck>> tokenToCommentChecks =
             new HashMap<>();
 
     /** Registered ordinary checks, that don't use comment nodes. */
-    private final Set<AbstractCheck> ordinaryChecks = new HashSet<>();
+    private final @OrderNonDet Set<AbstractCheck> ordinaryChecks = new HashSet<>();
 
     /** Registered comment checks. */
-    private final Set<AbstractCheck> commentChecks = new HashSet<>();
+    private final @OrderNonDet Set<AbstractCheck> commentChecks = new HashSet<>();
 
     /** The ast filters. */
-    private final Set<TreeWalkerFilter> filters = new HashSet<>();
+    private final @OrderNonDet Set<TreeWalkerFilter> filters = new HashSet<>();
 
     /** The sorted set of messages. */
     private final SortedSet<LocalizedMessage> messages = new TreeSet<>();
@@ -158,7 +160,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
                 addMessages(messages);
             }
             else {
-                final SortedSet<LocalizedMessage> filteredMessages =
+                final @Det SortedSet<LocalizedMessage> filteredMessages =
                     getFilteredMessages(file.getAbsolutePath(), contents, rootAST);
                 addMessages(filteredMessages);
             }
@@ -176,7 +178,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      */
     private SortedSet<LocalizedMessage> getFilteredMessages(
             String fileName, FileContents fileContents, DetailAST rootAST) {
-        final SortedSet<LocalizedMessage> result = new TreeSet<>(messages);
+        final @Det SortedSet<LocalizedMessage> result = new TreeSet<>(messages);
         for (LocalizedMessage element : messages) {
             final TreeWalkerAuditEvent event =
                     new TreeWalkerAuditEvent(fileContents, fileName, element, rootAST);
@@ -198,7 +200,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      */
     private void registerCheck(AbstractCheck check) throws CheckstyleException {
         final int[] tokens;
-        final Set<String> checkTokens = check.getTokenNames();
+        final @OrderNonDet Set<String> checkTokens = check.getTokenNames();
         if (checkTokens.isEmpty()) {
             tokens = check.getDefaultTokens();
         }
@@ -288,7 +290,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      */
     private void notifyBegin(DetailAST rootAST, FileContents contents,
             AstState astState) {
-        final Set<AbstractCheck> checks;
+        final @OrderNonDet Set<AbstractCheck> checks;
 
         if (astState == AstState.WITH_COMMENTS) {
             checks = commentChecks;
@@ -311,7 +313,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param astState state of AST.
      */
     private void notifyEnd(DetailAST rootAST, AstState astState) {
-        final Set<AbstractCheck> checks;
+        final @OrderNonDet Set<AbstractCheck> checks;
 
         if (astState == AstState.WITH_COMMENTS) {
             checks = commentChecks;
@@ -333,7 +335,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param astState state of AST.
      */
     private void notifyVisit(DetailAST ast, AstState astState) {
-        final Collection<AbstractCheck> visitors = getListOfChecks(ast, astState);
+        final @Det Collection<AbstractCheck> visitors = getListOfChecks(ast, astState);
 
         if (visitors != null) {
             for (AbstractCheck check : visitors) {
@@ -350,7 +352,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param astState state of AST.
      */
     private void notifyLeave(DetailAST ast, AstState astState) {
-        final Collection<AbstractCheck> visitors = getListOfChecks(ast, astState);
+        final @Det Collection<AbstractCheck> visitors = getListOfChecks(ast, astState);
 
         if (visitors != null) {
             for (AbstractCheck check : visitors) {
@@ -369,7 +371,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @return list of visitors
      */
     private Collection<AbstractCheck> getListOfChecks(DetailAST ast, AstState astState) {
-        final Collection<AbstractCheck> visitors;
+        final @Det Collection<AbstractCheck> visitors;
         final String tokenType = TokenUtil.getTokenName(ast.getType());
 
         if (astState == AstState.WITH_COMMENTS) {
@@ -390,16 +392,16 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
 
     @Override
     public Set<String> getExternalResourceLocations() {
-        final Set<String> ordinaryChecksResources =
+        final @Det Set<String> ordinaryChecksResources =
                 getExternalResourceLocationsOfChecks(ordinaryChecks);
-        final Set<String> commentChecksResources =
+        final @Det Set<String> commentChecksResources =
                 getExternalResourceLocationsOfChecks(commentChecks);
-        final Set<String> filtersResources =
+        final @Det Set<String> filtersResources =
                 getExternalResourceLocationsOfFilters();
         final int resultListSize = commentChecksResources.size()
                 + ordinaryChecksResources.size()
                 + filtersResources.size();
-        final Set<String> resourceLocations = new HashSet<>(resultListSize);
+        final @OrderNonDet Set<String> resourceLocations = new HashSet<>(resultListSize);
         resourceLocations.addAll(ordinaryChecksResources);
         resourceLocations.addAll(commentChecksResources);
         resourceLocations.addAll(filtersResources);
@@ -412,10 +414,10 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @return a set of external configuration resource locations which are used by the filters set.
      */
     private Set<String> getExternalResourceLocationsOfFilters() {
-        final Set<String> externalConfigurationResources = new HashSet<>();
+        final @OrderNonDet Set<String> externalConfigurationResources = new HashSet<>();
         filters.stream().filter(filter -> filter instanceof ExternalResourceHolder)
                 .forEach(filter -> {
-                    final Set<String> checkExternalResources =
+                    final @Det Set<String> checkExternalResources =
                         ((ExternalResourceHolder) filter).getExternalResourceLocations();
                     externalConfigurationResources.addAll(checkExternalResources);
                 });
@@ -429,9 +431,9 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @return a set of external configuration resource locations which are used by the checks set.
      */
     private static Set<String> getExternalResourceLocationsOfChecks(Set<AbstractCheck> checks) {
-        final Set<String> externalConfigurationResources = new HashSet<>();
+        final @OrderNonDet Set<String> externalConfigurationResources = new HashSet<>();
         checks.stream().filter(check -> check instanceof ExternalResourceHolder).forEach(check -> {
-            final Set<String> checkExternalResources =
+            final @Det Set<String> checkExternalResources =
                 ((ExternalResourceHolder) check).getExternalResourceLocations();
             externalConfigurationResources.addAll(checkExternalResources);
         });

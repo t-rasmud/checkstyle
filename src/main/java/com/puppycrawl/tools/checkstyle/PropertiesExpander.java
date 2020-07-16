@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Resolves external properties from an
  * underlying {@code Properties} object.
@@ -33,7 +35,7 @@ public final class PropertiesExpander
     implements PropertyResolver {
 
     /** The underlying values. */
-    private final Map<String, String> values;
+    private final @OrderNonDet Map<String, String> values;
 
     /**
      * Creates a new PropertiesExpander.

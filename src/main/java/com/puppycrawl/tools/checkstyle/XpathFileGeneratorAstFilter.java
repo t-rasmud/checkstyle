@@ -28,6 +28,8 @@ import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
 import com.puppycrawl.tools.checkstyle.api.LocalizedMessage;
 import com.puppycrawl.tools.checkstyle.xpath.XpathQueryGenerator;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Catches {@code TreeWalkerAuditEvent} and generates corresponding xpath query.
  * Stores localized messages and xpath queries map inside static variable
@@ -40,7 +42,7 @@ public class XpathFileGeneratorAstFilter extends AutomaticBean implements TreeWa
     private static final String DELIMITER = " | \n";
 
     /** Map from {@code LocalizedMessage} objects to xpath queries. */
-    private static final Map<LocalizedMessage, String> MESSAGE_QUERY_MAP = new HashMap<>();
+    private static final @OrderNonDet Map<LocalizedMessage, String> MESSAGE_QUERY_MAP = new HashMap<>();
 
     /** The distance between tab stop position. */
     private int tabWidth;
@@ -76,7 +78,7 @@ public class XpathFileGeneratorAstFilter extends AutomaticBean implements TreeWa
         if (event.getTokenType() != 0) {
             final XpathQueryGenerator xpathQueryGenerator =
                     new XpathQueryGenerator(event, tabWidth);
-            final List<String> xpathQueries = xpathQueryGenerator.generate();
+            final @Det List<String> xpathQueries = xpathQueryGenerator.generate();
             if (!xpathQueries.isEmpty()) {
                 final String query = String.join(DELIMITER, xpathQueries);
                 MESSAGE_QUERY_MAP.put(event.getLocalizedMessage(), query);

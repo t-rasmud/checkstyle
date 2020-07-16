@@ -32,6 +32,8 @@ import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that certain exception types do not appear in a {@code catch} statement.
@@ -191,7 +193,7 @@ public final class IllegalCatchCheck extends AbstractCheck {
             detailAST.findFirstToken(TokenTypes.PARAMETER_DEF);
         final DetailAST excTypeParent =
                 parameterDef.findFirstToken(TokenTypes.TYPE);
-        final List<DetailAST> excTypes = getAllExceptionTypes(excTypeParent);
+        final @Det List<DetailAST> excTypes = getAllExceptionTypes(excTypeParent);
 
         for (DetailAST excType : excTypes) {
             final FullIdent ident = FullIdent.createFullIdent(excType);
@@ -211,7 +213,7 @@ public final class IllegalCatchCheck extends AbstractCheck {
      */
     private static List<DetailAST> getAllExceptionTypes(DetailAST parentToken) {
         DetailAST currentNode = parentToken.getFirstChild();
-        final List<DetailAST> exceptionTypes = new LinkedList<>();
+        final @Det List<DetailAST> exceptionTypes = new LinkedList<>();
         if (currentNode.getType() == TokenTypes.BOR) {
             exceptionTypes.addAll(getAllExceptionTypes(currentNode));
             currentNode = currentNode.getNextSibling();

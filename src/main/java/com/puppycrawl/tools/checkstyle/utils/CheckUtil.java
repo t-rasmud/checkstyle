@@ -30,6 +30,8 @@ import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.checks.naming.AccessModifierOption;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Contains utility methods for the checks.
  *
@@ -281,7 +283,7 @@ public final class CheckUtil {
         final DetailAST typeParameters =
             node.findFirstToken(TokenTypes.TYPE_PARAMETERS);
 
-        final List<String> typeParameterNames = new ArrayList<>();
+        final @Det List<String> typeParameterNames = new ArrayList<>();
         if (typeParameters != null) {
             final DetailAST typeParam =
                 typeParameters.findFirstToken(TokenTypes.TYPE_PARAMETER);
@@ -311,7 +313,7 @@ public final class CheckUtil {
         final DetailAST typeParameters =
             node.findFirstToken(TokenTypes.TYPE_PARAMETERS);
 
-        final List<DetailAST> typeParams = new ArrayList<>();
+        final @Det List<DetailAST> typeParams = new ArrayList<>();
         if (typeParameters != null) {
             final DetailAST typeParam =
                 typeParameters.findFirstToken(TokenTypes.TYPE_PARAMETER);
@@ -471,7 +473,7 @@ public final class CheckUtil {
      * @return set of class names and short class names.
      */
     public static Set<String> parseClassNames(String... classNames) {
-        final Set<String> illegalClassNames = new HashSet<>();
+        final @OrderNonDet Set<String> illegalClassNames = new HashSet<>();
         for (final String name : classNames) {
             illegalClassNames.add(name);
             final int lastDot = name.lastIndexOf('.');

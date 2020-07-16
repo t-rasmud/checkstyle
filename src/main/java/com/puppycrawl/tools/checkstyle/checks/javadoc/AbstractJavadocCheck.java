@@ -38,6 +38,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Base class for Checks that process Javadoc comments.
  *
@@ -82,7 +84,7 @@ public abstract class AbstractJavadocCheck extends AbstractCheck {
     private final ThreadLocal<FileContext> context = ThreadLocal.withInitial(FileContext::new);
 
     /** The javadoc tokens the check is interested in. */
-    private final Set<Integer> javadocTokens = new HashSet<>();
+    private final @OrderNonDet Set<Integer> javadocTokens = new HashSet<>();
 
     /**
      * This property determines if a check should log a violation upon encountering javadoc with

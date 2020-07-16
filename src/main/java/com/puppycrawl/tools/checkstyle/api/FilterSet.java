@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * A filter set applies filters to AuditEvents.
  * If a filter in the set rejects an AuditEvent, then the
@@ -32,7 +34,7 @@ public class FilterSet
     implements Filter {
 
     /** Filter set. */
-    private final Set<Filter> filters = new HashSet<>();
+    private final @OrderNonDet Set<Filter> filters = new HashSet<>();
 
     /**
      * Adds a Filter to the set.

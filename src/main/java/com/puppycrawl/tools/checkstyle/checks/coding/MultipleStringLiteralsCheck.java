@@ -32,6 +32,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for multiple occurrences of the same string literal within a single file.
@@ -118,7 +120,7 @@ public class MultipleStringLiteralsCheck extends AbstractCheck {
     /**
      * The found strings and their tokens.
      */
-    private final Map<String, List<DetailAST>> stringMap = new HashMap<>();
+    private final @OrderNonDet Map<String, List<DetailAST>> stringMap = new HashMap<>();
 
     /**
      * Specify token type names where duplicate strings are ignored even if they
@@ -240,7 +242,7 @@ public class MultipleStringLiteralsCheck extends AbstractCheck {
     @Override
     public void finishTree(DetailAST rootAST) {
         for (Map.Entry<String, List<DetailAST>> stringListEntry : stringMap.entrySet()) {
-            final List<DetailAST> hits = stringListEntry.getValue();
+            final @NonDet List<DetailAST> hits = stringListEntry.getValue();
             if (hits.size() > allowedDuplicates) {
                 final DetailAST firstFinding = hits.get(0);
                 log(firstFinding, MSG_KEY, stringListEntry.getKey(), hits.size());

@@ -36,6 +36,8 @@ import com.puppycrawl.tools.checkstyle.api.FileText;
 import com.puppycrawl.tools.checkstyle.api.Filter;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Filter {@code SuppressWithPlainTextCommentFilter} uses plain text to suppress
@@ -390,7 +392,7 @@ public class SuppressWithPlainTextCommentFilter extends AutomaticBean implements
         if (event.getLocalizedMessage() != null) {
             final FileText fileText = getFileText(event.getFileName());
             if (fileText != null) {
-                final List<Suppression> suppressions = getSuppressions(fileText);
+                final @Det List<Suppression> suppressions = getSuppressions(fileText);
                 accepted = getNearestSuppression(suppressions, event) == null;
             }
         }
@@ -432,7 +434,7 @@ public class SuppressWithPlainTextCommentFilter extends AutomaticBean implements
      * @return list of {@link Suppression} instances.
      */
     private List<Suppression> getSuppressions(FileText fileText) {
-        final List<Suppression> suppressions = new ArrayList<>();
+        final @Det List<Suppression> suppressions = new ArrayList<>();
         for (int lineNo = 0; lineNo < fileText.size(); lineNo++) {
             final Optional<Suppression> suppression = getSuppression(fileText, lineNo);
             suppression.ifPresent(suppressions::add);

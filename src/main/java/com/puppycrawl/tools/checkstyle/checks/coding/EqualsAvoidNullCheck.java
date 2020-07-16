@@ -29,6 +29,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that any combination of String literals
@@ -533,13 +535,13 @@ public class EqualsAvoidNullCheck extends AbstractCheck {
         private final FieldFrame parent;
 
         /** Set of frame's children. */
-        private final Set<FieldFrame> children = new HashSet<>();
+        private final @OrderNonDet Set<FieldFrame> children = new HashSet<>();
 
         /** Set of fields. */
-        private final Set<DetailAST> fields = new HashSet<>();
+        private final @OrderNonDet Set<DetailAST> fields = new HashSet<>();
 
         /** Set of equals calls. */
-        private final Set<DetailAST> methodCalls = new HashSet<>();
+        private final @OrderNonDet Set<DetailAST> methodCalls = new HashSet<>();
 
         /** Name of the class, enum or enum constant declaration. */
         private String frameName;

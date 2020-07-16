@@ -31,6 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FileText;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Model for checkstyle frame.
  */
@@ -220,7 +222,7 @@ public class MainFrameModel {
                 parseTreeTableModel.setParseMode(parseMode);
                 final String[] sourceLines = getFileText(file).toLinesArray();
 
-                final List<Integer> linesToPositionTemp = new ArrayList<>();
+                final @Det List<Integer> linesToPositionTemp = new ArrayList<>();
                 // starts line counting at 1
                 linesToPositionTemp.add(0);
 

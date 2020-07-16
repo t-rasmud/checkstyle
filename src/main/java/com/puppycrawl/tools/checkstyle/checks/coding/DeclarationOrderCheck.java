@@ -31,6 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.Scope;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that the parts of a class or interface declaration appear in the order
@@ -190,7 +192,7 @@ public class DeclarationOrderCheck extends AbstractCheck {
     private Deque<ScopeState> scopeStates;
 
     /** Set of all class field names.*/
-    private Set<String> classFieldNames;
+    private @OrderNonDet Set<String> classFieldNames;
 
     /** Control whether to ignore constructors. */
     private boolean ignoreConstructors;
@@ -358,7 +360,7 @@ public class DeclarationOrderCheck extends AbstractCheck {
      */
     private boolean isForwardReference(DetailAST fieldDef) {
         final DetailAST exprStartIdent = fieldDef.findFirstToken(TokenTypes.IDENT);
-        final Set<DetailAST> exprIdents = getAllTokensOfType(exprStartIdent, TokenTypes.IDENT);
+        final @Det Set<DetailAST> exprIdents = getAllTokensOfType(exprStartIdent, TokenTypes.IDENT);
         boolean forwardReference = false;
         for (DetailAST ident : exprIdents) {
             if (classFieldNames.contains(ident.getText())) {
@@ -378,8 +380,8 @@ public class DeclarationOrderCheck extends AbstractCheck {
      */
     private static Set<DetailAST> getAllTokensOfType(DetailAST ast, int tokenType) {
         DetailAST vertex = ast;
-        final Set<DetailAST> result = new HashSet<>();
-        final Deque<DetailAST> stack = new ArrayDeque<>();
+        final @OrderNonDet Set<DetailAST> result = new HashSet<>();
+        final @Det Deque<DetailAST> stack = new ArrayDeque<>();
         while (vertex != null || !stack.isEmpty()) {
             if (!stack.isEmpty()) {
                 vertex = stack.pop();

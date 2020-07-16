@@ -31,6 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.ExternalResourceHolder;
 import com.puppycrawl.tools.checkstyle.utils.FilterUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Filter {@code SuppressionXpathFilter} works as
@@ -516,7 +518,7 @@ public class SuppressionXpathFilter extends AutomaticBean implements
      */
     private boolean optional;
     /** Set of individual xpath suppresses. */
-    private Set<TreeWalkerFilter> filters = new HashSet<>();
+    private @OrderNonDet Set<TreeWalkerFilter> filters = new HashSet<>();
 
     /**
      * Setter to specify the location of the <em>suppressions XML document</em> file.

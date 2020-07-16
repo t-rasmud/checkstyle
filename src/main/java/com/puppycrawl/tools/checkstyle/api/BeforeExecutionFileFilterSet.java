@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * A before execution file filter set applies filters to events.
  * If a before execution file filter in the set rejects an event, then the
@@ -32,7 +34,7 @@ public final class BeforeExecutionFileFilterSet
     implements BeforeExecutionFileFilter {
 
     /** Filter set. */
-    private final Set<BeforeExecutionFileFilter> beforeExecutionFileFilters = new HashSet<>();
+    private final @OrderNonDet Set<BeforeExecutionFileFilter> beforeExecutionFileFilters = new HashSet<>();
 
     /**
      * Adds a Filter to the set.

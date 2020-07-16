@@ -34,6 +34,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.AnnotationUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that particular classes or interfaces are never used.
@@ -329,13 +331,13 @@ public final class IllegalTypeCheck extends AbstractCheck {
      * Specify classes that should not be used as types in variable declarations,
      * return values or parameters.
      */
-    private final Set<String> illegalClassNames = new HashSet<>();
+    private final @OrderNonDet Set<String> illegalClassNames = new HashSet<>();
     /** Illegal short classes. */
-    private final Set<String> illegalShortClassNames = new HashSet<>();
+    private final @OrderNonDet Set<String> illegalShortClassNames = new HashSet<>();
     /** Define abstract classes that may be used as types. */
-    private final Set<String> legalAbstractClassNames = new HashSet<>();
+    private final @OrderNonDet Set<String> legalAbstractClassNames = new HashSet<>();
     /** Specify methods that should not be checked. */
-    private final Set<String> ignoredMethodNames = new HashSet<>();
+    private final @OrderNonDet Set<String> ignoredMethodNames = new HashSet<>();
     /**
      * Control whether to check only methods and fields with any of the specified modifiers.
      * This property does not affect method calls nor method references.
@@ -809,7 +811,7 @@ public final class IllegalTypeCheck extends AbstractCheck {
      * @param modifiers String contains modifiers.
      */
     public void setMemberModifiers(String modifiers) {
-        final List<Integer> modifiersList = new ArrayList<>();
+        final @Det List<Integer> modifiersList = new ArrayList<>();
         for (String modifier : modifiers.split(",")) {
             modifiersList.add(TokenUtil.getTokenId(modifier.trim()));
         }

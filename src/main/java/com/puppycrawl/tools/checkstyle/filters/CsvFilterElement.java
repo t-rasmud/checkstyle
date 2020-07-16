@@ -25,6 +25,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * This filter element is immutable and accepts an integer that matches a CSV value, where
@@ -34,7 +36,7 @@ import java.util.StringTokenizer;
 class CsvFilterElement implements IntFilterElement {
 
     /** Filter set. */
-    private final Set<IntFilterElement> filters = new HashSet<>();
+    private final @OrderNonDet Set<IntFilterElement> filters = new HashSet<>();
 
     /**
      * Constructs a {@code CsvFilterElement} from a CSV, Comma-Separated Values,

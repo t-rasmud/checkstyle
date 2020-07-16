@@ -26,13 +26,15 @@ import java.util.Map;
 
 import com.puppycrawl.tools.checkstyle.api.Context;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * A default implementation of the Context interface.
  */
 public final class DefaultContext implements Context {
 
     /** Stores the context entries. */
-    private final Map<String, Object> entries = new HashMap<>();
+    private final @OrderNonDet Map<String, Object> entries = new HashMap<>();
 
     @Override
     public Object get(String key) {

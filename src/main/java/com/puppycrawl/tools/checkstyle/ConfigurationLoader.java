@@ -44,6 +44,8 @@ import com.puppycrawl.tools.checkstyle.api.Configuration;
 import com.puppycrawl.tools.checkstyle.api.SeverityLevel;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Loads a configuration from a standard configuration XML file.
  *
@@ -171,7 +173,7 @@ public final class ConfigurationLoader {
      * @noinspection MethodOnlyUsedFromInnerClass
      */
     private static Map<String, String> createIdToResourceNameMap() {
-        final Map<String, String> map = new HashMap<>();
+        final @OrderNonDet Map<String, String> map = new HashMap<>();
         map.put(DTD_PUBLIC_ID_1_0, DTD_CONFIGURATION_NAME_1_0);
         map.put(DTD_PUBLIC_ID_1_1, DTD_CONFIGURATION_NAME_1_1);
         map.put(DTD_PUBLIC_ID_1_2, DTD_CONFIGURATION_NAME_1_2);
@@ -356,13 +358,13 @@ public final class ConfigurationLoader {
             return null;
         }
 
-        final List<String> fragments = new ArrayList<>();
-        final List<String> propertyRefs = new ArrayList<>();
+        final @Det List<String> fragments = new ArrayList<>();
+        final @Det List<String> propertyRefs = new ArrayList<>();
         parsePropertyString(value, fragments, propertyRefs);
 
         final StringBuilder sb = new StringBuilder(256);
-        final Iterator<String> fragmentsIterator = fragments.iterator();
-        final Iterator<String> propertyRefsIterator = propertyRefs.iterator();
+        final @Det Iterator<String> fragmentsIterator = fragments.iterator();
+        final @Det Iterator<String> propertyRefsIterator = propertyRefs.iterator();
         while (fragmentsIterator.hasNext()) {
             String fragment = fragmentsIterator.next();
             if (fragment == null) {

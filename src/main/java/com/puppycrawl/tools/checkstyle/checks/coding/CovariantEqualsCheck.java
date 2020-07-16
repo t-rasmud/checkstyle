@@ -29,6 +29,8 @@ import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that classes which define a covariant {@code equals()} method
@@ -128,7 +130,7 @@ public class CovariantEqualsCheck extends AbstractCheck {
     public static final String MSG_KEY = "covariant.equals";
 
     /** Set of equals method definitions. */
-    private final Set<DetailAST> equalsMethods = new HashSet<>();
+    private final @OrderNonDet Set<DetailAST> equalsMethods = new HashSet<>();
 
     @Override
     public int[] getDefaultTokens() {

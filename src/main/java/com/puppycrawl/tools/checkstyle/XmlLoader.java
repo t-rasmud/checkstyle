@@ -33,6 +33,8 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Contains the common implementation of a loader, for loading a configuration
  * from an XML file.
@@ -51,7 +53,7 @@ public class XmlLoader
     extends DefaultHandler {
 
     /** Maps public id to resolve to resource name for the DTD. */
-    private final Map<String, String> publicIdToResourceNameMap;
+    private final @OrderNonDet Map<String, String> publicIdToResourceNameMap;
     /** Parser to read XML files. **/
     private final XMLReader parser;
 

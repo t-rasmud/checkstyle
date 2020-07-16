@@ -58,6 +58,8 @@ import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ParseResult;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Wrapper command line program for the Checker.
  */
@@ -179,8 +181,8 @@ public final class Main {
         final int exitStatus;
 
         // return error if something is wrong in arguments
-        final List<File> filesToProcess = getFilesToProcess(options);
-        final List<String> messages = options.validateCli(parseResult, filesToProcess);
+        final @Det List<File> filesToProcess = getFilesToProcess(options);
+        final @Det List<String> messages = options.validateCli(parseResult, filesToProcess);
         final boolean hasMessages = !messages.isEmpty();
         if (hasMessages) {
             messages.forEach(System.out::println);
@@ -199,9 +201,9 @@ public final class Main {
      * @return list of files to process
      */
     private static List<File> getFilesToProcess(CliOptions options) {
-        final List<Pattern> patternsToExclude = options.getExclusions();
+        final @Det List<Pattern> patternsToExclude = options.getExclusions();
 
-        final List<File> result = new LinkedList<>();
+        final @Det List<File> result = new LinkedList<>();
         for (File file : options.files) {
             result.addAll(listFiles(file, patternsToExclude));
         }
@@ -221,7 +223,7 @@ public final class Main {
     private static List<File> listFiles(File node, List<Pattern> patternsToExclude) {
         // could be replaced with org.apache.commons.io.FileUtils.list() method
         // if only we add commons-io library
-        final List<File> result = new LinkedList<>();
+        final @Det List<File> result = new LinkedList<>();
 
         if (node.canRead() && !isPathExcluded(node.getAbsolutePath(), patternsToExclude)) {
             if (node.isDirectory()) {
@@ -795,7 +797,7 @@ public final class Main {
          */
         // -@cs[CyclomaticComplexity] Breaking apart will damage encapsulation
         private List<String> validateCli(ParseResult parseResult, List<File> filesToProcess) {
-            final List<String> result = new ArrayList<>();
+            final @Det List<String> result = new ArrayList<>();
             final boolean hasConfigurationFile = configurationFile != null;
             final boolean hasSuppressionLineColumnNumber = suppressionLineColumnNumber != null;
 
@@ -848,7 +850,7 @@ public final class Main {
          * @return list of violations
          */
         private List<String> validateOptionalCliParametersIfConfigDefined() {
-            final List<String> result = new ArrayList<>();
+            final @Det List<String> result = new ArrayList<>();
             if (propertiesFile != null && !propertiesFile.exists()) {
                 result.add(String.format(Locale.ROOT,
                         "Could not find file '%s'.", propertiesFile));

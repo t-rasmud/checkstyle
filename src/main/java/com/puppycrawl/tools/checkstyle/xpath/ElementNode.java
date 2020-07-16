@@ -33,6 +33,8 @@ import net.sf.saxon.tree.iter.SingleNodeIterator;
 import net.sf.saxon.tree.util.Navigator;
 import net.sf.saxon.type.Type;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Represents element node of Xpath-tree.
  *
@@ -366,7 +368,7 @@ public class ElementNode extends AbstractNode {
      * @return siblings
      */
     private List<AbstractNode> getFollowingSiblings() {
-        final List<AbstractNode> siblings = parent.getChildren();
+        final @Det List<AbstractNode> siblings = parent.getChildren();
         return siblings.subList(indexAmongSiblings + 1, siblings.size());
     }
 
@@ -376,7 +378,7 @@ public class ElementNode extends AbstractNode {
      * @return siblings
      */
     private List<AbstractNode> getPrecedingSiblings() {
-        final List<AbstractNode> siblings = parent.getChildren();
+        final @Det List<AbstractNode> siblings = parent.getChildren();
         return siblings.subList(0, indexAmongSiblings);
     }
 

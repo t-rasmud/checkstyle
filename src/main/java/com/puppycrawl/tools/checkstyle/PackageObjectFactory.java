@@ -34,6 +34,8 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.LocalizedMessage;
 import com.puppycrawl.tools.checkstyle.utils.ModuleReflectionUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * A factory for creating objects from package names and names.
  * Consider the below example for better understanding.
@@ -95,7 +97,7 @@ public class PackageObjectFactory implements ModuleFactory {
     public static final String STRING_SEPARATOR = ", ";
 
     /** Map of Checkstyle module names to their fully qualified names. */
-    private static final Map<String, String> NAME_TO_FULL_MODULE_NAME = new HashMap<>();
+    private static final @OrderNonDet Map<String, String> NAME_TO_FULL_MODULE_NAME = new HashMap<>();
 
     /** A list of package names to prepend to class names. */
     private final Set<String> packages;
@@ -250,10 +252,10 @@ public class PackageObjectFactory implements ModuleFactory {
      */
     private Object createObjectFromMap(String name, Map<String, Set<String>> map)
             throws CheckstyleException {
-        final Set<String> fullModuleNames = map.get(name);
+        final @Det Set<String> fullModuleNames = map.get(name);
         Object instance = null;
         if (fullModuleNames == null) {
-            final Set<String> fullCheckModuleNames = map.get(name + CHECK_SUFFIX);
+            final @Det Set<String> fullCheckModuleNames = map.get(name + CHECK_SUFFIX);
             if (fullCheckModuleNames != null) {
                 instance = createObjectFromFullModuleNames(name, fullCheckModuleNames);
             }
@@ -302,7 +304,7 @@ public class PackageObjectFactory implements ModuleFactory {
      *      names
      */
     private Map<String, Set<String>> generateThirdPartyNameToFullModuleName(ClassLoader loader) {
-        Map<String, Set<String>> returnValue;
+        @Det Map<String, Set<String>> returnValue;
         try {
             returnValue = ModuleReflectionUtil.getCheckstyleModules(packages, loader).stream()
                 .collect(Collectors.groupingBy(Class::getSimpleName,

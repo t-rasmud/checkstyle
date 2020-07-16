@@ -38,6 +38,8 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks the Javadoc comments for annotation/enum/class/interface definitions. By default, does
@@ -357,7 +359,7 @@ public class JavadocTypeCheck
             final int lineNo = ast.getLineNo();
             final TextBlock textBlock = contents.getJavadocBefore(lineNo);
             if (textBlock != null) {
-                final List<JavadocTag> tags = getJavadocTags(textBlock);
+                final @Det List<JavadocTag> tags = getJavadocTags(textBlock);
                 if (ScopeUtil.isOuterMostType(ast)) {
                     // don't check author/version for inner classes
                     checkTag(ast, tags, JavadocTagInfo.AUTHOR.getName(),
@@ -366,7 +368,7 @@ public class JavadocTypeCheck
                             versionFormat);
                 }
 
-                final List<String> typeParamNames =
+                final @Det List<String> typeParamNames =
                     CheckUtil.getTypeParameterNames(ast);
 
                 if (!allowMissingParamTags) {

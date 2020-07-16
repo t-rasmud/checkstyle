@@ -48,6 +48,8 @@ import org.apache.commons.beanutils.converters.ShortConverter;
 import com.puppycrawl.tools.checkstyle.checks.naming.AccessModifierOption;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * A Java Bean that implements the component lifecycle interfaces by
  * calling the bean's setters for all configuration attributes.
@@ -255,7 +257,7 @@ public abstract class AutomaticBean
     @Override
     public final void contextualize(Context context)
             throws CheckstyleException {
-        final Collection<String> attributes = context.getAttributeNames();
+        final @Det Collection<@Det String> attributes = context.getAttributeNames();
 
         for (final String key : attributes) {
             final Object value = context.get(key);
@@ -297,7 +299,7 @@ public abstract class AutomaticBean
     /** A converter that converts strings to patterns. */
     private static class PatternConverter implements Converter {
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             return CommonUtil.createPattern(value.toString());
@@ -308,7 +310,7 @@ public abstract class AutomaticBean
     /** A converter that converts strings to severity level. */
     private static class SeverityLevelConverter implements Converter {
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             return SeverityLevel.getInstance(value.toString());
@@ -319,7 +321,7 @@ public abstract class AutomaticBean
     /** A converter that converts strings to scope. */
     private static class ScopeConverter implements Converter {
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             return Scope.getInstance(value.toString());
@@ -330,7 +332,7 @@ public abstract class AutomaticBean
     /** A converter that converts strings to uri. */
     private static class UriConverter implements Converter {
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             final String url = value.toString();
@@ -357,13 +359,13 @@ public abstract class AutomaticBean
      */
     private static class RelaxedStringArrayConverter implements Converter {
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             // Convert to a String and trim it for the tokenizer.
-            final StringTokenizer tokenizer = new StringTokenizer(
+            final @Det StringTokenizer tokenizer = new StringTokenizer(
                 value.toString().trim(), COMMA_SEPARATOR);
-            final List<String> result = new ArrayList<>();
+            final @Det List<@Det String> result = new @Det ArrayList<@Det String>();
 
             while (tokenizer.hasMoreTokens()) {
                 final String token = tokenizer.nextToken();
@@ -386,13 +388,13 @@ public abstract class AutomaticBean
         private static final AccessModifierOption[] EMPTY_MODIFIER_ARRAY =
                 new AccessModifierOption[0];
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             // Converts to a String and trims it for the tokenizer.
-            final StringTokenizer tokenizer = new StringTokenizer(
+            final @Det StringTokenizer tokenizer = new StringTokenizer(
                 value.toString().trim(), COMMA_SEPARATOR);
-            final List<AccessModifierOption> result = new ArrayList<>();
+            final @Det List<AccessModifierOption> result = new @Det ArrayList<>();
 
             while (tokenizer.hasMoreTokens()) {
                 final String token = tokenizer.nextToken();

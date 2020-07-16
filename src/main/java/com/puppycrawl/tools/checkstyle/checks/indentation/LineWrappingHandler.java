@@ -29,6 +29,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * This class checks line-wrapping into definitions and expressions. The
  * line-wrapping indentation should be not less than value of the
@@ -120,7 +122,7 @@ public class LineWrappingHandler {
      */
     public void checkIndentation(DetailAST firstNode, DetailAST lastNode, int indentLevel,
             int startIndent, LineWrappingOptions ignoreFirstLine) {
-        final NavigableMap<Integer, DetailAST> firstNodesOnLines = collectFirstNodes(firstNode,
+        final @Det NavigableMap<Integer, DetailAST> firstNodesOnLines = collectFirstNodes(firstNode,
                 lastNode);
 
         final DetailAST firstLineNode = firstNodesOnLines.get(firstNodesOnLines.firstKey());
@@ -129,7 +131,7 @@ public class LineWrappingHandler {
             while (node != null) {
                 if (node.getType() == TokenTypes.ANNOTATION) {
                     final DetailAST atNode = node.getFirstChild();
-                    final NavigableMap<Integer, DetailAST> annotationLines =
+                    final @Det NavigableMap<Integer, DetailAST> annotationLines =
                         firstNodesOnLines.subMap(
                             node.getLineNo(),
                             true,
@@ -195,7 +197,7 @@ public class LineWrappingHandler {
      */
     private NavigableMap<Integer, DetailAST> collectFirstNodes(DetailAST firstNode,
             DetailAST lastNode) {
-        final NavigableMap<Integer, DetailAST> result = new TreeMap<>();
+        final @Det NavigableMap<Integer, DetailAST> result = new TreeMap<>();
 
         result.put(firstNode.getLineNo(), firstNode);
         DetailAST curNode = firstNode.getFirstChild();
@@ -248,11 +250,11 @@ public class LineWrappingHandler {
             NavigableMap<Integer, DetailAST> firstNodesOnLines, int indentLevel) {
         final int firstNodeIndent = getLineStart(atNode);
         final int currentIndent = firstNodeIndent + indentLevel;
-        final Collection<DetailAST> values = firstNodesOnLines.values();
+        final @Det Collection<DetailAST> values = firstNodesOnLines.values();
         final DetailAST lastAnnotationNode = atNode.getParent().getLastChild();
         final int lastAnnotationLine = lastAnnotationNode.getLineNo();
 
-        final Iterator<DetailAST> itr = values.iterator();
+        final @Det Iterator<DetailAST> itr = values.iterator();
         while (firstNodesOnLines.size() > 1) {
             final DetailAST node = itr.next();
 

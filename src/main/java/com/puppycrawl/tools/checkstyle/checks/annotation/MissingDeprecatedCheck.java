@@ -32,6 +32,8 @@ import com.puppycrawl.tools.checkstyle.checks.javadoc.AbstractJavadocCheck;
 import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTagInfo;
 import com.puppycrawl.tools.checkstyle.utils.AnnotationUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Verifies that the annotation {@code @Deprecated} and the Javadoc tag
@@ -145,7 +147,7 @@ public final class MissingDeprecatedCheck extends AbstractJavadocCheck {
     private static final String FQ_DEPRECATED = "java.lang." + DEPRECATED;
 
     /** List of token types to find parent of. */
-    private static final Set<Integer> TYPES_HASH_SET = new HashSet<>(Arrays.asList(
+    private static final @OrderNonDet Set<Integer> TYPES_HASH_SET = new HashSet<>(Arrays.asList(
             TokenTypes.TYPE, TokenTypes.MODIFIERS, TokenTypes.ANNOTATION,
             TokenTypes.ANNOTATIONS, TokenTypes.ARRAY_DECLARATOR,
             TokenTypes.TYPE_PARAMETERS, TokenTypes.DOT));

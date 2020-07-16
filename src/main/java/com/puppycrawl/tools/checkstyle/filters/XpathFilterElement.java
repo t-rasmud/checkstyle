@@ -35,6 +35,8 @@ import net.sf.saxon.sxpath.XPathEvaluator;
 import net.sf.saxon.sxpath.XPathExpression;
 import net.sf.saxon.trans.XPathException;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * This filter element is immutable and processes {@link TreeWalkerAuditEvent}
  * objects based on the criteria of file, check, module id, xpathQuery.
@@ -240,7 +242,7 @@ public class XpathFilterElement implements TreeWalkerFilter {
         else {
             rootNode = new RootNode(event.getRootAst());
         }
-        final List<Item<?>> items;
+        final @Det List<Item<?>> items;
         try {
             final XPathDynamicContext xpathDynamicContext =
                     xpathExpression.createDynamicContext(rootNode);

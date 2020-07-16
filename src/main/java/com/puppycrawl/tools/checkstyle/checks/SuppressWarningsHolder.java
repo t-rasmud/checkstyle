@@ -32,6 +32,8 @@ import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Maintains a set of check suppressions from {@code @SuppressWarnings} annotations.
@@ -128,7 +130,7 @@ public class SuppressWarningsHolder
     private static final String ALL_WARNING_MATCHING_ID = "all";
 
     /** A map from check source names to suppression aliases. */
-    private static final Map<String, String> CHECK_ALIAS_MAP = new HashMap<>();
+    private static final @OrderNonDet Map<String, String> CHECK_ALIAS_MAP = new HashMap<>();
 
     /**
      * A thread-local holder for the list of suppression entries for the last
@@ -213,7 +215,7 @@ public class SuppressWarningsHolder
      *         source location
      */
     public static boolean isSuppressed(AuditEvent event) {
-        final List<Entry> entries = ENTRIES.get();
+        final @Det List<Entry> entries = ENTRIES.get();
         final String sourceName = event.getSourceName();
         final String checkAlias = getAlias(sourceName);
         final int line = event.getLine();
@@ -296,7 +298,7 @@ public class SuppressWarningsHolder
             identifier = identifier.substring(JAVA_LANG_PREFIX.length());
         }
         if ("SuppressWarnings".equals(identifier)) {
-            final List<String> values = getAllAnnotationValues(ast);
+            final @Det List<String> values = getAllAnnotationValues(ast);
             if (!isAnnotationEmpty(values)) {
                 final DetailAST targetAST = getAnnotationTarget(ast);
 
@@ -316,7 +318,7 @@ public class SuppressWarningsHolder
                 }
 
                 // add suppression entries for listed checks
-                final List<Entry> entries = ENTRIES.get();
+                final @Det List<Entry> entries = ENTRIES.get();
                 for (String value : values) {
                     String checkName = value;
                     // strip off the checkstyle-only prefix if present
@@ -351,7 +353,7 @@ public class SuppressWarningsHolder
      */
     private static List<String> getAllAnnotationValues(DetailAST ast) {
         // get values of annotation
-        List<String> values = null;
+        @Det List<String> values = null;
         final DetailAST lparenAST = ast.findFirstToken(TokenTypes.LPAREN);
         if (lparenAST != null) {
             final DetailAST nextAST = lparenAST.getNextSibling();
@@ -489,7 +491,7 @@ public class SuppressWarningsHolder
      * @throws IllegalArgumentException if the AST is invalid
      */
     private static List<String> getAnnotationValues(DetailAST ast) {
-        final List<String> annotationValues;
+        final @Det List<String> annotationValues;
         switch (ast.getType()) {
             case TokenTypes.EXPR:
                 annotationValues = Collections.singletonList(getStringExpr(ast));
@@ -511,7 +513,7 @@ public class SuppressWarningsHolder
      * @return list of expressions in strings
      */
     private static List<String> findAllExpressionsInChildren(DetailAST parent) {
-        final List<String> valueList = new LinkedList<>();
+        final @Det List<String> valueList = new LinkedList<>();
         DetailAST childAST = parent.getFirstChild();
         while (childAST != null) {
             if (childAST.getType() == TokenTypes.EXPR) {

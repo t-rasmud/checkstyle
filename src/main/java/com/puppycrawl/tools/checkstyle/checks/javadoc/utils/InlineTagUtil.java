@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
 
 import com.puppycrawl.tools.checkstyle.api.LineColumn;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Tools for extracting inline tags from Javadoc comments.
  *
@@ -75,7 +77,7 @@ public final class InlineTagUtil {
         final String commentText = convertLinesToString(lines);
         final Matcher inlineTagMatcher = INLINE_TAG_PATTERN.matcher(commentText);
 
-        final List<TagInfo> tags = new ArrayList<>();
+        final @Det List<TagInfo> tags = new ArrayList<>();
 
         while (inlineTagMatcher.find()) {
             final String tagName = inlineTagMatcher.group(1);

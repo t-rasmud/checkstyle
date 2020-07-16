@@ -35,6 +35,8 @@ import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractFileSetCheck;
 import com.puppycrawl.tools.checkstyle.api.FileText;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Detects duplicated keys in properties files.
@@ -102,7 +104,7 @@ public class UniquePropertiesCheck extends AbstractFileSetCheck {
 
     @Override
     protected void processFiltered(File file, FileText fileText) {
-        final UniqueProperties properties = new UniqueProperties();
+        final @Det UniqueProperties properties = new UniqueProperties();
         try (InputStream inputStream = Files.newInputStream(file.toPath())) {
             properties.load(inputStream);
         }
@@ -176,7 +178,7 @@ public class UniquePropertiesCheck extends AbstractFileSetCheck {
          * Map, holding duplicated keys and their count. Keys are added here only if they
          * already exist in Properties' inner map.
          */
-        private final Map<String, AtomicInteger> duplicatedKeys = new HashMap<>();
+        private final @OrderNonDet Map<String, AtomicInteger> duplicatedKeys = new HashMap<>();
 
         /**
          * Puts the value into properties by the key specified.

@@ -38,6 +38,8 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.ResourceBundle.Control;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Represents a message that can be localised. The translations come from
  * message.properties files. The underlying implementation uses
@@ -54,7 +56,7 @@ public final class LocalizedMessage
      * A cache that maps bundle names to ResourceBundles.
      * Avoids repetitive calls to ResourceBundle.getBundle().
      */
-    private static final Map<String, ResourceBundle> BUNDLE_CACHE =
+    private static final @OrderNonDet Map<String, ResourceBundle> BUNDLE_CACHE =
         Collections.synchronizedMap(new HashMap<>());
 
     /** The default severity level if one is not specified. */

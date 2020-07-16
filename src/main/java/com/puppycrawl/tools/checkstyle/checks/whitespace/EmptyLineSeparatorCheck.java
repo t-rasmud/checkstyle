@@ -33,6 +33,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for empty line separators after header, package, all import declarations,
@@ -464,8 +466,8 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
     private void processMultipleLinesInside(DetailAST ast) {
         final int astType = ast.getType();
         if (isClassMemberBlock(astType)) {
-            final List<Integer> emptyLines = getEmptyLines(ast);
-            final List<Integer> emptyLinesToLog = getEmptyLinesToLog(emptyLines);
+            final @Det List<Integer> emptyLines = getEmptyLines(ast);
+            final @Det List<Integer> emptyLinesToLog = getEmptyLinesToLog(emptyLines);
 
             for (Integer lineNo : emptyLinesToLog) {
                 // Checkstyle counts line numbers from 0 but IDE from 1
@@ -501,7 +503,7 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
             // -2 as last token line cannot be empty, because it is a RCURLY
             lastTokenLineNo = lastToken.getLineNo() - 2;
         }
-        final List<Integer> emptyLines = new ArrayList<>();
+        final @Det List<Integer> emptyLines = new ArrayList<>();
         final FileContents fileContents = getFileContents();
 
         for (int lineNo = ast.getLineNo(); lineNo <= lastTokenLineNo; lineNo++) {
@@ -519,7 +521,7 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
      * @return list of empty lines to log.
      */
     private static List<Integer> getEmptyLinesToLog(List<Integer> emptyLines) {
-        final List<Integer> emptyLinesToLog = new ArrayList<>();
+        final @Det List<Integer> emptyLinesToLog = new ArrayList<>();
         if (emptyLines.size() >= 2) {
             int previousEmptyLineNo = emptyLines.get(0);
             for (int emptyLineNo : emptyLines) {
@@ -649,7 +651,7 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
      * @param token DetailAST token
      */
     private void checkCommentsInsideToken(DetailAST token) {
-        final List<DetailAST> childNodes = new LinkedList<>();
+        final @Det List<DetailAST> childNodes = new LinkedList<>();
         DetailAST childNode = token.getLastChild();
         while (childNode != null) {
             if (childNode.getType() == TokenTypes.MODIFIERS) {

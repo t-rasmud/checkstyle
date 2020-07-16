@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
 
 import com.puppycrawl.tools.checkstyle.api.LineColumn;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Tools for parsing block tags from a Javadoc comment.
  *
@@ -54,7 +56,7 @@ public final class BlockTagUtil {
      * @return The tags extracted from the block.
      */
     public static List<TagInfo> extractBlockTags(String... lines) {
-        final List<TagInfo> tags = new ArrayList<>();
+        final @Det List<TagInfo> tags = new ArrayList<>();
 
         for (int i = 0; i < lines.length; i++) {
             // Starting lines of a comment have a different first line pattern.

@@ -31,6 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.TextBlock;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Restricts using
@@ -390,7 +392,7 @@ public class AvoidEscapedUnicodeCharactersCheck
             result = true;
         }
         else {
-            final List<TextBlock> commentList = blockComments.get(lineNo);
+            final @Det List<TextBlock> commentList = blockComments.get(lineNo);
             if (commentList != null) {
                 final TextBlock comment = commentList.get(commentList.size() - 1);
                 final String line = getLines()[lineNo - 1];

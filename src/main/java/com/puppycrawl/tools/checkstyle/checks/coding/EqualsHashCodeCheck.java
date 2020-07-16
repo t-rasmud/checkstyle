@@ -29,6 +29,8 @@ import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that classes that either override {@code equals()} or {@code hashCode()} also
@@ -140,10 +142,10 @@ public class EqualsHashCodeCheck
     public static final String MSG_KEY_EQUALS = "equals.noEquals";
 
     /** Maps OBJ_BLOCK to the method definition of equals(). */
-    private final Map<DetailAST, DetailAST> objBlockWithEquals = new HashMap<>();
+    private final @OrderNonDet Map<DetailAST, DetailAST> objBlockWithEquals = new HashMap<>();
 
     /** Maps OBJ_BLOCKs to the method definition of hashCode(). */
-    private final Map<DetailAST, DetailAST> objBlockWithHashCode = new HashMap<>();
+    private final @OrderNonDet Map<DetailAST, DetailAST> objBlockWithHashCode = new HashMap<>();
 
     @Override
     public int[] getDefaultTokens() {

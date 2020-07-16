@@ -33,6 +33,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
 /**
  * <p>
  * Validates abbreviations (consecutive capital letters) length in
@@ -326,7 +327,7 @@ public class AbbreviationAsWordInNameCheck extends AbstractCheck {
      * Specify list of abbreviations that must be skipped for checking. Abbreviations
      * should be separated by comma.
      */
-    private Set<String> allowedAbbreviations = new HashSet<>();
+    private @OrderNonDet Set<String> allowedAbbreviations = new HashSet<>();
 
     /** Allow to skip variables with {@code final} modifier. */
     private boolean ignoreFinal = true;
@@ -650,7 +651,7 @@ public class AbbreviationAsWordInNameCheck extends AbstractCheck {
      * @return The list of children one level below on the current parent node.
      */
     private static List<DetailAST> getChildren(final DetailAST node) {
-        final List<DetailAST> result = new LinkedList<>();
+        final @Det List<DetailAST> result = new LinkedList<>();
         DetailAST curNode = node.getFirstChild();
         while (curNode != null) {
             result.add(curNode);

@@ -43,6 +43,8 @@ import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks the Javadoc of a method or constructor.
@@ -546,14 +548,14 @@ public class JavadocMethodCheck extends AbstractCheck {
      * @param comment the Javadoc comment
      */
     private void checkComment(DetailAST ast, TextBlock comment) {
-        final List<JavadocTag> tags = getMethodTags(comment);
+        final @Det List<JavadocTag> tags = getMethodTags(comment);
 
         if (!hasShortCircuitTag(ast, tags)) {
             if (ast.getType() == TokenTypes.ANNOTATION_FIELD_DEF) {
                 checkReturnTag(tags, ast.getLineNo(), true);
             }
             else {
-                final Iterator<JavadocTag> it = tags.iterator();
+                final @Det Iterator<JavadocTag> it = tags.iterator();
                 // Check for inheritDoc
                 boolean hasInheritDocTag = false;
                 while (!hasInheritDocTag && it.hasNext()) {
@@ -563,7 +565,7 @@ public class JavadocMethodCheck extends AbstractCheck {
                     && !AnnotationUtil.containsAnnotation(ast, allowedAnnotations);
 
                 checkParamTags(tags, ast, reportExpectedTags);
-                final List<ExceptionInfo> throwed =
+                final @Det List<ExceptionInfo> throwed =
                         combineExceptionInfo(getThrows(ast), getThrowed(ast));
                 checkThrowsTags(tags, throwed, reportExpectedTags);
                 if (CheckUtil.isNonVoidMethod(ast)) {
@@ -631,7 +633,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      */
     private static List<JavadocTag> getMethodTags(TextBlock comment) {
         final String[] lines = comment.getText();
-        final List<JavadocTag> tags = new ArrayList<>();
+        final @Det List<JavadocTag> tags = new ArrayList<>();
         int currentLine = comment.getStartLineNo() - 1;
         final int startColumnNumber = comment.getStartColNo();
 
@@ -711,7 +713,7 @@ public class JavadocMethodCheck extends AbstractCheck {
             multilineCont = MATCH_JAVADOC_MULTILINE_CONT.matcher(lines[remIndex]);
         } while (!multilineCont.find());
 
-        final List<JavadocTag> tags = new ArrayList<>();
+        final @Det List<JavadocTag> tags = new ArrayList<>();
         final String lFin = multilineCont.group(1);
         if (!lFin.equals(NEXT_TAG)
             && !lFin.equals(END_JAVADOC)) {
@@ -732,7 +734,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      */
     private static List<DetailAST> getParameters(DetailAST ast) {
         final DetailAST params = ast.findFirstToken(TokenTypes.PARAMETERS);
-        final List<DetailAST> returnValue = new ArrayList<>();
+        final @Det List<DetailAST> returnValue = new ArrayList<>();
 
         DetailAST child = params.getFirstChild();
         while (child != null) {
@@ -754,7 +756,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      * @return the list of exception nodes for ast.
      */
     private static List<ExceptionInfo> getThrows(DetailAST ast) {
-        final List<ExceptionInfo> returnValue = new ArrayList<>();
+        final @Det List<ExceptionInfo> returnValue = new ArrayList<>();
         final DetailAST throwsAST = ast
                 .findFirstToken(TokenTypes.LITERAL_THROWS);
         if (throwsAST != null) {
@@ -777,10 +779,10 @@ public class JavadocMethodCheck extends AbstractCheck {
      * @return list of ExceptionInfo
      */
     private static List<ExceptionInfo> getThrowed(DetailAST methodAst) {
-        final List<ExceptionInfo> returnValue = new ArrayList<>();
+        final @Det List<ExceptionInfo> returnValue = new ArrayList<>();
         final DetailAST blockAst = methodAst.findFirstToken(TokenTypes.SLIST);
         if (blockAst != null) {
-            final List<DetailAST> throwLiterals = findTokensInAstByType(blockAst,
+            final @Det List<DetailAST> throwLiterals = findTokensInAstByType(blockAst,
                     TokenTypes.LITERAL_THROW);
             for (DetailAST throwAst : throwLiterals) {
                 if (!isInIgnoreBlock(blockAst, throwAst)) {
@@ -862,7 +864,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      */
     private static List<ExceptionInfo> combineExceptionInfo(List<ExceptionInfo> list1,
                                                      List<ExceptionInfo> list2) {
-        final List<ExceptionInfo> result = new ArrayList<>(list1);
+        final @Det List<ExceptionInfo> result = new ArrayList<>(list1);
         for (ExceptionInfo exceptionInfo : list2) {
             if (result.stream().noneMatch(item -> isExceptionInfoSame(item, exceptionInfo))) {
                 result.add(exceptionInfo);
@@ -880,7 +882,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      * @return {@link List} of {@link DetailAST} nodes which matches the predicate.
      */
     public static List<DetailAST> findTokensInAstByType(DetailAST root, int astType) {
-        final List<DetailAST> result = new ArrayList<>();
+        final @Det List<DetailAST> result = new ArrayList<>();
         DetailAST curNode = root;
         while (curNode != null) {
             DetailAST toVisit = curNode.getFirstChild();
@@ -910,12 +912,12 @@ public class JavadocMethodCheck extends AbstractCheck {
      */
     private void checkParamTags(final List<JavadocTag> tags,
             final DetailAST parent, boolean reportExpectedTags) {
-        final List<DetailAST> params = getParameters(parent);
-        final List<DetailAST> typeParams = CheckUtil
+        final @Det List<DetailAST> params = getParameters(parent);
+        final @Det List<DetailAST> typeParams = CheckUtil
                 .getTypeParameters(parent);
 
         // Loop over the tags, checking to see they exist in the params.
-        final ListIterator<JavadocTag> tagIt = tags.listIterator();
+        final @Det ListIterator<JavadocTag> tagIt = tags.listIterator();
         while (tagIt.hasNext()) {
             final JavadocTag tag = tagIt.next();
 
@@ -969,7 +971,7 @@ public class JavadocMethodCheck extends AbstractCheck {
     private static boolean searchMatchingTypeParameter(List<DetailAST> typeParams,
             String requiredTypeName) {
         // Loop looking for matching type param
-        final Iterator<DetailAST> typeParamsIt = typeParams.iterator();
+        final @Det Iterator<DetailAST> typeParamsIt = typeParams.iterator();
         boolean found = false;
         while (typeParamsIt.hasNext()) {
             final DetailAST typeParam = typeParamsIt.next();
@@ -992,7 +994,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      */
     private static boolean removeMatchingParam(List<DetailAST> params, String paramName) {
         boolean found = false;
-        final Iterator<DetailAST> paramIt = params.iterator();
+        final @Det Iterator<DetailAST> paramIt = params.iterator();
         while (paramIt.hasNext()) {
             final DetailAST param = paramIt.next();
             if (param.getText().equals(paramName)) {
@@ -1018,7 +1020,7 @@ public class JavadocMethodCheck extends AbstractCheck {
         // Loop over tags finding return tags. After the first one, report an
         // violation.
         boolean found = false;
-        final ListIterator<JavadocTag> it = tags.listIterator();
+        final @Det ListIterator<JavadocTag> it = tags.listIterator();
         while (it.hasNext()) {
             final JavadocTag javadocTag = it.next();
             if (javadocTag.isReturnTag()) {
@@ -1051,8 +1053,8 @@ public class JavadocMethodCheck extends AbstractCheck {
             List<ExceptionInfo> throwsList, boolean reportExpectedTags) {
         // Loop over the tags, checking to see they exist in the throws.
         // The foundThrows used for performance only
-        final Set<String> foundThrows = new HashSet<>();
-        final ListIterator<JavadocTag> tagIt = tags.listIterator();
+        final @OrderNonDet Set<String> foundThrows = new HashSet<>();
+        final @Det ListIterator<JavadocTag> tagIt = tags.listIterator();
         while (tagIt.hasNext()) {
             final JavadocTag tag = tagIt.next();
 

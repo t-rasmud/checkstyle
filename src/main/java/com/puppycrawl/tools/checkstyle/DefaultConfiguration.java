@@ -29,6 +29,8 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.Configuration;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Default implementation of the Configuration interface.
  *
@@ -48,10 +50,10 @@ public final class DefaultConfiguration implements Configuration {
     private final List<Configuration> children = new ArrayList<>();
 
     /** The map from attribute names to attribute values. */
-    private final Map<String, String> attributeMap = new HashMap<>();
+    private final @OrderNonDet Map<String, String> attributeMap = new HashMap<>();
 
     /** The map containing custom messages. */
-    private final Map<String, String> messages = new HashMap<>();
+    private final @OrderNonDet Map<String, String> messages = new HashMap<>();
 
     /** The thread mode configuration. */
     private final ThreadModeSettings threadModeSettings;
@@ -79,7 +81,7 @@ public final class DefaultConfiguration implements Configuration {
 
     @Override
     public String[] getAttributeNames() {
-        final Set<String> keySet = attributeMap.keySet();
+        final @OrderNonDet Set<String> keySet = attributeMap.keySet();
         return keySet.toArray(CommonUtil.EMPTY_STRING_ARRAY);
     }
 

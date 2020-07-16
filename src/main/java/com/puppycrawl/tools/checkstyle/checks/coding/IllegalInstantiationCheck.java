@@ -31,6 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for illegal instantiations where a factory method is preferred.
@@ -104,16 +106,16 @@ public class IllegalInstantiationCheck
     private static final String JAVA_LANG = "java.lang.";
 
     /** The imports for the file. */
-    private final Set<FullIdent> imports = new HashSet<>();
+    private final @OrderNonDet Set<FullIdent> imports = new HashSet<>();
 
     /** The class names defined in the file. */
-    private final Set<String> classNames = new HashSet<>();
+    private final @OrderNonDet Set<String> classNames = new HashSet<>();
 
     /** The instantiations in the file. */
-    private final Set<DetailAST> instantiations = new HashSet<>();
+    private final @OrderNonDet Set<DetailAST> instantiations = new HashSet<>();
 
     /** Specify fully qualified class names that should not be instantiated. */
-    private Set<String> classes = new HashSet<>();
+    private @OrderNonDet Set<String> classes = new HashSet<>();
 
     /** Name of the package. */
     private String pkgName;

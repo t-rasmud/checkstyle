@@ -28,6 +28,8 @@ import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that the order of modifiers conforms to the suggestions in the
@@ -128,7 +130,7 @@ public class ModifierOrderCheck
 
     @Override
     public void visitToken(DetailAST ast) {
-        final List<DetailAST> mods = new ArrayList<>();
+        final @Det List<DetailAST> mods = new ArrayList<>();
         DetailAST modifier = ast.getFirstChild();
         while (modifier != null) {
             mods.add(modifier);
@@ -161,7 +163,7 @@ public class ModifierOrderCheck
      *     modifier AST.
      */
     private static DetailAST checkOrderSuggestedByJls(List<DetailAST> modifiers) {
-        final Iterator<DetailAST> iterator = modifiers.iterator();
+        final @Det Iterator<DetailAST> iterator = modifiers.iterator();
 
         // Speed past all initial annotations
         DetailAST modifier = skipAnnotations(iterator);

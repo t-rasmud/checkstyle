@@ -58,6 +58,8 @@ import com.puppycrawl.tools.checkstyle.api.SeverityLevel;
 import com.puppycrawl.tools.checkstyle.api.SeverityLevelCounter;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * This class provides the functionality to check a set of files.
  */
@@ -240,16 +242,16 @@ public class Checker extends AutomaticBean implements MessageDispatcher, RootMod
      *         checks and filters.
      */
     private Set<String> getExternalResourceLocations() {
-        final Set<String> externalResources = new HashSet<>();
+        final @OrderNonDet Set<String> externalResources = new HashSet<>();
         fileSetChecks.stream().filter(check -> check instanceof ExternalResourceHolder)
             .forEach(check -> {
-                final Set<String> locations =
+                final @Det Set<String> locations =
                     ((ExternalResourceHolder) check).getExternalResourceLocations();
                 externalResources.addAll(locations);
             });
         filters.getFilters().stream().filter(filter -> filter instanceof ExternalResourceHolder)
             .forEach(filter -> {
-                final Set<String> locations =
+                final @Det Set<String> locations =
                     ((ExternalResourceHolder) filter).getExternalResourceLocations();
                 externalResources.addAll(locations);
             });
@@ -295,7 +297,7 @@ public class Checker extends AutomaticBean implements MessageDispatcher, RootMod
                     cacheFile.put(fileName, timestamp);
                 }
                 fireFileStarted(fileName);
-                final SortedSet<LocalizedMessage> fileMessages = processFile(file);
+                final @Det SortedSet<LocalizedMessage> fileMessages = processFile(file);
                 fireErrors(fileName, fileMessages);
                 fireFileFinished(fileName);
             }
@@ -330,7 +332,7 @@ public class Checker extends AutomaticBean implements MessageDispatcher, RootMod
      * @noinspection ProhibitedExceptionThrown
      */
     private SortedSet<LocalizedMessage> processFile(File file) throws CheckstyleException {
-        final SortedSet<LocalizedMessage> fileMessages = new TreeSet<>();
+        final @Det SortedSet<LocalizedMessage> fileMessages = new TreeSet<>();
         try {
             final FileText theText = new FileText(file.getAbsoluteFile(), charset);
             for (final FileSetCheck fsc : fileSetChecks) {
@@ -442,7 +444,7 @@ public class Checker extends AutomaticBean implements MessageDispatcher, RootMod
                                 + "moduleClassLoader must be specified");
             }
 
-            final Set<String> packageNames = PackageNamesLoader
+            final @Det Set<String> packageNames = PackageNamesLoader
                     .getPackageNames(moduleClassLoader);
             moduleFactory = new PackageObjectFactory(packageNames,
                     moduleClassLoader);

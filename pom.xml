@@ -759,7 +759,7 @@
           <compilerArgs>
             <!-- If using JDK 8, use only the argument immediately below. -->
             <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
-            <arg>-AsuppressWarnings="type.argument.type.incompatible"</arg>
+            <arg>-AsuppressWarnings="override.param.invalid,methodref.receiver.invalid,methodref.param.invalid,type.argument.type.incompatible,override.receiver.invalid,invalid.upper.bound.on.type.argument"</arg>
           </compilerArgs>
         </configuration>
         <!-- till https://github.com/checkstyle/checkstyle/issues/2160

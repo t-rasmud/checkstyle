@@ -499,6 +499,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @param frameStack stack containing the FrameTree being built.
      * @param ast AST to parse.
      */
+    @SuppressWarnings("determinism")
     // -@cs[JavaNCSS] This method is a big switch and is too hard to remove.
     private static void collectDeclarations(Deque<AbstractFrame> frameStack, DetailAST ast) {
         final AbstractFrame frame = frameStack.peek();
@@ -948,7 +949,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @param tokenType token type.
      * @return a set of all tokens of specific type starting with the current ast node.
      */
-    private static Set<DetailAST> getAllTokensOfType(DetailAST ast, int tokenType) {
+    private static @OrderNonDet Set<DetailAST> getAllTokensOfType(DetailAST ast, int tokenType) {
         DetailAST vertex = ast;
         final @OrderNonDet Set<DetailAST> result = new HashSet<>();
         final @Det Deque<DetailAST> stack = new ArrayDeque<>();
@@ -979,7 +980,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @return a set of all tokens of specific type starting with the current ast node and which
      *         line number is lower or equal to the end line number.
      */
-    private static Set<DetailAST> getAllTokensOfType(DetailAST ast, int tokenType,
+    private static @OrderNonDet Set<DetailAST> getAllTokensOfType(DetailAST ast, int tokenType,
                                                      int endLineNumber) {
         DetailAST vertex = ast;
         final @OrderNonDet Set<DetailAST> result = new HashSet<>();
@@ -1012,7 +1013,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @return a set of tokens which are equal to current token starting with the current ast node
      *         and which line number is lower or equal to the end line number.
      */
-    private static Set<DetailAST> getAllTokensWhichAreEqualToCurrent(DetailAST ast, DetailAST token,
+    private static @OrderNonDet Set<DetailAST> getAllTokensWhichAreEqualToCurrent(DetailAST ast, DetailAST token,
                                                                      int endLineNumber) {
         DetailAST vertex = ast;
         final @OrderNonDet Set<DetailAST> result = new HashSet<>();
@@ -1304,7 +1305,7 @@ public class RequireThisCheck extends AbstractCheck {
          * @return true if the set contains a declaration with the text of the specified
          *         IDENT ast and it is declared in a proper position.
          */
-        protected boolean containsFieldOrVariableDef(Set<DetailAST> set, DetailAST ident) {
+        protected boolean containsFieldOrVariableDef(@OrderNonDet Set<DetailAST> set, DetailAST ident) {
             boolean result = false;
             for (DetailAST ast: set) {
                 if (isProperDefinition(ident, ast)) {
@@ -1481,6 +1482,7 @@ public class RequireThisCheck extends AbstractCheck {
          * @param instanceMember an instance member of a class.
          * @return true if given instance member has final modifier.
          */
+        @SuppressWarnings("determinism")
         public boolean hasFinalField(final DetailAST instanceMember) {
             boolean result = false;
             for (DetailAST member : instanceMembers) {
@@ -1540,7 +1542,7 @@ public class RequireThisCheck extends AbstractCheck {
          * @return true if the set contains a definition with the
          *     same name and number of parameters.
          */
-        private static boolean containsMethodDef(Set<DetailAST> set, DetailAST ident) {
+        private static boolean containsMethodDef(@OrderNonDet Set<DetailAST> set, DetailAST ident) {
             boolean result = false;
             for (DetailAST ast: set) {
                 if (isSimilarSignature(ident, ast)) {

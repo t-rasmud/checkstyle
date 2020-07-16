@@ -150,6 +150,7 @@ public final class ExecutableStatementCountCheck
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -167,6 +168,7 @@ public final class ExecutableStatementCountCheck
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void leaveToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:

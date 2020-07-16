@@ -172,7 +172,7 @@ public final class ConfigurationLoader {
      * @return map between local resources and dtd ids.
      * @noinspection MethodOnlyUsedFromInnerClass
      */
-    private static Map<String, String> createIdToResourceNameMap() {
+    private static @OrderNonDet Map<String, String> createIdToResourceNameMap() {
         final @OrderNonDet Map<String, String> map = new HashMap<>();
         map.put(DTD_PUBLIC_ID_1_0, DTD_CONFIGURATION_NAME_1_0);
         map.put(DTD_PUBLIC_ID_1_1, DTD_CONFIGURATION_NAME_1_1);

@@ -99,6 +99,7 @@ public class Comment implements TextBlock {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public String toString() {
         return "Comment[text=" + Arrays.toString(text)
                 + ", startLineNo=" + startLineNo

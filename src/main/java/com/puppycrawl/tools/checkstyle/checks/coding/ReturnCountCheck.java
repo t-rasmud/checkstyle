@@ -240,6 +240,7 @@ public final class ReturnCountCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -258,6 +259,7 @@ public final class ReturnCountCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void leaveToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:

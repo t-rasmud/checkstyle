@@ -203,6 +203,7 @@ public class MultipleStringLiteralsCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void visitToken(DetailAST ast) {
         if (!isInIgnoreOccurrenceContext(ast)) {
             final String currentString = ast.getText();
@@ -240,6 +241,7 @@ public class MultipleStringLiteralsCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void finishTree(DetailAST rootAST) {
         for (Map.Entry<String, List<DetailAST>> stringListEntry : stringMap.entrySet()) {
             final @NonDet List<DetailAST> hits = stringListEntry.getValue();

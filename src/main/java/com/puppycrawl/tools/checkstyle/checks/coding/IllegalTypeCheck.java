@@ -397,6 +397,7 @@ public final class IllegalTypeCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void beginTree(DetailAST rootAST) {
         illegalShortClassNames.clear();
 
@@ -413,6 +414,7 @@ public final class IllegalTypeCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CLASS_DEF:

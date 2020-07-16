@@ -228,6 +228,7 @@ public class OrderedPropertiesCheck extends AbstractFileSetCheck {
          * Returns a copy of the keys.
          */
         @Override
+        @SuppressWarnings("determinism")
         public synchronized Enumeration<Object> keys() {
             return Collections.enumeration(keyList);
         }

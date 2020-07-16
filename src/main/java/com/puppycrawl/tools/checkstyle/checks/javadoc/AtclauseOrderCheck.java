@@ -200,6 +200,7 @@ public class AtclauseOrderCheck extends AbstractJavadocCheck {
      *
      * @param javadoc Javadoc root node.
      */
+    @SuppressWarnings("determinism")
     private void checkOrderInTagSection(DetailNode javadoc) {
         int maxIndexOfPreviousTag = 0;
 

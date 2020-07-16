@@ -124,6 +124,7 @@ public class RedundantImportCheck
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void visitToken(DetailAST ast) {
         if (ast.getType() == TokenTypes.PACKAGE_DEF) {
             pkgName = FullIdent.createFullIdent(

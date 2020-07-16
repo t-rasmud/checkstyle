@@ -75,7 +75,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
     public static final String MSG_KEY = "parameter.assignment";
 
     /** Stack of methods' parameters. */
-    private final Deque<Set<String>> parameterNamesStack = new ArrayDeque<>();
+    private final @Det Deque<Set<String>> parameterNamesStack = new ArrayDeque<>();
     /** Current set of parameters. */
     private @OrderNonDet Set<String> parameterNames;
 
@@ -121,6 +121,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -153,6 +154,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void leaveToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -220,6 +222,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
      *
      * @param ast a method to process.
      */
+    @SuppressWarnings("determinism")
     private void visitMethodDef(DetailAST ast) {
         parameterNamesStack.push(parameterNames);
         parameterNames = new HashSet<>();
@@ -228,6 +231,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
     }
 
     /** Restores old set of parameters. */
+    @SuppressWarnings("determinism")
     private void leaveMethodDef() {
         parameterNames = parameterNamesStack.pop();
     }

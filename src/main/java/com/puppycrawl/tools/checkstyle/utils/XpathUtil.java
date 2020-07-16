@@ -143,6 +143,7 @@ public final class XpathUtil {
      * @throws CheckstyleException if some parsing error happens
      * @throws IOException if an error occurs
      */
+    @SuppressWarnings("determinism")
     public static String printXpathBranch(String xpath, File file) throws CheckstyleException,
             IOException {
         final XPathEvaluator xpathEvaluator = new XPathEvaluator();

@@ -309,6 +309,7 @@ public class EqualsAvoidNullCheck extends AbstractCheck {
      *
      * @param frame to check method calls in.
      */
+    @SuppressWarnings("determinism")
     private void traverseFieldFrameTree(FieldFrame frame) {
         for (FieldFrame child: frame.getChildren()) {
             traverseFieldFrameTree(child);
@@ -590,7 +591,7 @@ public class EqualsAvoidNullCheck extends AbstractCheck {
          *
          * @return children of this frame.
          */
-        public Set<FieldFrame> getChildren() {
+        public @OrderNonDet Set<FieldFrame> getChildren() {
             return Collections.unmodifiableSet(children);
         }
 
@@ -647,6 +648,7 @@ public class EqualsAvoidNullCheck extends AbstractCheck {
          * @param name name of the field to check.
          * @return true if this FieldFrame contains instance field field.
          */
+        @SuppressWarnings("determinism")
         public DetailAST findField(String name) {
             DetailAST resultField = null;
             for (DetailAST field: fields) {
@@ -663,7 +665,7 @@ public class EqualsAvoidNullCheck extends AbstractCheck {
          *
          * @return method calls of this frame.
          */
-        public Set<DetailAST> getMethodCalls() {
+        public @OrderNonDet Set<DetailAST> getMethodCalls() {
             return Collections.unmodifiableSet(methodCalls);
         }
 

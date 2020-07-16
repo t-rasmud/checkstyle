@@ -43,6 +43,7 @@ public enum SeverityLevel {
     ERROR;
 
     @Override
+    @SuppressWarnings("determinism")
     public String toString() {
         return getName();
     }

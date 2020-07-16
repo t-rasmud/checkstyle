@@ -225,6 +225,7 @@ public class EqualsHashCodeCheck
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void finishTree(DetailAST rootAST) {
         objBlockWithEquals
             .entrySet().stream().filter(detailASTDetailASTEntry -> {

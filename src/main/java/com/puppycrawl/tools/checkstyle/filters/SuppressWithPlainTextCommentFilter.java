@@ -599,7 +599,7 @@ public class SuppressWithPlainTextCommentFilter extends AutomaticBean implements
         }
 
         @Override
-        public int hashCode() {
+        public @NonDet int hashCode() {
             return Objects.hash(
                 text, lineNo, columnNo, suppressionType, eventSourceRegexp, eventMessageRegexp,
                 eventIdRegexp);

@@ -335,9 +335,10 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param userSpecifiedLanguageCode user specified language code.
      * @return true if user specified language code is correct.
      */
+    @SuppressWarnings("determinism")
     private static boolean isValidLanguageCode(final String userSpecifiedLanguageCode) {
         boolean valid = false;
-        final Locale[] locales = Locale.getAvailableLocales();
+        final @NonDet Locale @NonDet [] locales = Locale.getAvailableLocales();
         for (Locale locale : locales) {
             if (userSpecifiedLanguageCode.equals(locale.toString())) {
                 valid = true;
@@ -359,8 +360,9 @@ public class TranslationCheck extends AbstractFileSetCheck {
     }
 
     @Override
+    @SuppressWarnings("argument.type.incompatible")
     public void finishProcessing() {
-        final @Det Set<ResourceBundle> bundles = groupFilesIntoBundles(filesToProcess, baseName);
+        final @OrderNonDet Set<ResourceBundle> bundles = groupFilesIntoBundles(filesToProcess, baseName);
         for (ResourceBundle currentBundle : bundles) {
             checkExistenceOfDefaultTranslation(currentBundle);
             checkExistenceOfRequiredTranslations(currentBundle);
@@ -386,6 +388,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      *
      * @param bundle resource bundle.
      */
+    @SuppressWarnings("determinism")
     private void checkExistenceOfRequiredTranslations(ResourceBundle bundle) {
         for (String languageCode : requiredTranslations) {
             getMissingFileName(bundle, languageCode)
@@ -453,7 +456,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param baseNameRegexp base name regexp pattern.
      * @return set of ResourceBundles.
      */
-    private static Set<ResourceBundle> groupFilesIntoBundles(Set<File> files,
+    private static @OrderNonDet Set<ResourceBundle> groupFilesIntoBundles(Set<File> files,
                                                              Pattern baseNameRegexp) {
         final @OrderNonDet Set<ResourceBundle> resourceBundles = new HashSet<>();
         for (File currentFile : files) {
@@ -484,7 +487,8 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param targetBundle target bundle to search for.
      * @return Guava's Optional of resource bundle (present if target bundle is found).
      */
-    private static Optional<ResourceBundle> findBundle(Set<ResourceBundle> bundles,
+    @SuppressWarnings("determinism")
+    private static Optional<ResourceBundle> findBundle(@OrderNonDet Set<ResourceBundle> bundles,
                                                        ResourceBundle targetBundle) {
         Optional<ResourceBundle> result = Optional.empty();
         for (ResourceBundle currentBundle : bundles) {
@@ -550,13 +554,14 @@ public class TranslationCheck extends AbstractFileSetCheck {
      *
      * @param bundle resource bundle.
      */
+    @SuppressWarnings("argument.type.incompatible")
     private void checkTranslationKeys(ResourceBundle bundle) {
-        final @Det Set<File> filesInBundle = bundle.getFiles();
+        final @OrderNonDet Set<File> filesInBundle = bundle.getFiles();
         // build a map from files to the keys they contain
         final @OrderNonDet Set<String> allTranslationKeys = new HashSet<>();
         final @OrderNonDet Map<File, Set<String>> filesAssociatedWithKeys = new HashMap<>();
         for (File currentFile : filesInBundle) {
-            final @Det Set<String> keysInCurrentFile = getTranslationKeys(currentFile);
+            final @OrderNonDet Set<String> keysInCurrentFile = getTranslationKeys(currentFile);
             allTranslationKeys.addAll(keysInCurrentFile);
             filesAssociatedWithKeys.put(currentFile, keysInCurrentFile);
         }
@@ -570,10 +575,10 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param fileKeys a Map from translation files to their key sets.
      * @param keysThatMustExist the set of keys to compare with.
      */
-    private void checkFilesForConsistencyRegardingTheirKeys(Map<File, Set<String>> fileKeys,
-                                                            Set<String> keysThatMustExist) {
-        for (Entry<File, Set<String>> fileKey : fileKeys.entrySet()) {
-            final @Det Set<String> currentFileKeys = fileKey.getValue();
+    private void checkFilesForConsistencyRegardingTheirKeys(@OrderNonDet Map<File, @OrderNonDet Set<String>> fileKeys,
+                                                            @OrderNonDet Set<String> keysThatMustExist) {
+        for (Entry<File, @OrderNonDet Set<String>> fileKey : fileKeys.entrySet()) {
+            final Set<String> currentFileKeys = fileKey.getValue();
             final Set<String> missingKeys = keysThatMustExist.stream()
                 .filter(key -> !currentFileKeys.contains(key)).collect(Collectors.toSet());
             if (!missingKeys.isEmpty()) {
@@ -595,7 +600,8 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param file translation file.
      * @return a Set object which holds the loaded keys.
      */
-    private Set<String> getTranslationKeys(File file) {
+    @SuppressWarnings("assignment.type.incompatible")
+    private @OrderNonDet Set<String> getTranslationKeys(File file) {
         @OrderNonDet Set<String> keys = new HashSet<>();
         try (InputStream inStream = Files.newInputStream(file.toPath())) {
             final @Det Properties translations = new Properties();
@@ -679,7 +685,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
             return extension;
         }
 
-        public Set<File> getFiles() {
+        public @OrderNonDet Set<File> getFiles() {
             return Collections.unmodifiableSet(files);
         }
 
@@ -698,6 +704,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
          * @param fileNameRegexp file name regexp.
          * @return true if a resource bundle contains a file which name matches file name regexp.
          */
+        @SuppressWarnings("determinism")
         public boolean containsFile(String fileNameRegexp) {
             boolean containsFile = false;
             for (File currentFile : files) {

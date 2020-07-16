@@ -245,6 +245,7 @@ public final class ThrowsCountCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void visitToken(DetailAST ast) {
         if (ast.getType() == TokenTypes.LITERAL_THROWS) {
             visitLiteralThrows(ast);

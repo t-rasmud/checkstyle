@@ -23,6 +23,8 @@ import java.util.Set;
 
 import com.puppycrawl.tools.checkstyle.Checker;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * The following interface should be implemented by each module (inheritor of
  * {@link AbstractCheck}, implementor of {@link FileSetCheck}, or {@link Filter}) which uses
@@ -46,6 +48,6 @@ public interface ExternalResourceHolder {
      *
      * @return a set of external configuration resource locations which are used by the module.
      */
-    Set<String> getExternalResourceLocations();
+    @OrderNonDet Set<String> getExternalResourceLocations();
 
 }

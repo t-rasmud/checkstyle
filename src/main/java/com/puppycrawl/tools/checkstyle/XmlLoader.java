@@ -64,7 +64,7 @@ public class XmlLoader
      * @throws SAXException if an error occurs
      * @throws ParserConfigurationException if an error occurs
      */
-    protected XmlLoader(Map<String, String> publicIdToResourceNameMap)
+    protected XmlLoader(@OrderNonDet Map<String, String> publicIdToResourceNameMap)
             throws SAXException, ParserConfigurationException {
         this.publicIdToResourceNameMap = new HashMap<>(publicIdToResourceNameMap);
         final SAXParserFactory factory = SAXParserFactory.newInstance();

@@ -167,6 +167,7 @@ public class UnusedImportsCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public void finishTree(DetailAST rootAST) {
         // loop over all the imports to see if referenced.
         imports.stream()
@@ -300,7 +301,7 @@ public class UnusedImportsCheck extends AbstractCheck {
      * @param textBlock The javadoc block to parse
      * @return a set of classes referenced in the javadoc block
      */
-    private static Set<String> collectReferencesFromJavadoc(TextBlock textBlock) {
+    private static @OrderNonDet Set<String> collectReferencesFromJavadoc(TextBlock textBlock) {
         final @Det List<JavadocTag> tags = new ArrayList<>();
         // gather all the inline tags, like @link
         // INLINE tags inside BLOCKs get hidden when using ALL
@@ -334,7 +335,7 @@ public class UnusedImportsCheck extends AbstractCheck {
      * @param tag The javadoc tag to parse
      * @return A list of references found in this tag
      */
-    private static Set<String> processJavadocTag(JavadocTag tag) {
+    private static @OrderNonDet Set<String> processJavadocTag(JavadocTag tag) {
         final @OrderNonDet Set<String> references = new HashSet<>();
         final String identifier = tag.getFirstArg().trim();
         for (Pattern pattern : new Pattern[]
@@ -352,7 +353,7 @@ public class UnusedImportsCheck extends AbstractCheck {
      * @param pattern The Pattern used to extract the texts
      * @return A list of texts which matched the pattern
      */
-    private static Set<String> matchPattern(String identifier, Pattern pattern) {
+    private static @OrderNonDet Set<String> matchPattern(String identifier, Pattern pattern) {
         final @OrderNonDet Set<String> references = new HashSet<>();
         final Matcher matcher = pattern.matcher(identifier);
         while (matcher.find()) {

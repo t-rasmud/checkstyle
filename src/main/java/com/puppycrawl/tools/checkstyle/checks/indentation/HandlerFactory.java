@@ -117,6 +117,7 @@ public class HandlerFactory {
      *
      * @return int[] of TokenType types
      */
+    @SuppressWarnings("determinism")
     public int[] getHandledTypes() {
         final @OrderNonDet Set<Integer> typeSet = typeHandlers.keySet();
         final int[] types = new int[typeSet.size()];
@@ -140,8 +141,8 @@ public class HandlerFactory {
      */
     public AbstractExpressionHandler getHandler(IndentationCheck indentCheck,
         DetailAST ast, AbstractExpressionHandler parent) {
-        final AbstractExpressionHandler resultHandler;
-        final AbstractExpressionHandler handler =
+        final @Det AbstractExpressionHandler resultHandler;
+        final @Det AbstractExpressionHandler handler =
             createdHandlers.get(ast);
         if (handler != null) {
             resultHandler = handler;
@@ -150,7 +151,7 @@ public class HandlerFactory {
             resultHandler = createMethodCallHandler(indentCheck, ast, parent);
         }
         else {
-            final Constructor<?> handlerCtor = typeHandlers.get(ast.getType());
+            final @Det Constructor<?> handlerCtor = typeHandlers.get(ast.getType());
             resultHandler = (AbstractExpressionHandler) CommonUtil.invokeConstructor(
                 handlerCtor, indentCheck, ast, parent);
         }

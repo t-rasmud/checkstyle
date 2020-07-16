@@ -188,7 +188,7 @@ public final class PackageNamesLoader
      *
      * @return map between local resources and dtd ids.
      */
-    private static Map<String, String> createIdToResourceNameMap() {
+    private static @OrderNonDet Map<String, String> createIdToResourceNameMap() {
         final @OrderNonDet Map<String, String> map = new HashMap<>();
         map.put(DTD_PUBLIC_ID, DTD_RESOURCE_NAME);
         map.put(DTD_PUBLIC_CS_ID, DTD_RESOURCE_NAME);

@@ -265,9 +265,9 @@ public class AvoidEscapedUnicodeCharactersCheck
             + "|\\\\u[fF]{4}");
 
     /** Cpp style comments. */
-    private Map<Integer, TextBlock> singlelineComments;
+    private @OrderNonDet Map<Integer, TextBlock> singlelineComments;
     /** C style comments. */
-    private Map<Integer, List<TextBlock>> blockComments;
+    private @OrderNonDet Map<Integer, List<TextBlock>> blockComments;
 
     /** Allow use escapes for non-printable, control characters. */
     private boolean allowEscapesForControlCharacters;

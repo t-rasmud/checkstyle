@@ -32,6 +32,7 @@ import com.puppycrawl.tools.checkstyle.api.ExternalResourceHolder;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
 /**
  * <p>
  * Controls what can be imported in each package and file. Useful for ensuring
@@ -556,7 +557,7 @@ public class ImportControlCheck extends AbstractCheck implements ExternalResourc
     }
 
     @Override
-    public Set<String> getExternalResourceLocations() {
+    public @OrderNonDet Set<String> getExternalResourceLocations() {
         return Collections.singleton(file.toString());
     }
 

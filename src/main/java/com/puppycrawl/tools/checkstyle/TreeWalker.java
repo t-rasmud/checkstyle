@@ -176,6 +176,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param rootAST root AST element {@link DetailAST} of the file
      * @return filtered set of messages
      */
+    @SuppressWarnings("determinism")
     private SortedSet<LocalizedMessage> getFilteredMessages(
             String fileName, FileContents fileContents, DetailAST rootAST) {
         final @Det SortedSet<LocalizedMessage> result = new TreeSet<>(messages);
@@ -198,6 +199,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param check the check to register
      * @throws CheckstyleException if an error occurs
      */
+    @SuppressWarnings("determinism")
     private void registerCheck(AbstractCheck check) throws CheckstyleException {
         final int[] tokens;
         final @OrderNonDet Set<String> checkTokens = check.getTokenNames();
@@ -252,6 +254,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param check the check to register
      * @throws CheckstyleException if Check is misconfigured
      */
+    @SuppressWarnings("determinism")
     private void registerCheck(String token, AbstractCheck check) throws CheckstyleException {
         if (check.isCommentNodesRequired()) {
             tokenToCommentChecks.computeIfAbsent(token, empty -> new HashSet<>()).add(check);
@@ -288,6 +291,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param contents the contents of the file the AST was generated from.
      * @param astState state of AST.
      */
+    @SuppressWarnings("method.invocation.invalid")
     private void notifyBegin(DetailAST rootAST, FileContents contents,
             AstState astState) {
         final @OrderNonDet Set<AbstractCheck> checks;
@@ -312,6 +316,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param rootAST the root of the tree.
      * @param astState state of AST.
      */
+    @SuppressWarnings("method.invocation.invalid")
     private void notifyEnd(DetailAST rootAST, AstState astState) {
         final @OrderNonDet Set<AbstractCheck> checks;
 
@@ -391,12 +396,12 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
     }
 
     @Override
-    public Set<String> getExternalResourceLocations() {
-        final @Det Set<String> ordinaryChecksResources =
+    public @OrderNonDet Set<String> getExternalResourceLocations() {
+        final @OrderNonDet Set<String> ordinaryChecksResources =
                 getExternalResourceLocationsOfChecks(ordinaryChecks);
-        final @Det Set<String> commentChecksResources =
+        final @OrderNonDet Set<String> commentChecksResources =
                 getExternalResourceLocationsOfChecks(commentChecks);
-        final @Det Set<String> filtersResources =
+        final @OrderNonDet Set<String> filtersResources =
                 getExternalResourceLocationsOfFilters();
         final int resultListSize = commentChecksResources.size()
                 + ordinaryChecksResources.size()
@@ -413,7 +418,8 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      *
      * @return a set of external configuration resource locations which are used by the filters set.
      */
-    private Set<String> getExternalResourceLocationsOfFilters() {
+    @SuppressWarnings("determinism")
+    private @OrderNonDet Set<String> getExternalResourceLocationsOfFilters() {
         final @OrderNonDet Set<String> externalConfigurationResources = new HashSet<>();
         filters.stream().filter(filter -> filter instanceof ExternalResourceHolder)
                 .forEach(filter -> {
@@ -430,7 +436,8 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param checks a set of checks.
      * @return a set of external configuration resource locations which are used by the checks set.
      */
-    private static Set<String> getExternalResourceLocationsOfChecks(Set<AbstractCheck> checks) {
+    @SuppressWarnings("determinism")
+    private static @OrderNonDet Set<String> getExternalResourceLocationsOfChecks(@OrderNonDet Set<AbstractCheck> checks) {
         final @OrderNonDet Set<String> externalConfigurationResources = new HashSet<>();
         checks.stream().filter(check -> check instanceof ExternalResourceHolder).forEach(check -> {
             final @Det Set<String> checkExternalResources =

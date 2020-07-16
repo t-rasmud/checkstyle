@@ -388,6 +388,7 @@ public final class LocalizedMessage
      */
     // -@cs[CyclomaticComplexity] equals - a lot of fields to check.
     @Override
+    @SuppressWarnings({"override.param.invalid", "override.receiver.invalid"})
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -410,6 +411,7 @@ public final class LocalizedMessage
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public int hashCode() {
         return Objects.hash(lineNo, columnNo, columnCharIndex, tokenType, severityLevel, moduleId,
                 key, bundle, sourceClass, customMessage, Arrays.hashCode(args));
@@ -420,6 +422,7 @@ public final class LocalizedMessage
     ////////////////////////////////////////////////////////////////////////////
 
     @Override
+    @SuppressWarnings("determinism")
     public int compareTo(LocalizedMessage other) {
         final int result;
 

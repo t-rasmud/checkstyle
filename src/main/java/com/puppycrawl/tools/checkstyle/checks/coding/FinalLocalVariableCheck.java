@@ -180,7 +180,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     };
 
     /** Scope Deque. */
-    private final Deque<ScopeData> scopeStack = new ArrayDeque<>();
+    private final @Det Deque<ScopeData> scopeStack = new ArrayDeque<>();
 
     /** Uninitialized variables of previous scope. */
     private final Deque<Deque<DetailAST>> prevScopeUninitializedVariables =

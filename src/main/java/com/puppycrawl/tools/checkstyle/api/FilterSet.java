@@ -59,16 +59,18 @@ public class FilterSet
      *
      * @return the Filters of the filter set.
      */
-    public Set<Filter> getFilters() {
+    public @OrderNonDet Set<Filter> getFilters() {
         return Collections.unmodifiableSet(filters);
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public String toString() {
         return filters.toString();
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public boolean accept(AuditEvent event) {
         boolean result = true;
         for (Filter filter : filters) {

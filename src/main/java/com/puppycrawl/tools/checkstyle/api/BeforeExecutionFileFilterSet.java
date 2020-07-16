@@ -59,16 +59,18 @@ public final class BeforeExecutionFileFilterSet
      *
      * @return the Filters of the filter set.
      */
-    public Set<BeforeExecutionFileFilter> getBeforeExecutionFileFilters() {
+    public @OrderNonDet Set<BeforeExecutionFileFilter> getBeforeExecutionFileFilters() {
         return Collections.unmodifiableSet(beforeExecutionFileFilters);
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public String toString() {
         return beforeExecutionFileFilters.toString();
     }
 
     @Override
+    @SuppressWarnings("determinism")
     public boolean accept(String uri) {
         boolean result = true;
         for (BeforeExecutionFileFilter filter : beforeExecutionFileFilters) {

@@ -21,6 +21,8 @@ package com.puppycrawl.tools.checkstyle.filters;
 
 import java.util.Objects;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * This filter element is immutable and accepts an Integer in a range.
  */
@@ -51,7 +53,7 @@ class IntRangeFilterElement implements IntFilterElement {
     }
 
     @Override
-    public int hashCode() {
+    public @NonDet int hashCode() {
         return Objects.hash(lowerBound, upperBound);
     }
 

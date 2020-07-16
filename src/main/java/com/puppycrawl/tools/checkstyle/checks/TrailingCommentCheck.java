@@ -189,10 +189,11 @@ public class TrailingCommentCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings({"method.invocation.invalid","argument.type.incompatible"})
     public void beginTree(DetailAST rootAST) {
-        final @Det Map<Integer, TextBlock> cppComments = getFileContents()
+        final @OrderNonDet Map<Integer, TextBlock> cppComments = getFileContents()
                 .getSingleLineComments();
-        final @Det Map<Integer, List<TextBlock>> cComments = getFileContents()
+        final @OrderNonDet Map<Integer, List<TextBlock>> cComments = getFileContents()
                 .getBlockComments();
         final @OrderNonDet Set<Integer> lines = new HashSet<>();
         lines.addAll(cppComments.keySet());

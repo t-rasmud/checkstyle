@@ -152,7 +152,7 @@ public class HandlerFactory {
         }
         else {
             final @Det Constructor<?> handlerCtor = typeHandlers.get(ast.getType());
-            resultHandler = (AbstractExpressionHandler) CommonUtil.invokeConstructor(
+            resultHandler = (@Det AbstractExpressionHandler) CommonUtil.invokeConstructor(
                 handlerCtor, indentCheck, ast, parent);
         }
         return resultHandler;

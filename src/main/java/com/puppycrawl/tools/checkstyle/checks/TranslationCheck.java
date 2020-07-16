@@ -575,6 +575,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param fileKeys a Map from translation files to their key sets.
      * @param keysThatMustExist the set of keys to compare with.
      */
+    @SuppressWarnings("determinism")
     private void checkFilesForConsistencyRegardingTheirKeys(@OrderNonDet Map<File, @OrderNonDet Set<String>> fileKeys,
                                                             @OrderNonDet Set<String> keysThatMustExist) {
         for (Entry<File, @OrderNonDet Set<String>> fileKey : fileKeys.entrySet()) {

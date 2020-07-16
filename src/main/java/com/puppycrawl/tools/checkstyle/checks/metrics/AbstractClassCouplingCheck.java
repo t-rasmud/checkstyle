@@ -408,6 +408,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
         }
 
         /** Checks if coupling less than allowed or not. */
+        @SuppressWarnings("determinism")
         public void checkCoupling() {
             referencedClassNames.remove(className);
             referencedClassNames.remove(packageName + DOT + className);

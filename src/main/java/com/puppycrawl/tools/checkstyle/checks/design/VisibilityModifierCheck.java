@@ -791,7 +791,7 @@ public class VisibilityModifierCheck
      * @param defAST AST for a variable or class definition.
      * @return the set of modifier Strings for defAST.
      */
-    private static Set<String> getModifiers(DetailAST defAST) {
+    private static @OrderNonDet Set<String> getModifiers(DetailAST defAST) {
         final DetailAST modifiersAST = defAST.findFirstToken(TokenTypes.MODIFIERS);
         final @OrderNonDet Set<String> modifiersSet = new HashSet<>();
         if (modifiersAST != null) {

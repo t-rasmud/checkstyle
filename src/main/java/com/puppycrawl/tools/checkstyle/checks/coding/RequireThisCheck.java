@@ -741,7 +741,7 @@ public class RequireThisCheck extends AbstractCheck {
             blockEndToken = blockNameIdentParent.getNextSibling();
         }
         else {
-            final @Det Set<DetailAST> rcurlyTokens = getAllTokensOfType(blockNameIdent,
+            final @OrderNonDet Set<DetailAST> rcurlyTokens = getAllTokensOfType(blockNameIdent,
                     TokenTypes.RCURLY);
             for (DetailAST currentRcurly : rcurlyTokens) {
                 final DetailAST parent = currentRcurly.getParent();
@@ -917,7 +917,7 @@ public class RequireThisCheck extends AbstractCheck {
             }
             else {
                 final ClassFrame classFrame = (ClassFrame) findFrame(ast, true);
-                final @Det Set<DetailAST> exprIdents = getAllTokensOfType(sibling, TokenTypes.IDENT);
+                final @OrderNonDet Set<DetailAST> exprIdents = getAllTokensOfType(sibling, TokenTypes.IDENT);
                 overlapping = classFrame.containsFieldOrVariableDef(exprIdents, ast);
             }
         }
@@ -936,7 +936,7 @@ public class RequireThisCheck extends AbstractCheck {
         final DetailAST sibling = ast.getNextSibling();
         if (sibling != null && isAssignToken(parent.getType())) {
             final ClassFrame classFrame = (ClassFrame) findFrame(ast, true);
-            final @Det Set<DetailAST> exprIdents = getAllTokensOfType(sibling, TokenTypes.IDENT);
+            final @OrderNonDet Set<DetailAST> exprIdents = getAllTokensOfType(sibling, TokenTypes.IDENT);
             overlapping = classFrame.containsFieldOrVariableDef(exprIdents, ast);
         }
         return overlapping;
@@ -1305,6 +1305,7 @@ public class RequireThisCheck extends AbstractCheck {
          * @return true if the set contains a declaration with the text of the specified
          *         IDENT ast and it is declared in a proper position.
          */
+        @SuppressWarnings("determinism")
         protected boolean containsFieldOrVariableDef(@OrderNonDet Set<DetailAST> set, DetailAST ident) {
             boolean result = false;
             for (DetailAST ast: set) {
@@ -1542,6 +1543,7 @@ public class RequireThisCheck extends AbstractCheck {
          * @return true if the set contains a definition with the
          *     same name and number of parameters.
          */
+        @SuppressWarnings("determinism")
         private static boolean containsMethodDef(@OrderNonDet Set<DetailAST> set, DetailAST ident) {
             boolean result = false;
             for (DetailAST ast: set) {

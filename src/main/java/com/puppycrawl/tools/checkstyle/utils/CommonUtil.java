@@ -42,6 +42,8 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Contains utility methods.
  *
@@ -237,7 +239,7 @@ public final class CommonUtil {
         }
         else {
             // normalize extensions so all of them have a leading dot
-            final String[] withDotExtensions = new String[fileExtensions.length];
+            final @Det String[] withDotExtensions = new @Det String[fileExtensions.length];
             for (int i = 0; i < fileExtensions.length; i++) {
                 final String extension = fileExtensions[i];
                 if (startsWithChar(extension, '.')) {
@@ -633,7 +635,7 @@ public final class CommonUtil {
     public static boolean isName(String str) {
         boolean isName = !str.isEmpty();
 
-        final String[] identifiers = str.split("\\.", -1);
+        final @Det String[] identifiers = str.split("\\.", -1);
         for (int i = 0; isName && i < identifiers.length; i++) {
             isName = isIdentifier(identifiers[i]);
         }

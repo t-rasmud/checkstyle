@@ -36,6 +36,8 @@ import com.puppycrawl.tools.checkstyle.api.BeforeExecutionFileFilter;
 import com.puppycrawl.tools.checkstyle.api.Filter;
 import com.puppycrawl.tools.checkstyle.api.RootModule;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Contains utility methods for module reflection.
  */
@@ -54,7 +56,8 @@ public final class ModuleReflectionUtil {
      * @throws IOException if the attempt to read class path resources failed
      * @see #isCheckstyleModule(Class)
      */
-    public static Set<Class<?>> getCheckstyleModules(
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection
+    public static @OrderNonDet Set<Class<?>> getCheckstyleModules(
             Collection<String> packages, ClassLoader loader) throws IOException {
         final ClassPath classPath = ClassPath.from(loader);
         return packages.stream()
@@ -103,6 +106,7 @@ public final class ModuleReflectionUtil {
      * @param clazz class to check
      * @return true if the class has a default constructor.
      */
+    @SuppressWarnings("determinism:method.invocation.invalid")
     private static boolean hasDefaultConstructor(Class<?> clazz) {
         boolean result = false;
         for (Constructor<?> constructor : clazz.getDeclaredConstructors()) {

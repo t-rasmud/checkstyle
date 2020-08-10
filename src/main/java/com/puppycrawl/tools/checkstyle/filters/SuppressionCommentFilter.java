@@ -533,7 +533,7 @@ public class SuppressionCommentFilter
             tagSuppressions(contents.getSingleLineComments().values());
         }
         if (checkC) {
-            final @Det Collection<List<TextBlock>> cComments = contents
+            final @OrderNonDet Collection<List<TextBlock>> cComments = contents
                     .getBlockComments().values();
             cComments.forEach(this::tagSuppressions);
         }
@@ -546,7 +546,8 @@ public class SuppressionCommentFilter
      *
      * @param comments the set of comments.
      */
-    private void tagSuppressions(Collection<TextBlock> comments) {
+    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // Iteration over OrderNonDet collection
+    private void tagSuppressions(@OrderNonDet Collection<TextBlock> comments) {
         for (TextBlock comment : comments) {
             final int startLineNo = comment.getStartLineNo();
             final String[] text = comment.getText();
@@ -752,6 +753,7 @@ public class SuppressionCommentFilter
         }
 
         @Override
+        @SuppressWarnings("determinism")
         public int hashCode() {
             return Objects.hash(text, line, column, tagType, tagCheckRegexp, tagMessageRegexp,
                     tagIdRegexp);

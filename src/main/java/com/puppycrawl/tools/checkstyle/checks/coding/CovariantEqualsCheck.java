@@ -148,6 +148,7 @@ public class CovariantEqualsCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism:method.invocation.invalid")
     public void visitToken(DetailAST ast) {
         equalsMethods.clear();
 

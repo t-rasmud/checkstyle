@@ -25,6 +25,8 @@ import java.util.Objects;
 import com.puppycrawl.tools.checkstyle.api.DetailNode;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Implementation of DetailNode interface that is mutable.
  *
@@ -94,7 +96,7 @@ public class JavadocNodeImpl implements DetailNode {
 
     @Override
     public DetailNode[] getChildren() {
-        DetailNode[] nodeChildren = EMPTY_DETAIL_NODE_ARRAY;
+        @Det DetailNode[] nodeChildren = EMPTY_DETAIL_NODE_ARRAY;
         if (children != null) {
             nodeChildren = Arrays.copyOf(children, children.length);
         }
@@ -175,7 +177,7 @@ public class JavadocNodeImpl implements DetailNode {
     }
 
     @Override
-    public String toString() {
+    public @NonDet String toString() {
         return "JavadocNodeImpl["
                 + "index=" + index
                 + ", type=" + JavadocUtil.getTokenName(type)

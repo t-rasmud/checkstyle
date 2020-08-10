@@ -28,6 +28,8 @@ import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractFileSetCheck;
 import com.puppycrawl.tools.checkstyle.api.FileText;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks whether files end with a line separator.
@@ -251,7 +253,7 @@ public class NewlineAtEndOfFileCheck
         }
         else {
             file.seek(file.length() - len);
-            final byte[] lastBytes = new byte[len];
+            final @Det byte[] lastBytes = new byte[len];
             final int readBytes = file.read(lastBytes);
             if (readBytes != len) {
                 throw new IOException("Unable to read " + len + " bytes, got "

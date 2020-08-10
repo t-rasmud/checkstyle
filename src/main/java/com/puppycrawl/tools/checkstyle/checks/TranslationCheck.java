@@ -624,14 +624,14 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param file the file that could not be processed
      */
     private void logException(Exception exception, File file) {
-        final String[] args;
+        final @Det String[] args;
         final String key;
         if (exception instanceof NoSuchFileException) {
             args = null;
             key = "general.fileNotFound";
         }
         else {
-            args = new String[] {exception.getMessage()};
+            args = new @Det String[] {exception.getMessage()};
             key = "general.exception";
         }
         final LocalizedMessage message =

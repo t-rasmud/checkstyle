@@ -22,6 +22,8 @@ package com.puppycrawl.tools.checkstyle.api;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * A Configuration is used to configure a Configurable component.  The general
  * idea of Configuration/Configurable was taken from <a target="_top"
@@ -34,7 +36,7 @@ public interface Configuration extends Serializable {
      *
      * @return The set of attribute names, never null.
      */
-    String[] getAttributeNames();
+    @Det String @OrderNonDet [] getAttributeNames();
 
     /**
      * The attribute value for an attribute name.
@@ -65,6 +67,6 @@ public interface Configuration extends Serializable {
      *
      * @return unmodifiable map containing custom messages
      */
-    Map<String, String> getMessages();
+    @OrderNonDet Map<String, String> getMessages();
 
 }

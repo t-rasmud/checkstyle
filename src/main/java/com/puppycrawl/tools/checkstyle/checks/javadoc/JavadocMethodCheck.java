@@ -632,7 +632,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      * @return the tags found
      */
     private static List<JavadocTag> getMethodTags(TextBlock comment) {
-        final String[] lines = comment.getText();
+        final @Det String[] lines = comment.getText();
         final @Det List<JavadocTag> tags = new ArrayList<>();
         int currentLine = comment.getStartLineNo() - 1;
         final int startColumnNumber = comment.getStartColNo();
@@ -1090,7 +1090,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      * @param foundThrows previously found throws
      */
     private static void processThrows(List<ExceptionInfo> throwsList,
-                                      ClassInfo documentedClassInfo, Set<String> foundThrows) {
+                                      ClassInfo documentedClassInfo, @OrderNonDet Set<String> foundThrows) {
         ExceptionInfo foundException = null;
 
         // First look for matches on the exception name

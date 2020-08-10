@@ -21,6 +21,8 @@ package com.puppycrawl.tools.checkstyle.api;
 
 import java.util.Map;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Serves as an abstract base class for all modules that report inspection
  * findings. Such modules have a Severity level which is used for the
@@ -94,7 +96,7 @@ public abstract class AbstractViolationReporter
      *
      * @return unmodifiable map containing custom messages
      */
-    protected Map<String, String> getCustomMessages() {
+    protected @OrderNonDet Map<String, String> getCustomMessages() {
         return getConfiguration().getMessages();
     }
 

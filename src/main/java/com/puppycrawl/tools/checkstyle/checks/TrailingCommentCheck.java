@@ -208,7 +208,7 @@ public class TrailingCommentCheck extends AbstractCheck {
                 lineBefore = line.substring(0, comment.getStartColNo());
             }
             else {
-                final List<TextBlock> commentList = cComments.get(lineNo);
+                final @NonDet List<@Det TextBlock> commentList = cComments.get(lineNo);
                 comment = commentList.get(commentList.size() - 1);
                 lineBefore = line.substring(0, comment.getStartColNo());
 

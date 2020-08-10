@@ -358,9 +358,10 @@ public class DeclarationOrderCheck extends AbstractCheck {
      * @param fieldDef a field definition.
      * @return true if an identifier references a field which has been already defined in class.
      */
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
     private boolean isForwardReference(DetailAST fieldDef) {
         final DetailAST exprStartIdent = fieldDef.findFirstToken(TokenTypes.IDENT);
-        final @Det Set<DetailAST> exprIdents = getAllTokensOfType(exprStartIdent, TokenTypes.IDENT);
+        final @OrderNonDet Set<DetailAST> exprIdents = getAllTokensOfType(exprStartIdent, TokenTypes.IDENT);
         boolean forwardReference = false;
         for (DetailAST ident : exprIdents) {
             if (classFieldNames.contains(ident.getText())) {
@@ -378,7 +379,7 @@ public class DeclarationOrderCheck extends AbstractCheck {
      * @param tokenType token type.
      * @return a set of all tokens of specific type starting with the current ast node.
      */
-    private static Set<DetailAST> getAllTokensOfType(DetailAST ast, int tokenType) {
+    private static @OrderNonDet Set<@Det DetailAST> getAllTokensOfType(DetailAST ast, int tokenType) {
         DetailAST vertex = ast;
         final @OrderNonDet Set<DetailAST> result = new HashSet<>();
         final @Det Deque<DetailAST> stack = new ArrayDeque<>();

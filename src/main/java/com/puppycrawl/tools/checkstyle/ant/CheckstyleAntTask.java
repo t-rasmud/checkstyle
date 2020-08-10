@@ -282,6 +282,7 @@ public class CheckstyleAntTask extends Task {
     ////////////////////////////////////////////////////////////////////////////
 
     @Override
+    @SuppressWarnings("determinism:argument.type.incompatible") //possible true positive; logging time
     public void execute() {
         final long startTime = System.currentTimeMillis();
 
@@ -322,7 +323,7 @@ public class CheckstyleAntTask extends Task {
             rootModule = createRootModule();
 
             // setup the listeners
-            final AuditListener[] listeners = getListeners();
+            final @Det AuditListener[] listeners = getListeners();
             for (AuditListener element : listeners) {
                 rootModule.addListener(element);
             }
@@ -346,6 +347,7 @@ public class CheckstyleAntTask extends Task {
      * @param warningCounter Root Module's counter of warnings
      * @param checkstyleVersion Checkstyle compile version
      */
+    @SuppressWarnings("determinism:argument.type.incompatible") //possible true positive; logging time
     private void processFiles(RootModule rootModule, final SeverityLevelCounter warningCounter,
             final String checkstyleVersion) {
         final long startTime = System.currentTimeMillis();
@@ -469,10 +471,11 @@ public class CheckstyleAntTask extends Task {
      *
      * @return the list of listeners.
      */
+    @SuppressWarnings("determinism:nondeterministic.tostring")  // Potential true positive; Formatter doesn't override toString
     private AuditListener[] getListeners() {
         final int formatterCount = Math.max(1, formatters.size());
 
-        final AuditListener[] listeners = new AuditListener[formatterCount];
+        final @Det AuditListener[] listeners = new @Det AuditListener[formatterCount];
 
         // formatters
         try {
@@ -544,7 +547,7 @@ public class CheckstyleAntTask extends Task {
      * @return A list of files, extracted from the given path.
      */
     private List<File> scanPath(Path path, int pathIndex) {
-        final String[] resources = path.list();
+        final @Det String[] resources = path.list();
         log(pathIndex + ") Scanning path " + path, Project.MSG_VERBOSE);
         final @Det List<File> allFiles = new ArrayList<>();
         int concreteFilesCount = 0;
@@ -599,7 +602,7 @@ public class CheckstyleAntTask extends Task {
      * @return A list of files, retrieved from the given scanner.
      */
     private List<File> retrieveAllScannedFiles(DirectoryScanner scanner, int logIndex) {
-        final String[] fileNames = scanner.getIncludedFiles();
+        final @Det String[] fileNames = scanner.getIncludedFiles();
         log(String.format(Locale.ROOT, "%d) Adding %d files from directory %s",
             logIndex, fileNames.length, scanner.getBasedir()), Project.MSG_VERBOSE);
 

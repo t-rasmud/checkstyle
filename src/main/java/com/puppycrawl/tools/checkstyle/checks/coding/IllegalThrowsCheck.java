@@ -32,6 +32,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.AnnotationUtil;
 import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that specified types are not declared to be thrown.
@@ -115,7 +117,7 @@ public final class IllegalThrowsCheck extends AbstractCheck {
         Arrays.stream(new String[] {"finalize", }).collect(Collectors.toSet());
 
     /** Specify throw class names to reject. */
-    private final Set<String> illegalClassNames = Arrays.stream(
+    private final @OrderNonDet Set<String> illegalClassNames = Arrays.stream(
         new String[] {"Error", "RuntimeException", "Throwable", "java.lang.Error",
                       "java.lang.RuntimeException", "java.lang.Throwable", })
         .collect(Collectors.toSet());

@@ -388,7 +388,6 @@ public final class LocalizedMessage
      */
     // -@cs[CyclomaticComplexity] equals - a lot of fields to check.
     @Override
-    @SuppressWarnings({"override.param.invalid", "override.receiver.invalid"})
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -422,7 +421,6 @@ public final class LocalizedMessage
     ////////////////////////////////////////////////////////////////////////////
 
     @Override
-    @SuppressWarnings("determinism")
     public int compareTo(LocalizedMessage other) {
         final int result;
 
@@ -504,6 +502,7 @@ public final class LocalizedMessage
      * @param bundleName the bundle name
      * @return a ResourceBundle
      */
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection
     private ResourceBundle getBundle(String bundleName) {
         return BUNDLE_CACHE.computeIfAbsent(bundleName, name -> {
             return ResourceBundle.getBundle(

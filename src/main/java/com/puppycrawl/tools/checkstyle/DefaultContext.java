@@ -42,7 +42,7 @@ public final class DefaultContext implements Context {
     }
 
     @Override
-    public Collection<String> getAttributeNames() {
+    public @OrderNonDet Collection<@Det String> getAttributeNames() {
         return new HashSet<>(entries.keySet());
     }
 

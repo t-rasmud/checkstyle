@@ -251,8 +251,8 @@ public final class PropertyCacheFile {
      *
      * @param locations locations of external resources.
      */
-    public void putExternalResources(Set<String> locations) {
-        final @Det Set<ExternalResource> resources = loadExternalResources(locations);
+    public void putExternalResources(@OrderNonDet Set<String> locations) {
+        final @OrderNonDet Set<ExternalResource> resources = loadExternalResources(locations);
         if (areExternalResourcesChanged(resources)) {
             reset();
             fillCacheWithExternalResources(resources);
@@ -265,11 +265,12 @@ public final class PropertyCacheFile {
      * @param resourceLocations locations of external configuration resources.
      * @return a set of {@link ExternalResource}.
      */
-    private static Set<ExternalResource> loadExternalResources(Set<String> resourceLocations) {
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over an OrderNonDet Set
+    private static @OrderNonDet Set<@Det ExternalResource> loadExternalResources(@OrderNonDet Set<String> resourceLocations) {
         final @OrderNonDet Set<ExternalResource> resources = new HashSet<>();
         for (String location : resourceLocations) {
             try {
-                final byte[] content = loadExternalResource(location);
+                final @Det byte[] content = loadExternalResource(location);
                 final String contentHashSum = getHashCodeBasedOnObjectContent(content);
                 resources.add(new ExternalResource(EXTERNAL_RESOURCE_KEY_PREFIX + location,
                         contentHashSum));
@@ -332,7 +333,8 @@ public final class PropertyCacheFile {
      * @param resources a set of {@link ExternalResource}.
      * @return true if the contents of external configuration resources were changed.
      */
-    private boolean areExternalResourcesChanged(Set<ExternalResource> resources) {
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNondet collection
+    private boolean areExternalResourcesChanged(@OrderNonDet Set<ExternalResource> resources) {
         return resources.stream().anyMatch(resource -> {
             boolean changed = false;
             if (isResourceLocationInCache(resource.location)) {
@@ -355,7 +357,7 @@ public final class PropertyCacheFile {
      *
      * @param externalResources a set of {@link ExternalResource}.
      */
-    private void fillCacheWithExternalResources(Set<ExternalResource> externalResources) {
+    private void fillCacheWithExternalResources(@OrderNonDet Set<ExternalResource> externalResources) {
         externalResources
             .forEach(resource -> details.setProperty(resource.location, resource.contentHashSum));
     }

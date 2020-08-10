@@ -220,6 +220,7 @@ public final class Main {
      *        files.
      * @return found files
      */
+    @SuppressWarnings("determinism:argument.type.incompatible")  // potential true positive; File list different across machines
     private static List<File> listFiles(File node, List<Pattern> patternsToExclude) {
         // could be replaced with org.apache.commons.io.FileUtils.list() method
         // if only we add commons-io library
@@ -227,7 +228,7 @@ public final class Main {
 
         if (node.canRead() && !isPathExcluded(node.getAbsolutePath(), patternsToExclude)) {
             if (node.isDirectory()) {
-                final File[] files = node.listFiles();
+                final @NonDet File @NonDet[] files = node.listFiles();
                 // listFiles() can return null, so we need to check it
                 if (files != null) {
                     for (File element : files) {
@@ -347,10 +348,11 @@ public final class Main {
      * @throws CheckstyleException
      *         when properties file could not be loaded
      */
+    @SuppressWarnings("determinism:assignment.type.incompatible")  // Potential true positive System.getProperties
     private static int runCheckstyle(CliOptions options, List<File> filesToProcess)
             throws CheckstyleException, IOException {
         // setup the properties
-        final Properties props;
+        final @Det Properties props;
 
         if (options.propertiesFile == null) {
             props = System.getProperties();
@@ -427,7 +429,7 @@ public final class Main {
      */
     private static Properties loadProperties(File file)
             throws CheckstyleException {
-        final Properties properties = new Properties();
+        final @Det Properties properties = new Properties();
 
         try (InputStream stream = Files.newInputStream(file.toPath())) {
             properties.load(stream);
@@ -469,7 +471,7 @@ public final class Main {
     private static Configuration getTreeWalkerConfig(Configuration config) {
         Configuration result = null;
 
-        final Configuration[] children = config.getChildren();
+        final @Det Configuration[] children = config.getChildren();
         for (Configuration child : children) {
             if ("TreeWalker".equals(child.getName())) {
                 result = child;
@@ -778,6 +780,7 @@ public final class Main {
          *
          * @return List of exclusion patterns.
          */
+        @SuppressWarnings("determinism:argument.type.incompatible")
         private List<Pattern> getExclusions() {
             final List<Pattern> result = exclude.stream()
                     .map(File::getAbsolutePath)

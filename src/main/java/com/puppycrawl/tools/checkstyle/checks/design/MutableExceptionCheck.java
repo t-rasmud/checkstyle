@@ -134,6 +134,7 @@ public final class MutableExceptionCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; NonDet exception message
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CLASS_DEF:

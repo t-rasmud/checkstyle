@@ -96,7 +96,7 @@ public class ElementNode extends AbstractNode {
         if (other instanceof AbstractNode) {
             result = getDepth() - ((AbstractNode) other).getDepth();
             if (result == 0) {
-                final ElementNode[] children = getCommonAncestorChildren(other);
+                final @Det ElementNode[] children = getCommonAncestorChildren(other);
                 result = children[0].indexAmongSiblings - children[1].indexAmongSiblings;
             }
         }

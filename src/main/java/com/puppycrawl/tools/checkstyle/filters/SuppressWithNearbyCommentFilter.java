@@ -449,7 +449,7 @@ public class SuppressWithNearbyCommentFilter
             tagSuppressions(contents.getSingleLineComments().values());
         }
         if (checkC) {
-            final @Det Collection<List<TextBlock>> cComments =
+            final @OrderNonDet Collection<List<TextBlock>> cComments =
                 contents.getBlockComments().values();
             cComments.forEach(this::tagSuppressions);
         }
@@ -461,7 +461,8 @@ public class SuppressWithNearbyCommentFilter
      *
      * @param comments the set of comments.
      */
-    private void tagSuppressions(Collection<TextBlock> comments) {
+    @SuppressWarnings({"determinism:method.invocation.invalid","argument.type.incompatible"})  //  Iteration over OrderNonDet collection
+    private void tagSuppressions(@OrderNonDet Collection<TextBlock> comments) {
         for (final TextBlock comment : comments) {
             final int startLineNo = comment.getStartLineNo();
             final String[] text = comment.getText();
@@ -611,6 +612,7 @@ public class SuppressWithNearbyCommentFilter
         }
 
         @Override
+        @SuppressWarnings("determinism:return.type.incompatible")
         public int hashCode() {
             return Objects.hash(text, firstLine, lastLine, tagCheckRegexp, tagMessageRegexp,
                     tagIdRegexp);

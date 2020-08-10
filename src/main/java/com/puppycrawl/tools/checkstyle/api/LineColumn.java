@@ -63,7 +63,6 @@ public class LineColumn implements Comparable<LineColumn> {
     }
 
     @Override
-    @SuppressWarnings("determinism")
     public int compareTo(LineColumn lineColumn) {
         final int result;
         if (line == lineColumn.line) {
@@ -76,7 +75,6 @@ public class LineColumn implements Comparable<LineColumn> {
     }
 
     @Override
-    @SuppressWarnings("determinism")
     public boolean equals(Object other) {
         if (this == other) {
             return true;

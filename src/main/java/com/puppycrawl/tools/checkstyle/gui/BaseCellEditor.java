@@ -26,6 +26,8 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.EventListenerList;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * A base class for CellEditors, providing default implementations for all
  * methods in the CellEditor interface and support for managing a series
@@ -86,7 +88,7 @@ public class BaseCellEditor implements CellEditor {
      */
     protected void fireEditingStopped() {
         // Guaranteed to return a non-null array
-        final Object[] listeners = listenerList.getListenerList();
+        final @Det Object[] listeners = listenerList.getListenerList();
         // Process the listeners last to first, notifying
         // those that are interested in this event
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
@@ -104,7 +106,7 @@ public class BaseCellEditor implements CellEditor {
      */
     protected void fireEditingCanceled() {
         // Guaranteed to return a non-null array
-        final Object[] listeners = listenerList.getListenerList();
+        final @Det Object[] listeners = listenerList.getListenerList();
         // Process the listeners last to first, notifying
         // those that are interested in this event
         for (int i = listeners.length - 2; i >= 0; i -= 2) {

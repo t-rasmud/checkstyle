@@ -171,6 +171,7 @@ public final class DetailNodeTreeStringPrinter {
      * @return the root node of the parse tree.
      * @throws IOException if the file could not be read.
      */
+    @SuppressWarnings("determinism:argument.type.incompatible")
     private static DetailNode parseFile(File file) throws IOException {
         final FileText text = new FileText(file.getAbsoluteFile(),
             System.getProperty("file.encoding", StandardCharsets.UTF_8.name()));

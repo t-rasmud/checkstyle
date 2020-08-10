@@ -26,6 +26,8 @@ import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for {@code TODO:} comments. Actually it is a generic
@@ -135,7 +137,7 @@ public class TodoCommentCheck
 
     @Override
     public void visitToken(DetailAST ast) {
-        final String[] lines = ast.getText().split("\n");
+        final @Det String[] lines = ast.getText().split("\n");
 
         for (String line : lines) {
             if (format.matcher(line).find()) {

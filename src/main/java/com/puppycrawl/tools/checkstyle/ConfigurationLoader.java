@@ -599,7 +599,7 @@ public final class ConfigurationLoader {
          * @return true if attribute is present in module
          */
         private boolean containsAttribute(Configuration module, String attributeName) {
-            final String[] names = module.getAttributeNames();
+            final @Det String[] names = module.getAttributeNames();
             final Optional<String> result = Arrays.stream(names)
                     .filter(name -> name.equals(attributeName)).findFirst();
             return result.isPresent();

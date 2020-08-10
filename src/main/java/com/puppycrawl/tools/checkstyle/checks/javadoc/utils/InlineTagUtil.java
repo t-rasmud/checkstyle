@@ -125,7 +125,7 @@ public final class InlineTagUtil {
      */
     private static LineColumn getLineColumnOfIndex(String source, int index) {
         final String precedingText = source.subSequence(0, index).toString();
-        final String[] precedingLines = NEWLINE_PATTERN.split(precedingText);
+        final @Det String[] precedingLines = NEWLINE_PATTERN.split(precedingText);
         final String lastLine = precedingLines[precedingLines.length - 1];
         return new LineColumn(precedingLines.length, lastLine.length());
     }

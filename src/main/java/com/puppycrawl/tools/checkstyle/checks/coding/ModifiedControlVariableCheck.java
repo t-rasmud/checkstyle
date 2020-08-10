@@ -331,9 +331,10 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @param ast For Loop
      * @return Set of Variable Name which are managed by for
      */
+    @SuppressWarnings({"determinism:methodref.receiver.bound.invalid","determinism:method.invocation.invalid"})  // Iteration  over OrderNonDet collection
     private static Set<String> getVariablesManagedByForLoop(DetailAST ast) {
-        final @Det Set<String> initializedVariables = getForInitVariables(ast);
-        final @Det Set<String> iteratingVariables = getForIteratorVariables(ast);
+        final @OrderNonDet Set<String> initializedVariables = getForInitVariables(ast);
+        final @OrderNonDet Set<String> iteratingVariables = getForIteratorVariables(ast);
         return initializedVariables.stream().filter(iteratingVariables::contains)
             .collect(Collectors.toSet());
     }
@@ -384,7 +385,7 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @param ast for loop token
      * @return set of variables initialized in for loop
      */
-    private static Set<String> getForInitVariables(DetailAST ast) {
+    private static @OrderNonDet Set<@Det String> getForInitVariables(DetailAST ast) {
         final @OrderNonDet Set<String> initializedVariables = new HashSet<>();
         final DetailAST forInitAST = ast.findFirstToken(TokenTypes.FOR_INIT);
 
@@ -407,7 +408,7 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @param ast for loop literal(TokenTypes.LITERAL_FOR)
      * @return names of variables change in iterating part of for
      */
-    private static Set<String> getForIteratorVariables(DetailAST ast) {
+    private static @OrderNonDet Set<@Det String> getForIteratorVariables(DetailAST ast) {
         final @OrderNonDet Set<String> iteratorVariables = new HashSet<>();
         final DetailAST forIteratorAST = ast.findFirstToken(TokenTypes.FOR_ITERATOR);
         final DetailAST forUpdateListAST = forIteratorAST.findFirstToken(TokenTypes.ELIST);

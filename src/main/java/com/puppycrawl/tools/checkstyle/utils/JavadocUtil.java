@@ -268,7 +268,7 @@ public final class JavadocUtil {
         final DetailNode parent = node.getParent();
         if (parent != null) {
             final int nextSiblingIndex = node.getIndex() + 1;
-            final DetailNode[] children = parent.getChildren();
+            final @Det DetailNode[] children = parent.getChildren();
             if (nextSiblingIndex <= children.length - 1) {
                 nextSibling = children[nextSiblingIndex];
             }
@@ -302,7 +302,7 @@ public final class JavadocUtil {
         final int previousSiblingIndex = node.getIndex() - 1;
         if (previousSiblingIndex >= 0) {
             final DetailNode parent = node.getParent();
-            final DetailNode[] children = parent.getChildren();
+            final @Det DetailNode[] children = parent.getChildren();
             previousSibling = children[previousSiblingIndex];
         }
         return previousSibling;

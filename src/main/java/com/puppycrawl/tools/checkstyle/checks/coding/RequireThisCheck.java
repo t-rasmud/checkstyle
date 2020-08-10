@@ -703,6 +703,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @return true if user arranges 'this' for variable in method, constructor,
      *         or block on his own.
      */
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
     private static boolean isUserDefinedArrangementOfThis(AbstractFrame currentFrame,
                                                           DetailAST ident) {
         final DetailAST blockFrameNameIdent = currentFrame.getFrameNameIdent();
@@ -712,7 +713,7 @@ public class RequireThisCheck extends AbstractCheck {
 
         boolean userDefinedArrangementOfThis = false;
 
-        final @Det Set<DetailAST> variableUsagesInsideBlock =
+        final @OrderNonDet Set<DetailAST> variableUsagesInsideBlock =
             getAllTokensWhichAreEqualToCurrent(definitionToken, ident,
                 blockEndToken.getLineNo());
 
@@ -734,6 +735,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @param blockStartToken token which starts the block.
      * @return the token which ends the code block.
      */
+    @SuppressWarnings("determinism")
     private static DetailAST getBlockEndToken(DetailAST blockNameIdent, DetailAST blockStartToken) {
         DetailAST blockEndToken = null;
         final DetailAST blockNameIdentParent = blockNameIdent.getParent();
@@ -760,13 +762,14 @@ public class RequireThisCheck extends AbstractCheck {
      * @param ident variable ident token.
      * @return true if the current variable is returned from the method.
      */
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection
     private static boolean isReturnedVariable(AbstractFrame currentFrame, DetailAST ident) {
         final DetailAST blockFrameNameIdent = currentFrame.getFrameNameIdent();
         final DetailAST definitionToken = blockFrameNameIdent.getParent();
         final DetailAST blockStartToken = definitionToken.findFirstToken(TokenTypes.SLIST);
         final DetailAST blockEndToken = getBlockEndToken(blockFrameNameIdent, blockStartToken);
 
-        final @Det Set<DetailAST> returnsInsideBlock = getAllTokensOfType(definitionToken,
+        final @OrderNonDet Set<DetailAST> returnsInsideBlock = getAllTokensOfType(definitionToken,
             TokenTypes.LITERAL_RETURN, blockEndToken.getLineNo());
 
         boolean returnedVariable = false;

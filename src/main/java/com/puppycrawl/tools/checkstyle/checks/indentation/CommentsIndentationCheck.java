@@ -958,7 +958,7 @@ public class CommentsIndentationCheck extends AbstractCheck {
      */
     private int countEmptyLines(DetailAST startStatement, DetailAST endStatement) {
         int emptyLinesNumber = 0;
-        final String[] lines = getLines();
+        final @Det String[] lines = getLines();
         final int endLineNo = endStatement.getLineNo();
         for (int lineNo = startStatement.getLineNo(); lineNo < endLineNo; lineNo++) {
             if (CommonUtil.isBlank(lines[lineNo])) {
@@ -1115,7 +1115,7 @@ public class CommentsIndentationCheck extends AbstractCheck {
      * @return the column number where a code starts.
      */
     private int getLineStart(int lineNo) {
-        final char[] line = getLines()[lineNo - 1].toCharArray();
+        final @Det char[] line = getLines()[lineNo - 1].toCharArray();
         int lineStart = 0;
         while (Character.isWhitespace(line[lineStart])) {
             lineStart++;

@@ -252,6 +252,7 @@ public class IllegalInstantiationCheck
      * @return the fully qualified class name of className
      *     or null if instantiation of className is OK
      */
+    @SuppressWarnings("determinism")
     private String getIllegalInstantiation(String className) {
         String fullClassName = null;
 
@@ -291,6 +292,7 @@ public class IllegalInstantiationCheck
      * @param className name of the class
      * @return value of illegal instantiated type
      */
+    @SuppressWarnings("determinism")
     private String checkImportStatements(String className) {
         String illegalType = null;
         // import statements

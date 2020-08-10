@@ -124,8 +124,8 @@ public abstract class AbstractJavadocCheck extends AbstractCheck {
      * @see JavadocTokenTypes
      */
     public int[] getAcceptableJavadocTokens() {
-        final int[] defaultJavadocTokens = getDefaultJavadocTokens();
-        final int[] copy = new int[defaultJavadocTokens.length];
+        final @Det int[] defaultJavadocTokens = getDefaultJavadocTokens();
+        final @Det int[] copy = new int[defaultJavadocTokens.length];
         System.arraycopy(defaultJavadocTokens, 0, copy, 0, defaultJavadocTokens.length);
         return copy;
     }
@@ -180,6 +180,7 @@ public abstract class AbstractJavadocCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("argument.type.incompatible")
     public void init() {
         validateDefaultJavadocTokens();
         if (javadocTokens.isEmpty()) {
@@ -187,7 +188,7 @@ public abstract class AbstractJavadocCheck extends AbstractCheck {
                     Arrays.stream(getDefaultJavadocTokens()).boxed().collect(Collectors.toList()));
         }
         else {
-            final int[] acceptableJavadocTokens = getAcceptableJavadocTokens();
+            final @Det int[] acceptableJavadocTokens = getAcceptableJavadocTokens();
             Arrays.sort(acceptableJavadocTokens);
             for (Integer javadocTokenId : javadocTokens) {
                 if (Arrays.binarySearch(acceptableJavadocTokens, javadocTokenId) < 0) {
@@ -205,9 +206,10 @@ public abstract class AbstractJavadocCheck extends AbstractCheck {
      *
      * @throws IllegalStateException when validation of default javadoc tokens fails
      */
+    @SuppressWarnings("determinism:argument.type.incompatible")
     private void validateDefaultJavadocTokens() {
         if (getRequiredJavadocTokens().length != 0) {
-            final int[] defaultJavadocTokens = getDefaultJavadocTokens();
+            final @Det int[] defaultJavadocTokens = getDefaultJavadocTokens();
             Arrays.sort(defaultJavadocTokens);
             for (final int javadocToken : getRequiredJavadocTokens()) {
                 if (Arrays.binarySearch(defaultJavadocTokens, javadocToken) < 0) {

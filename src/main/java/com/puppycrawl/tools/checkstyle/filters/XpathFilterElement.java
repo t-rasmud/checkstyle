@@ -256,6 +256,7 @@ public class XpathFilterElement implements TreeWalkerFilter {
     }
 
     @Override
+    @SuppressWarnings("determinism:return.type.incompatible")
     public int hashCode() {
         return Objects.hash(filePattern, checkPattern, messagePattern, moduleId, xpathQuery);
     }

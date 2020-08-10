@@ -208,7 +208,7 @@ public class JavadocDetailNodeParser {
                 currentJavadocParent.setChildren(JavadocNodeImpl.EMPTY_DETAIL_NODE_ARRAY);
             }
 
-            final JavadocNodeImpl[] children =
+            final @Det JavadocNodeImpl[] children =
                     (JavadocNodeImpl[]) currentJavadocParent.getChildren();
 
             insertChildrenNodes(children, parseTreeParent);
@@ -256,7 +256,7 @@ public class JavadocDetailNodeParser {
         for (int i = 0; i < nodes.length; i++) {
             final JavadocNodeImpl currentJavadocNode = nodes[i];
             final ParseTree currentParseTreeNodeChild = parseTreeParent.getChild(i);
-            final JavadocNodeImpl[] subChildren =
+            final @Det JavadocNodeImpl[] subChildren =
                     createChildrenNodes(currentJavadocNode, currentParseTreeNodeChild);
             currentJavadocNode.setChildren(subChildren);
         }
@@ -271,8 +271,8 @@ public class JavadocDetailNodeParser {
      */
     private JavadocNodeImpl[]
             createChildrenNodes(JavadocNodeImpl parentJavadocNode, ParseTree parseTreeNode) {
-        final JavadocNodeImpl[] children =
-                new JavadocNodeImpl[parseTreeNode.getChildCount()];
+        final @Det JavadocNodeImpl[] children =
+                new @Det JavadocNodeImpl[parseTreeNode.getChildCount()];
 
         for (int j = 0; j < children.length; j++) {
             final JavadocNodeImpl child =
@@ -293,7 +293,7 @@ public class JavadocDetailNodeParser {
         final JavadocNodeImpl rootJavadocNode = createJavadocNode(parseTreeNode, null, -1);
 
         final int childCount = parseTreeNode.getChildCount();
-        final DetailNode[] children = rootJavadocNode.getChildren();
+        final @Det DetailNode[] children = rootJavadocNode.getChildren();
 
         for (int i = 0; i < childCount; i++) {
             final JavadocNodeImpl child = createJavadocNode(parseTreeNode.getChild(i),
@@ -339,7 +339,7 @@ public class JavadocDetailNodeParser {
     private void adjustFirstLineToJavadocIndent(DetailNode tree, int javadocColumnNumber) {
         if (tree.getLineNumber() == blockCommentLineNumber) {
             ((JavadocNodeImpl) tree).setColumnNumber(tree.getColumnNumber() + javadocColumnNumber);
-            final DetailNode[] children = tree.getChildren();
+            final @Det DetailNode[] children = tree.getChildren();
             for (DetailNode child : children) {
                 adjustFirstLineToJavadocIndent(child, javadocColumnNumber);
             }

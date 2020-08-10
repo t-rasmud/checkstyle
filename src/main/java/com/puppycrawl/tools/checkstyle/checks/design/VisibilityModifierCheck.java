@@ -744,7 +744,7 @@ public class VisibilityModifierCheck
      * @return true of variable has static final modifiers.
      */
     private static boolean isStaticFinalVariable(DetailAST variableDef) {
-        final @Det Set<String> modifiers = getModifiers(variableDef);
+        final @OrderNonDet Set<String> modifiers = getModifiers(variableDef);
         return modifiers.contains(STATIC_KEYWORD)
                 && modifiers.contains(FINAL_KEYWORD);
     }
@@ -780,7 +780,7 @@ public class VisibilityModifierCheck
      */
     private boolean isImmutableFieldDefinedInFinalClass(DetailAST variableDef) {
         final DetailAST classDef = variableDef.getParent().getParent();
-        final @Det Set<String> classModifiers = getModifiers(classDef);
+        final @OrderNonDet Set<String> classModifiers = getModifiers(classDef);
         return (classModifiers.contains(FINAL_KEYWORD) || classDef.getType() == TokenTypes.ENUM_DEF)
                 && isImmutableField(variableDef);
     }
@@ -811,7 +811,7 @@ public class VisibilityModifierCheck
      * @return one of "public", "private", "protected", "package"
      */
     private static String getVisibilityScope(DetailAST variableDef) {
-        final @Det Set<String> modifiers = getModifiers(variableDef);
+        final @OrderNonDet Set<String> modifiers = getModifiers(variableDef);
         String accessModifier = PACKAGE_ACCESS_MODIFIER;
         for (final String modifier : EXPLICIT_MODS) {
             if (modifiers.contains(modifier)) {

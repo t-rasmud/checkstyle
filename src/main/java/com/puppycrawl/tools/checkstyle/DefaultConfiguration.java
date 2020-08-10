@@ -80,7 +80,7 @@ public final class DefaultConfiguration implements Configuration {
     }
 
     @Override
-    public String[] getAttributeNames() {
+    public @Det String @OrderNonDet[] getAttributeNames() {
         final @OrderNonDet Set<String> keySet = attributeMap.keySet();
         return keySet.toArray(CommonUtil.EMPTY_STRING_ARRAY);
     }
@@ -156,7 +156,7 @@ public final class DefaultConfiguration implements Configuration {
      * @return unmodifiable map containing custom messages
      */
     @Override
-    public Map<String, String> getMessages() {
+    public @OrderNonDet Map<@Det String, @Det String> getMessages() {
         return new HashMap<>(messages);
     }
 

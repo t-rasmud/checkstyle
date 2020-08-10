@@ -229,7 +229,7 @@
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>3.5.0</version>
+      <version>3.5.1-SNAPSHOT</version>
     </dependency>
     <!-- If using JDK 8, add the following additional dependency. -->
     <dependency>
@@ -745,11 +745,14 @@
           <!-- Without showWarnings and verbose, maven-compiler-plugin may not show output. -->
           <showWarnings>true</showWarnings>
           <verbose>true</verbose>
+          <excludes>
+            <exclude>**/Generated*.java</exclude>
+          </excludes>
           <annotationProcessorPaths>
             <path>
               <groupId>org.checkerframework</groupId>
               <artifactId>checker</artifactId>
-              <version>3.5.0</version>
+              <version>3.5.1-SNAPSHOT</version>
             </path>
           </annotationProcessorPaths>
           <annotationProcessors>
@@ -759,6 +762,7 @@
           <compilerArgs>
             <!-- If using JDK 8, use only the argument immediately below. -->
             <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
+            <arg>-AwarnUnneededSuppressions</arg>
             <arg>-AsuppressWarnings="override.param.invalid,methodref.receiver.invalid,methodref.param.invalid,type.argument.type.incompatible,override.receiver.invalid,invalid.upper.bound.on.type.argument"</arg>
           </compilerArgs>
         </configuration>

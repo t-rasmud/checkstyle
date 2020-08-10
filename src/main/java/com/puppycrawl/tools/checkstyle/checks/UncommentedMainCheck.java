@@ -177,6 +177,7 @@ public class UncommentedMainCheck
     }
 
     @Override
+    @SuppressWarnings("determinism:argument.type.incompatible")
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.PACKAGE_DEF:

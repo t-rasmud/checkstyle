@@ -30,6 +30,8 @@ import com.puppycrawl.tools.checkstyle.api.Filter;
 import com.puppycrawl.tools.checkstyle.api.FilterSet;
 import com.puppycrawl.tools.checkstyle.utils.FilterUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Filter {@code SuppressionFilter} rejects audit events for Check violations according to a
@@ -277,7 +279,8 @@ public class SuppressionFilter extends AutomaticBean implements Filter, External
     }
 
     @Override
-    public Set<String> getExternalResourceLocations() {
+    @SuppressWarnings("return.type.incompatible")
+    public @OrderNonDet Set<String> getExternalResourceLocations() {
         return Collections.singleton(file);
     }
 

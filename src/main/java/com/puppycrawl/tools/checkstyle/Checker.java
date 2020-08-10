@@ -241,17 +241,18 @@ public class Checker extends AutomaticBean implements MessageDispatcher, RootMod
      * @return a set of external configuration resource locations which are used by all file set
      *         checks and filters.
      */
-    private Set<String> getExternalResourceLocations() {
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
+    private @OrderNonDet Set<@Det String> getExternalResourceLocations() {
         final @OrderNonDet Set<String> externalResources = new HashSet<>();
         fileSetChecks.stream().filter(check -> check instanceof ExternalResourceHolder)
             .forEach(check -> {
-                final @Det Set<String> locations =
+                final @OrderNonDet Set<String> locations =
                     ((ExternalResourceHolder) check).getExternalResourceLocations();
                 externalResources.addAll(locations);
             });
         filters.getFilters().stream().filter(filter -> filter instanceof ExternalResourceHolder)
             .forEach(filter -> {
-                final @Det Set<String> locations =
+                final @OrderNonDet Set<String> locations =
                     ((ExternalResourceHolder) filter).getExternalResourceLocations();
                 externalResources.addAll(locations);
             });

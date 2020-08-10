@@ -127,7 +127,7 @@ public final class FileContents implements CommentListener {
      **/
     public void reportSingleLineComment(int startLineNo, int startColNo) {
         final String line = line(startLineNo - 1);
-        final String[] txt = {line.substring(startColNo)};
+        final @Det String[] txt = {line.substring(startColNo)};
         final Comment comment = new Comment(txt, startColNo, startLineNo,
                 line.length() - 1);
         cppComments.put(startLineNo, comment);
@@ -149,7 +149,7 @@ public final class FileContents implements CommentListener {
      **/
     public void reportBlockComment(int startLineNo, int startColNo,
             int endLineNo, int endColNo) {
-        final String[] cComment = extractBlockComment(startLineNo, startColNo,
+        final @Det String[] cComment = extractBlockComment(startLineNo, startColNo,
                 endLineNo, endColNo);
         final Comment comment = new Comment(cComment, startColNo, endLineNo,
                 endColNo);
@@ -183,14 +183,14 @@ public final class FileContents implements CommentListener {
      **/
     private String[] extractBlockComment(int startLineNo, int startColNo,
             int endLineNo, int endColNo) {
-        final String[] returnValue;
+        final @Det String[] returnValue;
         if (startLineNo == endLineNo) {
-            returnValue = new String[1];
+            returnValue = new @Det String[1];
             returnValue[0] = line(startLineNo - 1).substring(startColNo,
                     endColNo + 1);
         }
         else {
-            returnValue = new String[endLineNo - startLineNo + 1];
+            returnValue = new @Det String[endLineNo - startLineNo + 1];
             returnValue[0] = line(startLineNo - 1).substring(startColNo);
             for (int i = startLineNo; i < endLineNo; i++) {
                 returnValue[i - startLineNo + 1] = line(i);
@@ -308,6 +308,7 @@ public final class FileContents implements CommentListener {
      * @param endColNo the ending column number
      * @return true if the positions intersects with a single line comment.
      */
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
     private boolean hasIntersectionWithSingleLineComment(int startLineNo, int startColNo,
             int endLineNo, int endColNo) {
         boolean hasIntersection = false;

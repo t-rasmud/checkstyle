@@ -472,7 +472,7 @@ public final class CheckUtil {
      * @param classNames array of class names.
      * @return set of class names and short class names.
      */
-    public static Set<String> parseClassNames(String... classNames) {
+    public static @OrderNonDet Set<@Det String> parseClassNames(String... classNames) {
         final @OrderNonDet Set<String> illegalClassNames = new HashSet<>();
         for (final String name : classNames) {
             illegalClassNames.add(name);

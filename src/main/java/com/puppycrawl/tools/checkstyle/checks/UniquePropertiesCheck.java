@@ -103,6 +103,7 @@ public class UniquePropertiesCheck extends AbstractFileSetCheck {
     }
 
     @Override
+    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  //potential true positive; OrderNonDet logging
     protected void processFiltered(File file, FileText fileText) {
         final @Det UniqueProperties properties = new UniqueProperties();
         try (InputStream inputStream = Files.newInputStream(file.toPath())) {
@@ -171,7 +172,7 @@ public class UniquePropertiesCheck extends AbstractFileSetCheck {
      *
      * @noinspection ClassExtendsConcreteCollection, SerializableHasSerializationMethods
      */
-    private static class UniqueProperties extends Properties {
+    private static @Det class UniqueProperties extends Properties {
 
         private static final long serialVersionUID = 1L;
         /**
@@ -202,8 +203,8 @@ public class UniquePropertiesCheck extends AbstractFileSetCheck {
          *
          * @return A collection of duplicated keys.
          */
-        public Map<String, AtomicInteger> getDuplicatedKeys() {
-            return new HashMap<>(duplicatedKeys);
+        public @OrderNonDet Map<String, AtomicInteger> getDuplicatedKeys() {
+            return new @OrderNonDet HashMap<String, AtomicInteger>(duplicatedKeys);
         }
 
     }

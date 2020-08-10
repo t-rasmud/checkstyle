@@ -98,6 +98,7 @@ public class FinalClassCheck
     }
 
     @Override
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; NonDet exception message
     public void visitToken(DetailAST ast) {
         final DetailAST modifiers = ast.findFirstToken(TokenTypes.MODIFIERS);
 

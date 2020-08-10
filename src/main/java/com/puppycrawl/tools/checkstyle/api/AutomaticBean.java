@@ -184,6 +184,7 @@ public abstract class AutomaticBean
      * @see Configurable
      */
     @Override
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over an OrderNonDet collection
     public final void configure(Configuration config)
             throws CheckstyleException {
         configuration = config;
@@ -212,6 +213,7 @@ public abstract class AutomaticBean
      * @param recheck whether to check for property existence before copy
      * @throws CheckstyleException when property defined incorrectly
      */
+    @SuppressWarnings("determinism:nondeterministic.tostring")  // Potential true positive; nondet exception message
     private void tryCopyProperty(String key, Object value, boolean recheck)
             throws CheckstyleException {
         final BeanUtilsBean beanUtils = createBeanUtilsBean();
@@ -255,9 +257,10 @@ public abstract class AutomaticBean
      * @see Contextualizable
      */
     @Override
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over an OrderNonDet collection
     public final void contextualize(Context context)
             throws CheckstyleException {
-        final @Det Collection<@Det String> attributes = context.getAttributeNames();
+        final @OrderNonDet Collection<String> attributes = context.getAttributeNames();
 
         for (final String key : attributes) {
             final Object value = context.get(key);

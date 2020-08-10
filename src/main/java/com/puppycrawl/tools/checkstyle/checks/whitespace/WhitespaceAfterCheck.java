@@ -25,6 +25,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that a token is followed by whitespace, with the exception that it
@@ -169,7 +171,7 @@ public class WhitespaceAfterCheck
         else {
             final String line = getLine(ast.getLineNo() - 1);
             if (!isFollowedByWhitespace(ast, line)) {
-                final Object[] message = {ast.getText()};
+                final @Det Object[] message = {ast.getText()};
                 log(ast, MSG_WS_NOT_FOLLOWED, message);
             }
         }

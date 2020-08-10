@@ -26,6 +26,8 @@ import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for assignments in subexpressions, such as in
@@ -314,7 +316,7 @@ public class InnerAssignmentCheck
      */
     private static boolean isInContext(DetailAST ast, int[][] contextSet, int... skipTokens) {
         boolean found = false;
-        for (int[] element : contextSet) {
+        for (@Det int[] element : contextSet) {
             DetailAST current = ast;
             for (int anElement : element) {
                 current = getParent(current, skipTokens);

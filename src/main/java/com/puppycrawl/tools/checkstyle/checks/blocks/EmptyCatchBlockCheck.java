@@ -26,6 +26,8 @@ import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for empty catch blocks.
@@ -272,7 +274,7 @@ public class EmptyCatchBlockCheck extends AbstractCheck {
         }
         else if (firstElementInBlock.getType() == TokenTypes.BLOCK_COMMENT_BEGIN) {
             commentContent = firstElementInBlock.getFirstChild().getText();
-            final String[] lines = LINE_END_PATTERN.split(commentContent);
+            final @Det String[] lines = LINE_END_PATTERN.split(commentContent);
             for (String line : lines) {
                 if (!line.isEmpty()) {
                     commentContent = line;

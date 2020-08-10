@@ -30,6 +30,8 @@ import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks the ordering/grouping of imports. Features are:
@@ -896,7 +898,7 @@ public class ImportOrderCheck
      * @return group number for given import name.
      */
     private int getGroupNumber(boolean isStatic, String name) {
-        final Pattern[] patterns;
+        final @Det Pattern[] patterns;
         if (isStatic) {
             patterns = staticGroups;
         }
@@ -980,7 +982,7 @@ public class ImportOrderCheck
      * @return array of compiled patterns.
      */
     private static Pattern[] compilePatterns(String... packageGroups) {
-        final Pattern[] patterns = new Pattern[packageGroups.length];
+        final @Det Pattern[] patterns = new @Det Pattern[packageGroups.length];
 
         for (int i = 0; i < packageGroups.length; i++) {
             String pkg = packageGroups[i];

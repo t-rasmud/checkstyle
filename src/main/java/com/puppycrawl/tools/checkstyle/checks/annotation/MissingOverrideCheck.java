@@ -31,6 +31,8 @@ import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTagInfo;
 import com.puppycrawl.tools.checkstyle.utils.AnnotationUtil;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Verifies that the {@code @Override} annotation is present
@@ -265,7 +267,7 @@ public final class MissingOverrideCheck extends AbstractCheck {
         boolean javadocTag = false;
 
         if (javadoc != null) {
-            final String[] lines = javadoc.getText();
+            final @Det String[] lines = javadoc.getText();
 
             for (final String line : lines) {
                 final Matcher matchInheritDoc =

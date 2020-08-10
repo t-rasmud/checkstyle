@@ -112,6 +112,7 @@ public abstract class AbstractHeaderCheck extends AbstractFileSetCheck
      *
      * @throws CheckstyleException if the file cannot be loaded
      */
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; charset NonDet
     private void loadHeaderFile() throws CheckstyleException {
         checkHeaderNotInitialized();
         try (Reader headerReader = new InputStreamReader(new BufferedInputStream(
@@ -187,8 +188,9 @@ public abstract class AbstractHeaderCheck extends AbstractFileSetCheck
     }
 
     @Override
-    public Set<String> getExternalResourceLocations() {
-        final @Det Set<String> result;
+    @SuppressWarnings("assignment.type.incompatible")
+    public @OrderNonDet Set<String> getExternalResourceLocations() {
+        final @OrderNonDet Set<String> result;
 
         if (headerFile == null) {
             result = Collections.emptySet();

@@ -32,6 +32,8 @@ import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks that the groups of import declarations appear in the order specified
@@ -879,8 +881,8 @@ public class CustomImportOrderCheck extends AbstractCheck {
     private static int compareImports(String import1, String import2) {
         int result = 0;
         final String separator = "\\.";
-        final String[] import1Tokens = import1.split(separator);
-        final String[] import2Tokens = import2.split(separator);
+        final @Det String[] import1Tokens = import1.split(separator);
+        final @Det String[] import2Tokens = import2.split(separator);
         for (int i = 0; i != import1Tokens.length && i != import2Tokens.length; i++) {
             final String import1Token = import1Tokens[i];
             final String import2Token = import2Tokens[i];
@@ -907,7 +909,7 @@ public class CustomImportOrderCheck extends AbstractCheck {
      */
     private int getCountOfEmptyLinesBetween(int fromLineNo, int toLineNo) {
         int result = 0;
-        final String[] lines = getLines();
+        final @Det String[] lines = getLines();
 
         for (int i = fromLineNo + 1; i <= toLineNo - 1; i++) {
             // "- 1" because the numbering is one-based

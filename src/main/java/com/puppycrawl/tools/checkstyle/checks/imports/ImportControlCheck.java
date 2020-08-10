@@ -557,6 +557,7 @@ public class ImportControlCheck extends AbstractCheck implements ExternalResourc
     }
 
     @Override
+    @SuppressWarnings("determinism:return.type.incompatible")
     public @OrderNonDet Set<String> getExternalResourceLocations() {
         return Collections.singleton(file.toString());
     }

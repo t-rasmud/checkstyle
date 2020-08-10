@@ -721,6 +721,7 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
      * @param packageDef token to check
      * @return comment under the token
      */
+    @SuppressWarnings("determinism:method.invocation.invalid")
     private static Optional<DetailAST> findCommentUnder(DetailAST packageDef) {
         return Optional.ofNullable(packageDef.getNextSibling())
             .map(sibling -> sibling.findFirstToken(TokenTypes.MODIFIERS))

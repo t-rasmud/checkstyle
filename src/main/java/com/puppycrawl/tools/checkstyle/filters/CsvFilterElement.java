@@ -81,7 +81,7 @@ class CsvFilterElement implements IntFilterElement {
      *
      * @return the IntFilters of the filter set.
      */
-    protected Set<IntFilterElement> getFilters() {
+    protected @OrderNonDet Set<IntFilterElement> getFilters() {
         return Collections.unmodifiableSet(filters);
     }
 
@@ -92,6 +92,7 @@ class CsvFilterElement implements IntFilterElement {
      * @return true if intValue is an Integer that matches a CSV value.
      */
     @Override
+    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  // Iteration over OrderNonDet collection
     public boolean accept(int intValue) {
         boolean result = false;
         for (IntFilterElement filter : getFilters()) {
@@ -111,11 +112,12 @@ class CsvFilterElement implements IntFilterElement {
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        final CsvFilterElement csvFilter = (CsvFilterElement) object;
+        final @Det CsvFilterElement csvFilter = (CsvFilterElement) object;
         return Objects.equals(filters, csvFilter.filters);
     }
 
     @Override
+    @SuppressWarnings("determinism:return.type.incompatible")
     public int hashCode() {
         return Objects.hash(filters);
     }

@@ -21,6 +21,8 @@ package com.puppycrawl.tools.checkstyle.api;
 
 import java.util.Collection;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * A context to be used in subcomponents. The general idea of
  * Context/Contextualizable was taken from <a target="_top"
@@ -43,6 +45,6 @@ public interface Context {
      *
      * @return the names of all attributes of this context.
      */
-    Collection<String> getAttributeNames();
+    @OrderNonDet Collection<@Det String> getAttributeNames();
 
 }

@@ -316,6 +316,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // Iteration over OrderNonDet collection
     public void leaveToken(DetailAST ast) {
         @OrderNonDet Map<String, FinalVariableCandidate> scope = null;
         switch (ast.getType()) {
@@ -553,6 +554,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      *
      * @param ast the variable to insert.
      */
+    @SuppressWarnings("determinism")
     private void insertParameter(DetailAST ast) {
         final Map<String, FinalVariableCandidate> scope = scopeStack.peek().scope;
         final DetailAST astNode = ast.findFirstToken(TokenTypes.IDENT);
@@ -564,6 +566,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      *
      * @param ast the variable to insert.
      */
+    @SuppressWarnings("determinism")
     private void insertVariable(DetailAST ast) {
         final Map<String, FinalVariableCandidate> scope = scopeStack.peek().scope;
         final DetailAST astNode = ast.findFirstToken(TokenTypes.IDENT);
@@ -601,6 +604,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      *
      * @param ast variable to remove.
      */
+    @SuppressWarnings("determinism")
     private void removeFinalVariableCandidateFromStack(DetailAST ast) {
         final Iterator<ScopeData> iterator = scopeStack.descendingIterator();
         while (iterator.hasNext()) {

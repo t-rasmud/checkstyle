@@ -223,6 +223,7 @@ public class SuppressFilterElement
     }
 
     @Override
+    @SuppressWarnings("determinism:return.type.incompatible")
     public int hashCode() {
         return Objects.hash(filePattern, checkPattern, messagePattern, moduleId, linesCsv,
                 columnsCsv);

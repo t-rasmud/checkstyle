@@ -371,6 +371,7 @@ public class InterfaceMemberImpliedModifierCheck
     }
 
     @Override
+    @SuppressWarnings("determinism:argument.type.incompatible")   // Potential true positive; NonDet exception message
     public void visitToken(DetailAST ast) {
         if (ScopeUtil.isInInterfaceBlock(ast) && !ScopeUtil.isInCodeBlock(ast)) {
             switch (ast.getType()) {

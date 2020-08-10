@@ -114,6 +114,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
     }
 
     @Override
+    @SuppressWarnings("determinism:assignment.type.incompatible")
     public void beginTree(DetailAST rootAST) {
         // clear data
         parameterNamesStack.clear();

@@ -247,7 +247,7 @@ public final class SuppressionsLoader
      * @return the set of xpath suppression elements specified in the file.
      * @throws CheckstyleException if an error occurs.
      */
-    public static Set<TreeWalkerFilter> loadXpathSuppressions(String filename)
+    public static @OrderNonDet Set<TreeWalkerFilter> loadXpathSuppressions(String filename)
             throws CheckstyleException {
         // figure out if this is a File or a URL
         final URI uri = CommonUtil.getUriByFilename(filename);
@@ -263,7 +263,7 @@ public final class SuppressionsLoader
      * @return the set of xpath suppression elements specified in source.
      * @throws CheckstyleException if an error occurs.
      */
-    private static Set<TreeWalkerFilter> loadXpathSuppressions(
+    private static @OrderNonDet Set<TreeWalkerFilter> loadXpathSuppressions(
             InputSource source, String sourceName)
             throws CheckstyleException {
         return getSuppressionLoader(source, sourceName).treeWalkerFilters;
@@ -308,7 +308,7 @@ public final class SuppressionsLoader
      *
      * @return map between local resources and dtd ids.
      */
-    private static Map<String, String> createIdToResourceNameMap() {
+    private static @OrderNonDet Map<String, String> createIdToResourceNameMap() {
         final @OrderNonDet Map<String, String> map = new HashMap<>();
         map.put(DTD_PUBLIC_ID_1_0, DTD_SUPPRESSIONS_NAME_1_0);
         map.put(DTD_PUBLIC_ID_1_1, DTD_SUPPRESSIONS_NAME_1_1);

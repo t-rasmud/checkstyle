@@ -130,7 +130,6 @@ public final class FullIdent {
     }
 
     @Override
-    @SuppressWarnings("override.receiver.invalid")
     public String toString() {
         return String.join("", elements)
             + "[" + detailAst.getLineNo() + "x" + detailAst.getColumnNo() + "]";

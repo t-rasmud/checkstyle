@@ -203,7 +203,7 @@ public final class FileText {
         final StringBuilder buf = new StringBuilder(1024);
         final InputStream stream = Files.newInputStream(inputFile.toPath());
         try (Reader reader = new InputStreamReader(stream, decoder)) {
-            final char[] chars = new char[READ_BUFFER_SIZE];
+            final @Det char[] chars = new @Det char[READ_BUFFER_SIZE];
             while (true) {
                 final int len = reader.read(chars);
                 if (len == -1) {
@@ -272,7 +272,7 @@ public final class FileText {
      * @return the line and column numbers of this character
      */
     public LineColumn lineColumn(int pos) {
-        final int[] lineBreakPositions = findLineBreaks();
+        final @Det int[] lineBreakPositions = findLineBreaks();
         int lineNo = Arrays.binarySearch(lineBreakPositions, pos);
         if (lineNo < 0) {
             // we have: lineNo = -(insertion point) - 1
@@ -292,7 +292,7 @@ public final class FileText {
      */
     private int[] findLineBreaks() {
         if (lineBreaks == null) {
-            final int[] lineBreakPositions = new int[size() + 1];
+            final @Det int[] lineBreakPositions = new @Det int[size() + 1];
             lineBreakPositions[0] = 0;
             int lineNo = 1;
             final Matcher matcher = LINE_TERMINATOR.matcher(fullText);

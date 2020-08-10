@@ -28,6 +28,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for fall-through in {@code switch} statements.
@@ -410,7 +412,7 @@ public class FallThroughCheck extends AbstractCheck {
         // Remember: The lines number returned from the AST is 1-based, but
         // the lines number in this array are 0-based. So you will often
         // see a "lineNo-1" etc.
-        final String[] lines = getLines();
+        final @Det String[] lines = getLines();
 
         // Handle:
         //    case 1:

@@ -28,6 +28,8 @@ import javax.swing.tree.TreePath;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.gui.MainFrameModel.ParseMode;
 
+import  org.checkerframework.checker.determinism.qual.*;
+
 /**
  * The model that backs the parse tree in the GUI.
  *
@@ -59,7 +61,7 @@ public class ParseTreeTableModel implements TreeModel {
      */
     protected final void setParseTree(DetailAST parseTree) {
         pModel.setParseTree(parseTree);
-        final Object[] path = {pModel.getRoot()};
+        final @Det Object[] path = {pModel.getRoot()};
         // no need to setup remaining info, as the call results in a
         // table structure changed event anyway - we just pass nulls
         fireTreeStructureChanged(this, path, null, (Object[]) null);
@@ -174,7 +176,7 @@ public class ParseTreeTableModel implements TreeModel {
                                   int[] childIndices,
                                   Object... children) {
         // Guaranteed to return a non-null array
-        final Object[] listeners = listenerList.getListenerList();
+        final @Det Object[] listeners = listenerList.getListenerList();
         TreeModelEvent event = null;
         // Process the listeners last to first, notifying
         // those that are interested in this event

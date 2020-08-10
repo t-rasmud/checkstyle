@@ -607,7 +607,7 @@ public class JavadocStyleCheck
     private void checkHtmlTags(final DetailAST ast, final TextBlock comment) {
         final int lineNo = comment.getStartLineNo();
         final @Det Deque<HtmlTag> htmlStack = new ArrayDeque<>();
-        final String[] text = comment.getText();
+        final @Det String[] text = comment.getText();
 
         final TagParser parser = new TagParser(text, lineNo);
 

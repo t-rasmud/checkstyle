@@ -34,6 +34,8 @@ import java.util.stream.Collectors;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * Contains utility methods for tokens.
  *
@@ -92,8 +94,9 @@ public final class TokenUtil {
      * @param cls source class
      * @return unmodifiable name to value map
      */
+    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  // Iteration over OrderNonDet collection
     public static Map<String, Integer> nameToValueMapFromPublicIntFields(Class<?> cls) {
-        final Map<String, Integer> map = Arrays.stream(cls.getDeclaredFields())
+        final Map<@Det String, @Det Integer> map = Arrays.stream(cls.getDeclaredFields())
             .filter(fld -> Modifier.isPublic(fld.getModifiers()) && fld.getType() == Integer.TYPE)
             .collect(Collectors.toMap(Field::getName, fld -> getIntFromField(fld, fld.getName())));
         return Collections.unmodifiableMap(map);
@@ -106,14 +109,14 @@ public final class TokenUtil {
      * @return array of map keys
      */
     public static String[] valueToNameArrayFromNameToValueMap(Map<String, Integer> map) {
-        String[] valueToNameArray = CommonUtil.EMPTY_STRING_ARRAY;
+        @Det String[] valueToNameArray = CommonUtil.EMPTY_STRING_ARRAY;
 
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             final int value = entry.getValue();
             // JavadocTokenTypes.EOF has value '-1' and is handled explicitly.
             if (value >= 0) {
                 if (value >= valueToNameArray.length) {
-                    final String[] temp = new String[value + 1];
+                    final @Det String[] temp = new @Det String[value + 1];
                     System.arraycopy(valueToNameArray, 0, temp, 0, valueToNameArray.length);
                     valueToNameArray = temp;
                 }
@@ -138,7 +141,7 @@ public final class TokenUtil {
      * @return array of token IDs
      */
     public static int[] getAllTokenIds() {
-        final int[] safeCopy = new int[TOKEN_IDS.length];
+        final @Det int[] safeCopy = new @Det int[TOKEN_IDS.length];
         System.arraycopy(TOKEN_IDS, 0, safeCopy, 0, TOKEN_IDS.length);
         return safeCopy;
     }

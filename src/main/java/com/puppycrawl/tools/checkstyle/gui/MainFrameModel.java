@@ -220,7 +220,7 @@ public class MainFrameModel {
 
                 parseTreeTableModel.setParseTree(parseTree);
                 parseTreeTableModel.setParseMode(parseMode);
-                final String[] sourceLines = getFileText(file).toLinesArray();
+                final @Det String[] sourceLines = getFileText(file).toLinesArray();
 
                 final @Det List<Integer> linesToPositionTemp = new ArrayList<>();
                 // starts line counting at 1

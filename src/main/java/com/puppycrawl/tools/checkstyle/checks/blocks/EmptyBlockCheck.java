@@ -27,6 +27,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
+import org.checkerframework.checker.determinism.qual.*;
+
 /**
  * <p>
  * Checks for empty blocks. This check does not validate sequential blocks.
@@ -248,7 +250,7 @@ public class EmptyBlockCheck
         final int slistColNo = slistAST.getColumnNo();
         final int rcurlyLineNo = rcurlyAST.getLineNo();
         final int rcurlyColNo = rcurlyAST.getColumnNo();
-        final String[] lines = getLines();
+        final @Det String[] lines = getLines();
         boolean returnValue = false;
         if (slistLineNo == rcurlyLineNo) {
             // Handle braces on the same line

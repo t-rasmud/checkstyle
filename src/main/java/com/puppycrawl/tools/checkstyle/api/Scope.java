@@ -41,7 +41,6 @@ public enum Scope {
     ANONINNER;
 
     @Override
-    @SuppressWarnings("determinism")
     public String toString() {
         return getName();
     }

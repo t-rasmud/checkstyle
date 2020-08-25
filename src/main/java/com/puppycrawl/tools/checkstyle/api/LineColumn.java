@@ -20,6 +20,7 @@
 package com.puppycrawl.tools.checkstyle.api;
 
 import java.util.Objects;
+import org.checkerframework.checker.determinism.qual.*;
 
 /**
  * Immutable line and column numbers.
@@ -88,8 +89,7 @@ public class LineColumn implements Comparable<LineColumn> {
     }
 
     @Override
-    @SuppressWarnings("determinism:return.type.incompatible")
-    public int hashCode() {
+    public @NonDet int hashCode() {
         return Objects.hash(line, column);
     }
 

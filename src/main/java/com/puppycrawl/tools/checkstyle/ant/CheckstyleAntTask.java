@@ -282,7 +282,7 @@ public class CheckstyleAntTask extends Task {
     ////////////////////////////////////////////////////////////////////////////
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible") //possible true positive; logging time
+    @SuppressWarnings("determinism:argument.type.incompatible") //possible true positive; NonDet logging time
     public void execute() {
         final long startTime = System.currentTimeMillis();
 

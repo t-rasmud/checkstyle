@@ -64,13 +64,12 @@ public class FilterSet
     }
 
     @Override
-    @SuppressWarnings("determinism:return.type.incompatible")
-    public String toString() {
+    public @NonDet String toString() {
         return filters.toString();
     }
 
     @Override
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
     public boolean accept(AuditEvent event) {
         boolean result = true;
         for (Filter filter : filters) {

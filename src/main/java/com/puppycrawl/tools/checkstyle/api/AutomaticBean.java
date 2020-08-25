@@ -184,7 +184,7 @@ public abstract class AutomaticBean
      * @see Configurable
      */
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over an OrderNonDet collection
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for searching
     public final void configure(Configuration config)
             throws CheckstyleException {
         configuration = config;
@@ -257,7 +257,7 @@ public abstract class AutomaticBean
      * @see Contextualizable
      */
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over an OrderNonDet collection
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for searching
     public final void contextualize(Context context)
             throws CheckstyleException {
         final @OrderNonDet Collection<String> attributes = context.getAttributeNames();

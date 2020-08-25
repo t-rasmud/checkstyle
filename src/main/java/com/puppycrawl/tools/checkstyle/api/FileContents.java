@@ -279,13 +279,13 @@ public final class FileContents implements CommentListener {
      * @param endColNo the ending column number
      * @return true if the positions intersects with a block comment.
      */
-    @SuppressWarnings("determinism:enhancedfor.type.incompatible")
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
     private boolean hasIntersectionWithBlockComment(int startLineNo, int startColNo,
             int endLineNo, int endColNo) {
         boolean hasIntersection = false;
         // Check C comments (all comments should be checked)
         final @OrderNonDet Collection<List<TextBlock>> values = clangComments.values();
-        for (final List<TextBlock> row : values) {
+        for (final @NonDet List<@Det TextBlock> row : values) {
             for (final TextBlock comment : row) {
                 if (comment.intersects(startLineNo, startColNo, endLineNo, endColNo)) {
                     hasIntersection = true;
@@ -308,7 +308,7 @@ public final class FileContents implements CommentListener {
      * @param endColNo the ending column number
      * @return true if the positions intersects with a single line comment.
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
     private boolean hasIntersectionWithSingleLineComment(int startLineNo, int startColNo,
             int endLineNo, int endColNo) {
         boolean hasIntersection = false;

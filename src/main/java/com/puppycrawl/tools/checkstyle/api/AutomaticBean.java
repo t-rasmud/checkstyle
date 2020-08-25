@@ -302,7 +302,7 @@ public abstract class AutomaticBean
     /** A converter that converts strings to patterns. */
     private static class PatternConverter implements Converter {
 
-        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
+        @SuppressWarnings({"unchecked", "determinism:argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             return CommonUtil.createPattern(value.toString());
@@ -313,7 +313,7 @@ public abstract class AutomaticBean
     /** A converter that converts strings to severity level. */
     private static class SeverityLevelConverter implements Converter {
 
-        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
+        @SuppressWarnings({"unchecked", "determinism:argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             return SeverityLevel.getInstance(value.toString());
@@ -324,7 +324,7 @@ public abstract class AutomaticBean
     /** A converter that converts strings to scope. */
     private static class ScopeConverter implements Converter {
 
-        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
+        @SuppressWarnings({"unchecked", "determinism:argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             return Scope.getInstance(value.toString());
@@ -335,7 +335,7 @@ public abstract class AutomaticBean
     /** A converter that converts strings to uri. */
     private static class UriConverter implements Converter {
 
-        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
+        @SuppressWarnings({"unchecked", "determinism:argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             final String url = value.toString();
@@ -362,7 +362,7 @@ public abstract class AutomaticBean
      */
     private static class RelaxedStringArrayConverter implements Converter {
 
-        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
+        @SuppressWarnings({"unchecked", "determinism:argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             // Convert to a String and trim it for the tokenizer.
@@ -391,7 +391,7 @@ public abstract class AutomaticBean
         private static final AccessModifierOption[] EMPTY_MODIFIER_ARRAY =
                 new AccessModifierOption[0];
 
-        @SuppressWarnings({"unchecked", "argument.type.incompatible"})
+        @SuppressWarnings({"unchecked", "determinism:argument.type.incompatible"})
         @Override
         public Object convert(Class type, Object value) {
             // Converts to a String and trims it for the tokenizer.

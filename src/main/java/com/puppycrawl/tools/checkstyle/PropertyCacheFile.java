@@ -265,7 +265,7 @@ public final class PropertyCacheFile {
      * @param resourceLocations locations of external configuration resources.
      * @return a set of {@link ExternalResource}.
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over an OrderNonDet Set
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection to create another collection
     private static @OrderNonDet Set<@Det ExternalResource> loadExternalResources(@OrderNonDet Set<String> resourceLocations) {
         final @OrderNonDet Set<ExternalResource> resources = new HashSet<>();
         for (String location : resourceLocations) {
@@ -333,7 +333,7 @@ public final class PropertyCacheFile {
      * @param resources a set of {@link ExternalResource}.
      * @return true if the contents of external configuration resources were changed.
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNondet collection
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNondet collection for searching
     private boolean areExternalResourcesChanged(@OrderNonDet Set<ExternalResource> resources) {
         return resources.stream().anyMatch(resource -> {
             boolean changed = false;

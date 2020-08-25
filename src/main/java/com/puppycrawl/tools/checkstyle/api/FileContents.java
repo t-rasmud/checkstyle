@@ -279,7 +279,7 @@ public final class FileContents implements CommentListener {
      * @param endColNo the ending column number
      * @return true if the positions intersects with a block comment.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:enhancedfor.type.incompatible")
     private boolean hasIntersectionWithBlockComment(int startLineNo, int startColNo,
             int endLineNo, int endColNo) {
         boolean hasIntersection = false;

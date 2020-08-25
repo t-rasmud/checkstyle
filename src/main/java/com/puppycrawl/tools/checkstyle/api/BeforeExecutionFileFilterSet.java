@@ -64,13 +64,13 @@ public final class BeforeExecutionFileFilterSet
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:return.type.incompatible")
     public String toString() {
         return beforeExecutionFileFilters.toString();
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
     public boolean accept(String uri) {
         boolean result = true;
         for (BeforeExecutionFileFilter filter : beforeExecutionFileFilters) {

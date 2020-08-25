@@ -348,7 +348,7 @@ public final class Main {
      * @throws CheckstyleException
      *         when properties file could not be loaded
      */
-    @SuppressWarnings("determinism:assignment.type.incompatible")  // Potential true positive System.getProperties
+    @SuppressWarnings("determinism:assignment.type.incompatible")  // Potential true positive; System.getProperties
     private static int runCheckstyle(CliOptions options, List<File> filesToProcess)
             throws CheckstyleException, IOException {
         // setup the properties
@@ -780,7 +780,7 @@ public final class Main {
          *
          * @return List of exclusion patterns.
          */
-        @SuppressWarnings("determinism:argument.type.incompatible")
+        @SuppressWarnings("determinism:argument.type.incompatible")  // patters in @PolyDet (TODO: change defaults?)
         private List<Pattern> getExclusions() {
             final List<Pattern> result = exclude.stream()
                     .map(File::getAbsolutePath)

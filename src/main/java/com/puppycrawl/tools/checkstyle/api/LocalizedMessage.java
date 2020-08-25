@@ -410,7 +410,7 @@ public final class LocalizedMessage
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:return.type.incompatible")
     public int hashCode() {
         return Objects.hash(lineNo, columnNo, columnCharIndex, tokenType, severityLevel, moduleId,
                 key, bundle, sourceClass, customMessage, Arrays.hashCode(args));

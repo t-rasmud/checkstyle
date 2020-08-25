@@ -88,7 +88,7 @@ public class LineColumn implements Comparable<LineColumn> {
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:return.type.incompatible")
     public int hashCode() {
         return Objects.hash(line, column);
     }

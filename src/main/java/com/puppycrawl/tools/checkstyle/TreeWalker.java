@@ -176,7 +176,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param rootAST root AST element {@link DetailAST} of the file
      * @return filtered set of messages
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection to create another collection
     private SortedSet<LocalizedMessage> getFilteredMessages(
             String fileName, FileContents fileContents, DetailAST rootAST) {
         final @Det SortedSet<LocalizedMessage> result = new TreeSet<>(messages);
@@ -199,7 +199,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param check the check to register
      * @throws CheckstyleException if an error occurs
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for searching
     private void registerCheck(AbstractCheck check) throws CheckstyleException {
         final int[] tokens;
         final @OrderNonDet Set<String> checkTokens = check.getTokenNames();
@@ -210,7 +210,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
             tokens = check.getRequiredTokens();
 
             // register configured tokens
-            final int[] acceptableTokens = check.getAcceptableTokens();
+            final @Det int[] acceptableTokens = check.getAcceptableTokens();
             Arrays.sort(acceptableTokens);
             for (String token : checkTokens) {
                 final int tokenId = TokenUtil.getTokenId(token);
@@ -254,7 +254,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param check the check to register
      * @throws CheckstyleException if Check is misconfigured
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:return.type.incompatible")  // Iteration over OrderNonDet collection to apply a harmless function (computeIfAbsent)
     private void registerCheck(String token, AbstractCheck check) throws CheckstyleException {
         if (check.isCommentNodesRequired()) {
             tokenToCommentChecks.computeIfAbsent(token, empty -> new HashSet<>()).add(check);
@@ -291,7 +291,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param contents the contents of the file the AST was generated from.
      * @param astState state of AST.
      */
-    @SuppressWarnings("method.invocation.invalid")
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection to apply harmless functions
     private void notifyBegin(DetailAST rootAST, FileContents contents,
             AstState astState) {
         final @OrderNonDet Set<AbstractCheck> checks;
@@ -316,7 +316,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param rootAST the root of the tree.
      * @param astState state of AST.
      */
-    @SuppressWarnings("method.invocation.invalid")
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection to apply harmless functions
     private void notifyEnd(DetailAST rootAST, AstState astState) {
         final @OrderNonDet Set<AbstractCheck> checks;
 
@@ -418,12 +418,12 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      *
      * @return a set of external configuration resource locations which are used by the filters set.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection to create another collection
     private @OrderNonDet Set<String> getExternalResourceLocationsOfFilters() {
         final @OrderNonDet Set<String> externalConfigurationResources = new HashSet<>();
         filters.stream().filter(filter -> filter instanceof ExternalResourceHolder)
                 .forEach(filter -> {
-                    final @Det Set<String> checkExternalResources =
+                    final @OrderNonDet Set<String> checkExternalResources =
                         ((ExternalResourceHolder) filter).getExternalResourceLocations();
                     externalConfigurationResources.addAll(checkExternalResources);
                 });
@@ -436,11 +436,11 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param checks a set of checks.
      * @return a set of external configuration resource locations which are used by the checks set.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection to create another collection
     private static @OrderNonDet Set<String> getExternalResourceLocationsOfChecks(@OrderNonDet Set<AbstractCheck> checks) {
         final @OrderNonDet Set<String> externalConfigurationResources = new HashSet<>();
         checks.stream().filter(check -> check instanceof ExternalResourceHolder).forEach(check -> {
-            final @Det Set<String> checkExternalResources =
+            final @OrderNonDet Set<String> checkExternalResources =
                 ((ExternalResourceHolder) check).getExternalResourceLocations();
             externalConfigurationResources.addAll(checkExternalResources);
         });

@@ -303,7 +303,7 @@ public class PackageObjectFactory implements ModuleFactory {
      * @return the map of third party Checkstyle module names to the set of their fully qualified
      *      names
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection to create another collection
     private Map<String, Set<String>> generateThirdPartyNameToFullModuleName(ClassLoader loader) {
         @Det Map<String, Set<String>> returnValue;
         try {
@@ -323,7 +323,7 @@ public class PackageObjectFactory implements ModuleFactory {
      * @param fullName name of the class for joining.
      * @return simple check name.
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")   // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:method.invocation.invalid")   // Iteration over OrderNonDet collection for searching
     public static String getShortFromFullModuleNames(String fullName) {
         return NAME_TO_FULL_MODULE_NAME
                 .entrySet()

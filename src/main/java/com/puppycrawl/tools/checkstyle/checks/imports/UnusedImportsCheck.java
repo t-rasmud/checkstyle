@@ -167,7 +167,7 @@ public class UnusedImportsCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for applying harmless function
+    @SuppressWarnings("determinism:method.invocation.invalid")  // true positive; logging: Iteration over OrderNonDet collection `imports`
     public void finishTree(DetailAST rootAST) {
         // loop over all the imports to see if referenced.
         imports.stream()

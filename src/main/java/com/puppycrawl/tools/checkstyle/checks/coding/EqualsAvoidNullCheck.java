@@ -309,7 +309,7 @@ public class EqualsAvoidNullCheck extends AbstractCheck {
      *
      * @param frame to check method calls in.
      */
-    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid","determinism:assignment.type.incompatible"})  // Iteration over OrderNonDet collection for applying harmless function
+    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid","determinism:assignment.type.incompatible"})  // true positive; logging: iteration over @OrderNonDet getChildren()
     private void traverseFieldFrameTree(FieldFrame frame) {
         for (FieldFrame child: frame.getChildren()) {
             traverseFieldFrameTree(child);

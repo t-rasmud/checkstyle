@@ -335,7 +335,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param userSpecifiedLanguageCode user specified language code.
      * @return true if user specified language code is correct.
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over locales is NonDet; expected behavior
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
     private static boolean isValidLanguageCode(final String userSpecifiedLanguageCode) {
         boolean valid = false;
         final @NonDet Locale @NonDet [] locales = Locale.getAvailableLocales();
@@ -360,7 +360,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for applying harmless function
+    @SuppressWarnings("determinism:argument.type.incompatible")  // true positive; logging: Iteration over OrderNonDet collection
     public void finishProcessing() {
         final @OrderNonDet Set<ResourceBundle> bundles = groupFilesIntoBundles(filesToProcess, baseName);
         for (ResourceBundle currentBundle : bundles) {
@@ -388,7 +388,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      *
      * @param bundle resource bundle.
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // true positive; logging - Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:argument.type.incompatible")  // true positive; logging: Iteration over OrderNonDet collection
     private void checkExistenceOfRequiredTranslations(ResourceBundle bundle) {
         for (String languageCode : requiredTranslations) {
             getMissingFileName(bundle, languageCode)
@@ -554,7 +554,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      *
      * @param bundle resource bundle.
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for applying harmless function
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for applying commutative operation: add to @OrderNonDet collection
     private void checkTranslationKeys(ResourceBundle bundle) {
         final @OrderNonDet Set<File> filesInBundle = bundle.getFiles();
         // build a map from files to the keys they contain

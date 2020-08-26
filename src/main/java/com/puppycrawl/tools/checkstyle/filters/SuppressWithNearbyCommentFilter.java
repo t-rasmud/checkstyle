@@ -461,7 +461,7 @@ public class SuppressWithNearbyCommentFilter
      *
      * @param comments the set of comments.
      */
-    @SuppressWarnings({"determinism:method.invocation.invalid","argument.type.incompatible"})  // Iteration over OrderNonDet collection for applying harmless function
+    @SuppressWarnings({"determinism:method.invocation.invalid","argument.type.incompatible"})  // Iteration over OrderNonDet collection for applying commutative operation: tagCommentLine
     private void tagSuppressions(@OrderNonDet Collection<TextBlock> comments) {
         for (final TextBlock comment : comments) {
             final int startLineNo = comment.getStartLineNo();

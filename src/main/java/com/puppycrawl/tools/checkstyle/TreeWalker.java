@@ -254,7 +254,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param check the check to register
      * @throws CheckstyleException if Check is misconfigured
      */
-    @SuppressWarnings("determinism:return.type.incompatible")  // Iteration over OrderNonDet collection for applying harmless function
+    @SuppressWarnings("determinism:return.type.incompatible")  // Iteration over OrderNonDet collection for applying commutative operation: computeIfAbsent
     private void registerCheck(String token, AbstractCheck check) throws CheckstyleException {
         if (check.isCommentNodesRequired()) {
             tokenToCommentChecks.computeIfAbsent(token, empty -> new HashSet<>()).add(check);
@@ -291,7 +291,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param contents the contents of the file the AST was generated from.
      * @param astState state of AST.
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for applying harmless function
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for applying commutative operation
     private void notifyBegin(DetailAST rootAST, FileContents contents,
             AstState astState) {
         final @OrderNonDet Set<AbstractCheck> checks;
@@ -316,7 +316,7 @@ public final class TreeWalker extends AbstractFileSetCheck implements ExternalRe
      * @param rootAST the root of the tree.
      * @param astState state of AST.
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for applying harmless function
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for applying commutative operation: add to SortedSet
     private void notifyEnd(DetailAST rootAST, AstState astState) {
         final @OrderNonDet Set<AbstractCheck> checks;
 

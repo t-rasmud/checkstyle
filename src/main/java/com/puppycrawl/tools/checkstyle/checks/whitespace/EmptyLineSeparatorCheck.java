@@ -721,7 +721,7 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
      * @param packageDef token to check
      * @return comment under the token
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for applying harmless function
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Determinism Checker bug in handling of Optional.map: @Det Optional has only one element, so map's function is applied to a @Det value
     private static Optional<DetailAST> findCommentUnder(DetailAST packageDef) {
         return Optional.ofNullable(packageDef.getNextSibling())
             .map(sibling -> sibling.findFirstToken(TokenTypes.MODIFIERS))

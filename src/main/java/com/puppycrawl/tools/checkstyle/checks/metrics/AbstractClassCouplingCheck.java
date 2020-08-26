@@ -334,7 +334,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
          * Set of referenced classes.
          * Sorted by name for predictable violation messages in unit tests.
          */
-        private final Set<String> referencedClassNames = new TreeSet<>();
+        private final @Det Set<String> referencedClassNames = new @Det TreeSet<>();
         /** Own class name. */
         private final String className;
         /* Location of own class. (Used to log violations) */
@@ -408,7 +408,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
         }
 
         /** Checks if coupling less than allowed or not. */
-        @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; logging - Iteration over OrderNonDet collection
+        @SuppressWarnings("determinism:argument.type.incompatible")  // referencedClassNames.toString() is NonDet (TreeSet doesn't have a toString implementation)
         public void checkCoupling() {
             referencedClassNames.remove(className);
             referencedClassNames.remove(packageName + DOT + className);

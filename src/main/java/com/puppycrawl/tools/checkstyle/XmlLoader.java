@@ -146,7 +146,7 @@ public class XmlLoader
          * @throws SAXException if an error occurs
          * @throws ParserConfigurationException if an error occurs
          */
-        @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; System properties: could be different across machines
+        @SuppressWarnings("determinism:argument.type.incompatible")  // true positive; System properties
         public static void setFeaturesBySystemProperty(SAXParserFactory factory)
                 throws SAXException, ParserConfigurationException {
 

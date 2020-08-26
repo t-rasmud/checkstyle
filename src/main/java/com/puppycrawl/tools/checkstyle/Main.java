@@ -348,7 +348,7 @@ public final class Main {
      * @throws CheckstyleException
      *         when properties file could not be loaded
      */
-    @SuppressWarnings("determinism:assignment.type.incompatible")  // Potential true positive; System properties: System.getProperties
+    @SuppressWarnings("determinism:assignment.type.incompatible")  // true positive; System properties: System.getProperties
     private static int runCheckstyle(CliOptions options, List<File> filesToProcess)
             throws CheckstyleException, IOException {
         // setup the properties

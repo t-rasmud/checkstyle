@@ -206,7 +206,7 @@ public abstract class AbstractJavadocCheck extends AbstractCheck {
      *
      * @throws IllegalStateException when validation of default javadoc tokens fails
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for searching
     private void validateDefaultJavadocTokens() {
         if (getRequiredJavadocTokens().length != 0) {
             final @Det int[] defaultJavadocTokens = getDefaultJavadocTokens();

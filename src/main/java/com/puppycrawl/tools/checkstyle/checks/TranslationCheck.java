@@ -388,7 +388,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      *
      * @param bundle resource bundle.
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // true positive; logging: Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:argument.type.incompatible")  // true positive; logging - Iteration over OrderNonDet collection
     private void checkExistenceOfRequiredTranslations(ResourceBundle bundle) {
         for (String languageCode : requiredTranslations) {
             getMissingFileName(bundle, languageCode)

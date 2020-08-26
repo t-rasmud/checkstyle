@@ -780,7 +780,7 @@ public final class Main {
          *
          * @return List of exclusion patterns.
          */
-        @SuppressWarnings("determinism:argument.type.incompatible")  // pattern is @PolyDet (TODO: change defaults?)
+        @SuppressWarnings("determinism:argument.type.incompatible")  // pattern is PolyDet (TODO: change defaults?)
         private List<Pattern> getExclusions() {
             final List<Pattern> result = exclude.stream()
                     .map(File::getAbsolutePath)

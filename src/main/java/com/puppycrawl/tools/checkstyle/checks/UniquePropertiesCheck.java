@@ -103,7 +103,7 @@ public class UniquePropertiesCheck extends AbstractFileSetCheck {
     }
 
     @Override
-    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  // potential true positive; OrderNonDet logging
+    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  // true positive; logging: iteration over OrderNonDet collection
     protected void processFiltered(File file, FileText fileText) {
         final @Det UniqueProperties properties = new UniqueProperties();
         try (InputStream inputStream = Files.newInputStream(file.toPath())) {

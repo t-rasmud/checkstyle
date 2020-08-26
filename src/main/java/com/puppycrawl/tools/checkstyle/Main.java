@@ -220,7 +220,7 @@ public final class Main {
      *        files.
      * @return found files
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // potential true positive; File list different across machines
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; File list different across machines
     private static List<File> listFiles(File node, List<Pattern> patternsToExclude) {
         // could be replaced with org.apache.commons.io.FileUtils.list() method
         // if only we add commons-io library
@@ -348,7 +348,7 @@ public final class Main {
      * @throws CheckstyleException
      *         when properties file could not be loaded
      */
-    @SuppressWarnings("determinism:assignment.type.incompatible")  // Potential true positive; System.getProperties
+    @SuppressWarnings("determinism:assignment.type.incompatible")  // Potential true positive; System properties: System.getProperties
     private static int runCheckstyle(CliOptions options, List<File> filesToProcess)
             throws CheckstyleException, IOException {
         // setup the properties

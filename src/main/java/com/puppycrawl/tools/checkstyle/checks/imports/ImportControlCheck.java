@@ -557,7 +557,7 @@ public class ImportControlCheck extends AbstractCheck implements ExternalResourc
     }
 
     @Override
-    @SuppressWarnings("determinism:return.type.incompatible")  // OK to assign empty set to OrderNonDet set
+    @SuppressWarnings("determinism:return.type.incompatible")  // OK to assign immutable set to OrderNonDet set
     public @OrderNonDet Set<String> getExternalResourceLocations() {
         return Collections.singleton(file.toString());
     }

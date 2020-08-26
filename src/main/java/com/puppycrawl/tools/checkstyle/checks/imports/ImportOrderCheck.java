@@ -1002,7 +1002,7 @@ public class ImportOrderCheck
                 grp = Pattern.compile(pkg);
             }
             else {
-                final StringBuilder pkgBuilder = new StringBuilder(pkg);
+                final @Det StringBuilder pkgBuilder = new StringBuilder(pkg);
                 if (!CommonUtil.endsWithChar(pkg, '.')) {
                     pkgBuilder.append('.');
                 }

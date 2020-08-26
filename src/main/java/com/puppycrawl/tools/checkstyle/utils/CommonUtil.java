@@ -406,7 +406,7 @@ public final class CommonUtil {
      * @return {@code true} if the {@code char} is a prefix of the given {@code String};
      *  {@code false} otherwise.
      */
-    public static boolean startsWithChar(String value, char prefix) {
+    public static @PolyDet boolean startsWithChar(@PolyDet String value, @PolyDet char prefix) {
         return !value.isEmpty() && value.charAt(0) == prefix;
     }
 

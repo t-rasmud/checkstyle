@@ -575,7 +575,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param fileKeys a Map from translation files to their key sets.
      * @param keysThatMustExist the set of keys to compare with.
      */
-    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:return.type.incompatible"})  // Iteration over OrderNonDet collection to create another collection
+    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid","determinism:return.type.incompatible"})  // Iteration over OrderNonDet collection to create another collection
     private void checkFilesForConsistencyRegardingTheirKeys(@OrderNonDet Map<File, @OrderNonDet Set<String>> fileKeys,
                                                             @OrderNonDet Set<String> keysThatMustExist) {
         for (Entry<File, @OrderNonDet Set<String>> fileKey : fileKeys.entrySet()) {

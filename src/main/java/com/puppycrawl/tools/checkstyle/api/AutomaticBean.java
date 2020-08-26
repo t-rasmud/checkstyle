@@ -213,7 +213,7 @@ public abstract class AutomaticBean
      * @param recheck whether to check for property existence before copy
      * @throws CheckstyleException when property defined incorrectly
      */
-    @SuppressWarnings("determinism:nondeterministic.tostring")  // Potential true positive; nondet exception message
+    @SuppressWarnings("determinism:nondeterministic.tostring")  // Potential true positive; nondet exception messages in both catch clauses
     private void tryCopyProperty(String key, Object value, boolean recheck)
             throws CheckstyleException {
         final BeanUtilsBean beanUtils = createBeanUtilsBean();

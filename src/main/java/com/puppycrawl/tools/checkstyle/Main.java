@@ -220,15 +220,15 @@ public final class Main {
      *        files.
      * @return found files
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; File list different across machines
-    private static List<File> listFiles(File node, List<Pattern> patternsToExclude) {
+    @SuppressWarnings({"determinism:assignment.type.incompatible","determinism:argument.type.incompatible"})  // Bug in CF; listFiles should return PolyDet("upDet"), not NonDet
+    private static @PolyDet List<@PolyDet("use") File> listFiles(@PolyDet File node, @PolyDet List<@PolyDet("use") Pattern> patternsToExclude) {
         // could be replaced with org.apache.commons.io.FileUtils.list() method
         // if only we add commons-io library
-        final @Det List<File> result = new LinkedList<>();
+        final @PolyDet List<@PolyDet("use") File> result = new @PolyDet LinkedList<>();
 
         if (node.canRead() && !isPathExcluded(node.getAbsolutePath(), patternsToExclude)) {
             if (node.isDirectory()) {
-                final @NonDet File @NonDet[] files = node.listFiles();
+                final @PolyDet("use") File @PolyDet("upDet")[] files = node.listFiles();
                 // listFiles() can return null, so we need to check it
                 if (files != null) {
                     for (File element : files) {
@@ -252,7 +252,7 @@ public final class Main {
      *        files.
      * @return True if the directory/file matches one of the patterns.
      */
-    private static boolean isPathExcluded(String path, List<Pattern> patternsToExclude) {
+    private static @PolyDet boolean isPathExcluded(@PolyDet String path, @PolyDet List<@PolyDet("use") Pattern> patternsToExclude) {
         boolean result = false;
 
         for (Pattern pattern : patternsToExclude) {

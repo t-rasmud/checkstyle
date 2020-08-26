@@ -408,7 +408,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
         }
 
         /** Checks if coupling less than allowed or not. */
-        @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; logging: Iteration over OrderNonDet collection
+        @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; logging - Iteration over OrderNonDet collection
         public void checkCoupling() {
             referencedClassNames.remove(className);
             referencedClassNames.remove(packageName + DOT + className);

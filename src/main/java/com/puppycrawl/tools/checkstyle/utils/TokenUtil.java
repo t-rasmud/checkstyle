@@ -94,7 +94,7 @@ public final class TokenUtil {
      * @param cls source class
      * @return unmodifiable name to value map
      */
-    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  // Iteration over OrderNonDet collection
+    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  // Iteration over OrderNonDet collection to create another collection
     public static Map<String, Integer> nameToValueMapFromPublicIntFields(Class<?> cls) {
         final Map<@Det String, @Det Integer> map = Arrays.stream(cls.getDeclaredFields())
             .filter(fld -> Modifier.isPublic(fld.getModifiers()) && fld.getType() == Integer.TYPE)

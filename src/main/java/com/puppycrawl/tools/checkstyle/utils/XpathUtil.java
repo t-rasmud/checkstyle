@@ -143,7 +143,7 @@ public final class XpathUtil {
      * @throws CheckstyleException if some parsing error happens
      * @throws IOException if an error occurs
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
     public static String printXpathBranch(String xpath, File file) throws CheckstyleException,
             IOException {
         final XPathEvaluator xpathEvaluator = new XPathEvaluator();

@@ -123,7 +123,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
     protected abstract String getLogMessageId();
 
     @Override
-    public final int[] getDefaultTokens() {
+    public final @Det int @OrderNonDet[] getDefaultTokens() {
         return getRequiredTokens();
     }
 
@@ -408,7 +408,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
         }
 
         /** Checks if coupling less than allowed or not. */
-        @SuppressWarnings("determinism")
+        @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; Iteration over OrderNonDet collection for logging
         public void checkCoupling() {
             referencedClassNames.remove(className);
             referencedClassNames.remove(packageName + DOT + className);

@@ -489,7 +489,7 @@ public class NeedBracesCheck extends AbstractCheck {
      * {@link TokenTypes#LITERAL_DEFAULT default statement}.
      * @return true if current switch member is single-line statement.
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for searching
     private static boolean isSingleLineSwitchMember(DetailAST ast) {
         return Optional.of(ast)
                 .map(DetailAST::getNextSibling)

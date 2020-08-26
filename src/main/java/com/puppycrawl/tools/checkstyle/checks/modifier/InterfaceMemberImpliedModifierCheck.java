@@ -371,7 +371,7 @@ public class InterfaceMemberImpliedModifierCheck
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")   // Potential true positive; NonDet exception message
+    @SuppressWarnings("determinism:argument.type.incompatible")   // ast.toString() is deterministic; DetailAST implements Det toString
     public void visitToken(DetailAST ast) {
         if (ScopeUtil.isInInterfaceBlock(ast) && !ScopeUtil.isInCodeBlock(ast)) {
             switch (ast.getType()) {

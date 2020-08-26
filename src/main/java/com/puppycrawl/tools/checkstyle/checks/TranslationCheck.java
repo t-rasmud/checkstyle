@@ -335,7 +335,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param userSpecifiedLanguageCode user specified language code.
      * @return true if user specified language code is correct.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over locales is NonDet; expected behavior
     private static boolean isValidLanguageCode(final String userSpecifiedLanguageCode) {
         boolean valid = false;
         final @NonDet Locale @NonDet [] locales = Locale.getAvailableLocales();
@@ -360,7 +360,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
     }
 
     @Override
-    @SuppressWarnings("argument.type.incompatible")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for applying harmless function
     public void finishProcessing() {
         final @OrderNonDet Set<ResourceBundle> bundles = groupFilesIntoBundles(filesToProcess, baseName);
         for (ResourceBundle currentBundle : bundles) {
@@ -388,7 +388,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      *
      * @param bundle resource bundle.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; Iteration over OrderNonDet collection for logging
     private void checkExistenceOfRequiredTranslations(ResourceBundle bundle) {
         for (String languageCode : requiredTranslations) {
             getMissingFileName(bundle, languageCode)
@@ -487,10 +487,10 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param targetBundle target bundle to search for.
      * @return Guava's Optional of resource bundle (present if target bundle is found).
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings({"determinism:assignment.type.incompatible","determinism:method.invocation.invalid"})  // Iteration over OrderNonDet collection for searching
     private static Optional<ResourceBundle> findBundle(@OrderNonDet Set<ResourceBundle> bundles,
                                                        ResourceBundle targetBundle) {
-        Optional<ResourceBundle> result = Optional.empty();
+        @Det Optional<@Det ResourceBundle> result = Optional.empty();
         for (ResourceBundle currentBundle : bundles) {
             if (targetBundle.getBaseName().equals(currentBundle.getBaseName())
                     && targetBundle.getExtension().equals(currentBundle.getExtension())
@@ -554,7 +554,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      *
      * @param bundle resource bundle.
      */
-    @SuppressWarnings("argument.type.incompatible")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for applying harmless function
     private void checkTranslationKeys(ResourceBundle bundle) {
         final @OrderNonDet Set<File> filesInBundle = bundle.getFiles();
         // build a map from files to the keys they contain
@@ -575,12 +575,12 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param fileKeys a Map from translation files to their key sets.
      * @param keysThatMustExist the set of keys to compare with.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:return.type.incompatible"})  // Iteration over OrderNonDet collection to create another collection
     private void checkFilesForConsistencyRegardingTheirKeys(@OrderNonDet Map<File, @OrderNonDet Set<String>> fileKeys,
                                                             @OrderNonDet Set<String> keysThatMustExist) {
         for (Entry<File, @OrderNonDet Set<String>> fileKey : fileKeys.entrySet()) {
-            final Set<String> currentFileKeys = fileKey.getValue();
-            final Set<String> missingKeys = keysThatMustExist.stream()
+            final Set<@Det String> currentFileKeys = fileKey.getValue();
+            final Set<@Det String> missingKeys = keysThatMustExist.stream()
                 .filter(key -> !currentFileKeys.contains(key)).collect(Collectors.toSet());
             if (!missingKeys.isEmpty()) {
                 final MessageDispatcher dispatcher = getMessageDispatcher();
@@ -601,7 +601,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param file translation file.
      * @return a Set object which holds the loaded keys.
      */
-    @SuppressWarnings("assignment.type.incompatible")
+    @SuppressWarnings("determinism:assignment.type.incompatible")  // OK to assign Det collection to OrderNonDet collection that isn't side-effected
     private @OrderNonDet Set<String> getTranslationKeys(File file) {
         @OrderNonDet Set<String> keys = new HashSet<>();
         try (InputStream inStream = Files.newInputStream(file.toPath())) {
@@ -705,7 +705,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
          * @param fileNameRegexp file name regexp.
          * @return true if a resource bundle contains a file which name matches file name regexp.
          */
-        @SuppressWarnings("determinism")
+        @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
         public boolean containsFile(String fileNameRegexp) {
             boolean containsFile = false;
             for (File currentFile : files) {

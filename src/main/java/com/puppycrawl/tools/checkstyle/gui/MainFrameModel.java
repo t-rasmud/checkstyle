@@ -251,7 +251,7 @@ public class MainFrameModel {
      * @return the FileText.
      * @throws IOException if the file could not be read.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; character sets could be different across platforms (expected behavior)
     private static FileText getFileText(File file) throws IOException {
         return new FileText(file.getAbsoluteFile(),
                 System.getProperty("file.encoding", StandardCharsets.UTF_8.name()));

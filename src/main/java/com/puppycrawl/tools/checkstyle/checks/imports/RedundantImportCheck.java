@@ -124,7 +124,7 @@ public class RedundantImportCheck
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:method.invocation.invalid"})  // Iteration over OrderNonDet collection for searching
     public void visitToken(DetailAST ast) {
         if (ast.getType() == TokenTypes.PACKAGE_DEF) {
             pkgName = FullIdent.createFullIdent(

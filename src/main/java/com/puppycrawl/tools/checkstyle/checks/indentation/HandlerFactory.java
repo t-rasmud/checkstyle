@@ -117,10 +117,10 @@ public class HandlerFactory {
      *
      * @return int[] of TokenType types
      */
-    @SuppressWarnings("determinism")
-    public int[] getHandledTypes() {
+    @SuppressWarnings({"determinism:invalid.array.assignment","determinism:assignment.type.incompatible"})  // Iteration over OrderNonDet collection to create another collection
+    public int @OrderNonDet[] getHandledTypes() {
         final @OrderNonDet Set<Integer> typeSet = typeHandlers.keySet();
-        final int[] types = new int[typeSet.size()];
+        final @Det int @OrderNonDet[] types = new @Det int @OrderNonDet[typeSet.size()];
         int index = 0;
         for (final Integer val : typeSet) {
             types[index] = val;

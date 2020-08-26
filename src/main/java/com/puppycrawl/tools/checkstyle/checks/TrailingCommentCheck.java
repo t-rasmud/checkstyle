@@ -189,7 +189,7 @@ public class TrailingCommentCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings({"method.invocation.invalid","argument.type.incompatible"})
+    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // Iteration over OrderNonDet collection for searching
     public void beginTree(DetailAST rootAST) {
         final @OrderNonDet Map<Integer, TextBlock> cppComments = getFileContents()
                 .getSingleLineComments();

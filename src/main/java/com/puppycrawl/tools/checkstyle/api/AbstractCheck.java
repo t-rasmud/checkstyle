@@ -58,7 +58,7 @@ public abstract class AbstractCheck extends AbstractViolationReporter {
      * @return the default tokens
      * @see TokenTypes
      */
-    public abstract int[] getDefaultTokens();
+    public abstract @Det int @OrderNonDet[] getDefaultTokens();
 
     /**
      * The configurable token set.
@@ -69,7 +69,7 @@ public abstract class AbstractCheck extends AbstractViolationReporter {
      * @return the token set this check is designed for.
      * @see TokenTypes
      */
-    public abstract int[] getAcceptableTokens();
+    public abstract @Det int @OrderNonDet[] getAcceptableTokens();
 
     /**
      * The tokens that this check must be registered for.
@@ -77,7 +77,7 @@ public abstract class AbstractCheck extends AbstractViolationReporter {
      * @return the token set this must be registered for.
      * @see TokenTypes
      */
-    public abstract int[] getRequiredTokens();
+    public abstract @Det int @OrderNonDet[] getRequiredTokens();
 
     /**
      * Whether comment nodes are required or not.

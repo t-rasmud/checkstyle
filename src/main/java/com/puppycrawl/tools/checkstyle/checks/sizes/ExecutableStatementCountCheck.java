@@ -150,7 +150,7 @@ public final class ExecutableStatementCountCheck
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic; DetailAST implements Det toString
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -168,7 +168,7 @@ public final class ExecutableStatementCountCheck
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible") // ast.toString() is deterministic; DetailAST implements Det toString
     public void leaveToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:

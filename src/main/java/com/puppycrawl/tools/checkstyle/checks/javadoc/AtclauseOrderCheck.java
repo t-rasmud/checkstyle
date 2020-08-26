@@ -200,7 +200,7 @@ public class AtclauseOrderCheck extends AbstractJavadocCheck {
      *
      * @param javadoc Javadoc root node.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for searching
     private void checkOrderInTagSection(DetailNode javadoc) {
         int maxIndexOfPreviousTag = 0;
 

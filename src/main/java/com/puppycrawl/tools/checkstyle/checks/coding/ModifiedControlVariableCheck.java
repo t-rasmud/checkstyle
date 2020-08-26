@@ -331,7 +331,7 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @param ast For Loop
      * @return Set of Variable Name which are managed by for
      */
-    @SuppressWarnings({"determinism:methodref.receiver.bound.invalid","determinism:method.invocation.invalid"})  // Iteration  over OrderNonDet collection
+    @SuppressWarnings({"determinism:methodref.receiver.bound.invalid","determinism:method.invocation.invalid"})  // Iteration over OrderNonDet collection for searching
     private static Set<String> getVariablesManagedByForLoop(DetailAST ast) {
         final @OrderNonDet Set<String> initializedVariables = getForInitVariables(ast);
         final @OrderNonDet Set<String> iteratingVariables = getForIteratorVariables(ast);

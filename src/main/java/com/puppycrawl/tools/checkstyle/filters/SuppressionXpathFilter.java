@@ -554,13 +554,12 @@ public class SuppressionXpathFilter extends AutomaticBean implements
     }
 
     @Override
-    @SuppressWarnings("determinism:return.type.incompatible")  // Potential true positive; NonDet hashcode
-    public int hashCode() {
+    public @NonDet int hashCode() {
         return Objects.hash(filters);
     }
 
     @Override
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
     public boolean accept(TreeWalkerAuditEvent treeWalkerAuditEvent) {
         boolean result = true;
         for (TreeWalkerFilter filter : filters) {
@@ -573,7 +572,7 @@ public class SuppressionXpathFilter extends AutomaticBean implements
     }
 
     @Override
-    @SuppressWarnings("determinism:return.type.incompatible")
+    @SuppressWarnings("determinism:return.type.incompatible")  // OK to assign empty set to OrderNonDet set
     public @OrderNonDet Set<String> getExternalResourceLocations() {
         return Collections.singleton(file);
     }

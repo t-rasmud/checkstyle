@@ -134,7 +134,7 @@ public final class MutableExceptionCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; NonDet exception message
+    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic; DetailAST implements Det toString
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CLASS_DEF:

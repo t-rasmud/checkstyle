@@ -228,7 +228,7 @@ public class OrderedPropertiesCheck extends AbstractFileSetCheck {
          * Returns a copy of the keys.
          */
         @Override
-        @SuppressWarnings("determinism")
+        @SuppressWarnings("determinism:return.type.incompatible")  // TODO: check why the  return type is PolyDet
         public synchronized Enumeration<Object> keys() {
             return Collections.enumeration(keyList);
         }

@@ -203,7 +203,7 @@ public class MultipleStringLiteralsCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:return.type.incompatible")  // Iteration over OrderNonDet collection for applying harmless function
     public void visitToken(DetailAST ast) {
         if (!isInIgnoreOccurrenceContext(ast)) {
             final String currentString = ast.getText();
@@ -241,10 +241,10 @@ public class MultipleStringLiteralsCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; Iteration over OrderNonDet collection for logging
     public void finishTree(DetailAST rootAST) {
         for (Map.Entry<String, List<DetailAST>> stringListEntry : stringMap.entrySet()) {
-            final @NonDet List<DetailAST> hits = stringListEntry.getValue();
+            final @NonDet List<@Det DetailAST> hits = stringListEntry.getValue();
             if (hits.size() > allowedDuplicates) {
                 final DetailAST firstFinding = hits.get(0);
                 log(firstFinding, MSG_KEY, stringListEntry.getKey(), hits.size());

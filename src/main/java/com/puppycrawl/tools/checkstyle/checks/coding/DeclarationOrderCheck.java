@@ -358,7 +358,7 @@ public class DeclarationOrderCheck extends AbstractCheck {
      * @param fieldDef a field definition.
      * @return true if an identifier references a field which has been already defined in class.
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
     private boolean isForwardReference(DetailAST fieldDef) {
         final DetailAST exprStartIdent = fieldDef.findFirstToken(TokenTypes.IDENT);
         final @OrderNonDet Set<DetailAST> exprIdents = getAllTokensOfType(exprStartIdent, TokenTypes.IDENT);

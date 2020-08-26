@@ -461,7 +461,7 @@ public class SuppressWithNearbyCommentFilter
      *
      * @param comments the set of comments.
      */
-    @SuppressWarnings({"determinism:method.invocation.invalid","argument.type.incompatible"})  //  Iteration over OrderNonDet collection
+    @SuppressWarnings({"determinism:method.invocation.invalid","argument.type.incompatible"})  //  Iteration over OrderNonDet collection for applying harmless function
     private void tagSuppressions(@OrderNonDet Collection<TextBlock> comments) {
         for (final TextBlock comment : comments) {
             final int startLineNo = comment.getStartLineNo();
@@ -612,8 +612,7 @@ public class SuppressWithNearbyCommentFilter
         }
 
         @Override
-        @SuppressWarnings("determinism:return.type.incompatible")
-        public int hashCode() {
+        public @NonDet int hashCode() {
             return Objects.hash(text, firstLine, lastLine, tagCheckRegexp, tagMessageRegexp,
                     tagIdRegexp);
         }

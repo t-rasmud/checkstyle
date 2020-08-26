@@ -333,7 +333,7 @@ public final class PropertyCacheFile {
      * @param resources a set of {@link ExternalResource}.
      * @return true if the contents of external configuration resources were changed.
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNondet collection for searching
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
     private boolean areExternalResourcesChanged(@OrderNonDet Set<ExternalResource> resources) {
         return resources.stream().anyMatch(resource -> {
             boolean changed = false;

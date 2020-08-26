@@ -175,7 +175,7 @@ public class ClassMemberImpliedModifierCheck
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  //
     public void visitToken(DetailAST ast) {
         if (ScopeUtil.isInClassBlock(ast) || ScopeUtil.isInEnumBlock(ast)) {
             final DetailAST modifiers = ast.findFirstToken(TokenTypes.MODIFIERS);

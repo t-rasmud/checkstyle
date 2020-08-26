@@ -177,7 +177,7 @@ public class UncommentedMainCheck
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic; DetailAST implements Det toString
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.PACKAGE_DEF:

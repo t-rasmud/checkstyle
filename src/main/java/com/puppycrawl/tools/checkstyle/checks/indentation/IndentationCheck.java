@@ -503,17 +503,17 @@ public class IndentationCheck extends AbstractCheck {
     }
 
     @Override
-    public int[] getDefaultTokens() {
+    public @Det int @OrderNonDet[] getDefaultTokens() {
         return getRequiredTokens();
     }
 
     @Override
-    public int[] getAcceptableTokens() {
+    public @Det int @OrderNonDet[] getAcceptableTokens() {
         return getRequiredTokens();
     }
 
     @Override
-    public int[] getRequiredTokens() {
+    public @Det int @OrderNonDet[] getRequiredTokens() {
         return handlerFactory.getHandledTypes();
     }
 

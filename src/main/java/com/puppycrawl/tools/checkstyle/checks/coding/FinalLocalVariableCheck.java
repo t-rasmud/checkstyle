@@ -316,7 +316,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // Iteration over OrderNonDet collection
+    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // Potential true positive; Iteration over OrderNonDet collection for logging
     public void leaveToken(DetailAST ast) {
         @OrderNonDet Map<String, FinalVariableCandidate> scope = null;
         switch (ast.getType()) {
@@ -554,9 +554,8 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      *
      * @param ast the variable to insert.
      */
-    @SuppressWarnings("determinism")
     private void insertParameter(DetailAST ast) {
-        final Map<String, FinalVariableCandidate> scope = scopeStack.peek().scope;
+        final Map<@Det String, @Det FinalVariableCandidate> scope = scopeStack.peek().scope;
         final DetailAST astNode = ast.findFirstToken(TokenTypes.IDENT);
         scope.put(astNode.getText(), new FinalVariableCandidate(astNode));
     }
@@ -566,9 +565,8 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      *
      * @param ast the variable to insert.
      */
-    @SuppressWarnings("determinism")
     private void insertVariable(DetailAST ast) {
-        final Map<String, FinalVariableCandidate> scope = scopeStack.peek().scope;
+        final Map<@Det String, @Det FinalVariableCandidate> scope = scopeStack.peek().scope;
         final DetailAST astNode = ast.findFirstToken(TokenTypes.IDENT);
         final FinalVariableCandidate candidate = new FinalVariableCandidate(astNode);
         // for-each variables are implicitly assigned
@@ -604,12 +602,11 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      *
      * @param ast variable to remove.
      */
-    @SuppressWarnings("determinism")
     private void removeFinalVariableCandidateFromStack(DetailAST ast) {
-        final Iterator<ScopeData> iterator = scopeStack.descendingIterator();
+        final Iterator<@Det ScopeData> iterator = scopeStack.descendingIterator();
         while (iterator.hasNext()) {
             final ScopeData scopeData = iterator.next();
-            final Map<String, FinalVariableCandidate> scope = scopeData.scope;
+            final Map<@Det String, @Det FinalVariableCandidate> scope = scopeData.scope;
             final FinalVariableCandidate candidate = scope.get(ast.getText());
             DetailAST storedVariable = null;
             if (candidate != null) {

@@ -245,7 +245,7 @@ public final class ThrowsCountCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic; DetailAST implements Det toString
     public void visitToken(DetailAST ast) {
         if (ast.getType() == TokenTypes.LITERAL_THROWS) {
             visitLiteralThrows(ast);

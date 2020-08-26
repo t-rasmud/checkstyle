@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.Filter;
+import org.checkerframework.checker.determinism.qual.*;
 
 /**
  * This filter element is immutable and processes {@link AuditEvent}
@@ -223,8 +224,7 @@ public class SuppressFilterElement
     }
 
     @Override
-    @SuppressWarnings("determinism:return.type.incompatible")
-    public int hashCode() {
+    public @NonDet int hashCode() {
         return Objects.hash(filePattern, checkPattern, messagePattern, moduleId, linesCsv,
                 columnsCsv);
     }

@@ -475,11 +475,11 @@ public class DescendantTokenCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection
-    public int[] getAcceptableTokens() {
+    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:assignment.type.incompatible","determinism:invalid.array.assignment"})  // Iteration over OrderNonDet collection to create another collection
+    public @Det int @OrderNonDet[] getAcceptableTokens() {
         // Any tokens set by property 'tokens' are acceptable
         final @OrderNonDet Set<String> tokenNames = getTokenNames();
-        final @Det int[] result = new @Det int[tokenNames.size()];
+        final @Det int @OrderNonDet[] result = new @Det int @OrderNonDet[tokenNames.size()];
         int index = 0;
         for (String name : tokenNames) {
             result[index] = TokenUtil.getTokenId(name);

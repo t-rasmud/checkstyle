@@ -225,7 +225,7 @@ public class EqualsHashCodeCheck
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // Iteration over OrderNonDet collection for applying harmless function
     public void finishTree(DetailAST rootAST) {
         objBlockWithEquals
             .entrySet().stream().filter(detailASTDetailASTEntry -> {

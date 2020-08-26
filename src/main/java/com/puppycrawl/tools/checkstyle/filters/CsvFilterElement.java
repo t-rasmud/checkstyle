@@ -92,7 +92,7 @@ class CsvFilterElement implements IntFilterElement {
      * @return true if intValue is an Integer that matches a CSV value.
      */
     @Override
-    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  // Iteration over OrderNonDet collection
+    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  // Iteration over OrderNonDet collection for searching
     public boolean accept(int intValue) {
         boolean result = false;
         for (IntFilterElement filter : getFilters()) {
@@ -117,8 +117,7 @@ class CsvFilterElement implements IntFilterElement {
     }
 
     @Override
-    @SuppressWarnings("determinism:return.type.incompatible")
-    public int hashCode() {
+    public @NonDet int hashCode() {
         return Objects.hash(filters);
     }
 

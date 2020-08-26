@@ -499,7 +499,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @param frameStack stack containing the FrameTree being built.
      * @param ast AST to parse.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic; DetailAST implements Det toString
     // -@cs[JavaNCSS] This method is a big switch and is too hard to remove.
     private static void collectDeclarations(Deque<AbstractFrame> frameStack, DetailAST ast) {
         final AbstractFrame frame = frameStack.peek();
@@ -703,7 +703,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @return true if user arranges 'this' for variable in method, constructor,
      *         or block on his own.
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
     private static boolean isUserDefinedArrangementOfThis(AbstractFrame currentFrame,
                                                           DetailAST ident) {
         final DetailAST blockFrameNameIdent = currentFrame.getFrameNameIdent();
@@ -735,7 +735,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @param blockStartToken token which starts the block.
      * @return the token which ends the code block.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:return.type.incompatible"})  // Iteration over OrderNonDet collection for searching
     private static DetailAST getBlockEndToken(DetailAST blockNameIdent, DetailAST blockStartToken) {
         DetailAST blockEndToken = null;
         final DetailAST blockNameIdentParent = blockNameIdent.getParent();
@@ -762,7 +762,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @param ident variable ident token.
      * @return true if the current variable is returned from the method.
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for searching
     private static boolean isReturnedVariable(AbstractFrame currentFrame, DetailAST ident) {
         final DetailAST blockFrameNameIdent = currentFrame.getFrameNameIdent();
         final DetailAST definitionToken = blockFrameNameIdent.getParent();
@@ -1308,7 +1308,7 @@ public class RequireThisCheck extends AbstractCheck {
          * @return true if the set contains a declaration with the text of the specified
          *         IDENT ast and it is declared in a proper position.
          */
-        @SuppressWarnings("determinism")
+        @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for searching
         protected boolean containsFieldOrVariableDef(@OrderNonDet Set<DetailAST> set, DetailAST ident) {
             boolean result = false;
             for (DetailAST ast: set) {
@@ -1486,7 +1486,7 @@ public class RequireThisCheck extends AbstractCheck {
          * @param instanceMember an instance member of a class.
          * @return true if given instance member has final modifier.
          */
-        @SuppressWarnings("determinism")
+        @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // Iteration over OrderNonDet collection for searching
         public boolean hasFinalField(final DetailAST instanceMember) {
             boolean result = false;
             for (DetailAST member : instanceMembers) {
@@ -1546,7 +1546,7 @@ public class RequireThisCheck extends AbstractCheck {
          * @return true if the set contains a definition with the
          *     same name and number of parameters.
          */
-        @SuppressWarnings("determinism")
+        @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for searching
         private static boolean containsMethodDef(@OrderNonDet Set<DetailAST> set, DetailAST ident) {
             boolean result = false;
             for (DetailAST ast: set) {

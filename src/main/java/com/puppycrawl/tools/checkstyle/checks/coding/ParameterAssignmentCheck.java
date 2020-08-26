@@ -114,7 +114,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism:assignment.type.incompatible")
+    @SuppressWarnings("determinism:assignment.type.incompatible")  // OK to assign empty set to OrderNonDet set
     public void beginTree(DetailAST rootAST) {
         // clear data
         parameterNamesStack.clear();
@@ -122,7 +122,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic; DetailAST implements Det toString
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -155,7 +155,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism")  // ast.toString() is deterministic; DetailAST implements Det toString
     public void leaveToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -223,7 +223,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
      *
      * @param ast a method to process.
      */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; pushing OrderNonDet parameterNames into Det parameterNamesStack
     private void visitMethodDef(DetailAST ast) {
         parameterNamesStack.push(parameterNames);
         parameterNames = new HashSet<>();
@@ -232,7 +232,7 @@ public final class ParameterAssignmentCheck extends AbstractCheck {
     }
 
     /** Restores old set of parameters. */
-    @SuppressWarnings("determinism")
+    @SuppressWarnings("determinism:assignment.type.incompatible")  // Potential true positive; assigning OrderNonDet parameterNames to Det parameterNamesStack
     private void leaveMethodDef() {
         parameterNames = parameterNamesStack.pop();
     }

@@ -282,7 +282,7 @@ public class CheckstyleAntTask extends Task {
     ////////////////////////////////////////////////////////////////////////////
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible") //possible true positive; NonDet logging time
+    @SuppressWarnings("determinism:argument.type.incompatible") // Possible true positive; NonDet logging time
     public void execute() {
         final long startTime = System.currentTimeMillis();
 
@@ -347,7 +347,7 @@ public class CheckstyleAntTask extends Task {
      * @param warningCounter Root Module's counter of warnings
      * @param checkstyleVersion Checkstyle compile version
      */
-    @SuppressWarnings("determinism:argument.type.incompatible") //possible true positive; logging time
+    @SuppressWarnings("determinism:argument.type.incompatible") // Possible true positive; logging time
     private void processFiles(RootModule rootModule, final SeverityLevelCounter warningCounter,
             final String checkstyleVersion) {
         final long startTime = System.currentTimeMillis();

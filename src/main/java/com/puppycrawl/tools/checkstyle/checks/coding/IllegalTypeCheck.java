@@ -414,7 +414,7 @@ public final class IllegalTypeCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")  //ast.toString() is deterministic because DetailAST implements a Det toString
+    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic because DetailAST implements a Det toString
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CLASS_DEF:

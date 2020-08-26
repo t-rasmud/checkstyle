@@ -63,7 +63,7 @@ public final class SuppressionsStringPrinter {
      * @throws IOException if the file could not be read.
      * @throws CheckstyleException if the file is not a Java source.
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true warning; System getProperty
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; System properties: character set
     public static String printSuppressions(File file, String suppressionLineColumnNumber,
                                            int tabWidth) throws IOException, CheckstyleException {
         final Matcher matcher =

@@ -241,7 +241,7 @@ public class MultipleStringLiteralsCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Potential true positive; Iteration over OrderNonDet collection for logging
+    @SuppressWarnings("determinism:argument.type.incompatible")  // true positive; logging: Iteration over OrderNonDet collection for logging
     public void finishTree(DetailAST rootAST) {
         for (Map.Entry<String, List<DetailAST>> stringListEntry : stringMap.entrySet()) {
             final @NonDet List<@Det DetailAST> hits = stringListEntry.getValue();

@@ -220,11 +220,10 @@ public final class Main {
      *        files.
      * @return found files
      */
-    @SuppressWarnings({"determinism:assignment.type.incompatible","determinism:argument.type.incompatible"})  // Bug in CF; listFiles should return PolyDet("upDet"), not NonDet
-    private static @PolyDet List<@PolyDet("use") File> listFiles(@PolyDet File node, @PolyDet List<@PolyDet("use") Pattern> patternsToExclude) {
+    private static @PolyDet("up") List<@PolyDet("use") File> listFiles(@PolyDet File node, @PolyDet("up") List<@PolyDet("use") Pattern> patternsToExclude) {
         // could be replaced with org.apache.commons.io.FileUtils.list() method
         // if only we add commons-io library
-        final @PolyDet List<@PolyDet("use") File> result = new @PolyDet LinkedList<>();
+        final @PolyDet("up") List<@PolyDet("use") File> result = new @PolyDet("up") LinkedList<>();
 
         if (node.canRead() && !isPathExcluded(node.getAbsolutePath(), patternsToExclude)) {
             if (node.isDirectory()) {

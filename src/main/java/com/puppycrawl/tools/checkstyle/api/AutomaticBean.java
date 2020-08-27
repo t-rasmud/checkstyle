@@ -402,7 +402,7 @@ public abstract class AutomaticBean
                 new AccessModifierOption[0];
 
         @SuppressWarnings({"unchecked",
-                "determinism:argument.type.incompatible" // possible true positive; Object.toString()
+                "determinism:argument.type.incompatible" // possible true positive; Object.toString
                 })
         @Override
         public Object convert(Class type, Object value) {

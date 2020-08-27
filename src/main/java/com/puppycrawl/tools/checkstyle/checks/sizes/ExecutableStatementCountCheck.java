@@ -150,7 +150,7 @@ public final class ExecutableStatementCountCheck
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic; DetailAST implements Det toString
+    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic; DetailAST implements Det toString (https://github.com/t-rasmud/checker-framework/issues/198)
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -168,7 +168,7 @@ public final class ExecutableStatementCountCheck
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible") // ast.toString() is deterministic; DetailAST implements Det toString
+    @SuppressWarnings("determinism:argument.type.incompatible") // ast.toString() is deterministic; DetailAST implements Det toString (https://github.com/t-rasmud/checker-framework/issues/198)
     public void leaveToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:

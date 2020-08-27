@@ -175,7 +175,7 @@ public class ClassMemberImpliedModifierCheck
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic; DetailAST implements Det toString
+    @SuppressWarnings("determinism:argument.type.incompatible")  // ast.toString() is deterministic; DetailAST implements Det toString (https://github.com/t-rasmud/checker-framework/issues/198)
     public void visitToken(DetailAST ast) {
         if (ScopeUtil.isInClassBlock(ast) || ScopeUtil.isInEnumBlock(ast)) {
             final DetailAST modifiers = ast.findFirstToken(TokenTypes.MODIFIERS);

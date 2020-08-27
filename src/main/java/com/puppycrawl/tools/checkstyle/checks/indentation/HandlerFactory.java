@@ -139,6 +139,7 @@ public class HandlerFactory {
      *
      * @return the ExpressionHandler for ast
      */
+    @SuppressWarnings("determinism:cast.unsafe") // reflection
     public AbstractExpressionHandler getHandler(IndentationCheck indentCheck,
         DetailAST ast, AbstractExpressionHandler parent) {
         final @Det AbstractExpressionHandler resultHandler;

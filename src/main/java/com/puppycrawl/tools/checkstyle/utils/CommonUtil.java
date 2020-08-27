@@ -650,7 +650,7 @@ public final class CommonUtil {
      * @param value A string to check.
      * @return true if the arg is blank.
      */
-    public static boolean isBlank(String value) {
+    public static @PolyDet boolean isBlank(@PolyDet String value) {
         boolean result = true;
         if (value != null && !value.isEmpty()) {
             for (int i = 0; i < value.length(); i++) {

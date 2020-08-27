@@ -648,9 +648,9 @@ public class EqualsAvoidNullCheck extends AbstractCheck {
          * @param name name of the field to check.
          * @return true if this FieldFrame contains instance field field.
          */
-        @SuppressWarnings("determinism")
+        @SuppressWarnings({"determinism:argument.type.incompatible","assignment.type.incompatible"})  // Iteration over OrderNonDet collection for searching
         public DetailAST findField(String name) {
-            DetailAST resultField = null;
+            @Det DetailAST resultField = null;
             for (DetailAST field: fields) {
                 if (getFieldName(field).equals(name)) {
                     resultField = field;

@@ -148,7 +148,7 @@ public class CovariantEqualsCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism:method.invocation.invalid")
+    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
     public void visitToken(DetailAST ast) {
         equalsMethods.clear();
 

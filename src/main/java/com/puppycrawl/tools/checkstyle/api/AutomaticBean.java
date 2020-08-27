@@ -342,8 +342,8 @@ public abstract class AutomaticBean
     private static class UriConverter implements Converter {
 
         @SuppressWarnings({"unchecked",
-                "determinism:argument.type.incompatible"  // possible true positive; Object.toString
-                })
+            "determinism:argument.type.incompatible" // Object.toString; https://github.com/t-rasmud/checker-framework/issues/198
+        })
         @Override
         public Object convert(Class type, Object value) {
             final String url = value.toString();
@@ -371,8 +371,8 @@ public abstract class AutomaticBean
     private static class RelaxedStringArrayConverter implements Converter {
 
         @SuppressWarnings({"unchecked",
-                "determinism:argument.type.incompatible" // possible true positive; Object.toString
-                })
+            "determinism:argument.type.incompatible" // Object.toString; https://github.com/t-rasmud/checker-framework/issues/198
+        })
         @Override
         public Object convert(Class type, Object value) {
             // Convert to a String and trim it for the tokenizer.
@@ -402,8 +402,8 @@ public abstract class AutomaticBean
                 new AccessModifierOption[0];
 
         @SuppressWarnings({"unchecked",
-                "determinism:argument.type.incompatible" // possible true positive; Object.toString
-                })
+            "determinism:argument.type.incompatible" // Object.toString; https://github.com/t-rasmud/checker-framework/issues/198
+        })
         @Override
         public Object convert(Class type, Object value) {
             // Converts to a String and trims it for the tokenizer.

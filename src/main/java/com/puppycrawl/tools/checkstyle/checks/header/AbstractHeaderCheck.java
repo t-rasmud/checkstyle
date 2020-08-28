@@ -188,7 +188,7 @@ public abstract class AbstractHeaderCheck extends AbstractFileSetCheck
     }
 
     @Override
-    @SuppressWarnings("assignment.type.incompatible")  // OK to assign immutable set to OrderNonDet set
+    @SuppressWarnings("assignment.type.incompatible")  // OK to assign immutable to OrderNonDet
     public @OrderNonDet Set<String> getExternalResourceLocations() {
         final @OrderNonDet Set<String> result;
 

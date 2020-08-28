@@ -601,7 +601,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param file translation file.
      * @return a Set object which holds the loaded keys.
      */
-    @SuppressWarnings("determinism:assignment.type.incompatible")  // OK to assign Det collection to OrderNonDet collection that isn't side-effected
+    @SuppressWarnings("determinism:assignment.type.incompatible")  // OK to assign immutable to OrderNonDet: actually, it isn't necessarily immutable, but it isn't side-effected
     private @OrderNonDet Set<String> getTranslationKeys(File file) {
         @OrderNonDet Set<String> keys = new HashSet<>();
         try (InputStream inStream = Files.newInputStream(file.toPath())) {

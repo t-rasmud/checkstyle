@@ -499,7 +499,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @param frameStack stack containing the FrameTree being built.
      * @param ast AST to parse.
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Object.toString; https://github.com/t-rasmud/checker-framework/issues/198: ast.toString() is deterministic; DetailAST implements Det toString
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Object.toString; https://github.com/t-rasmud/checker-framework/issues/198 : ast.toString() is deterministic; DetailAST implements Det toString
     // -@cs[JavaNCSS] This method is a big switch and is too hard to remove.
     private static void collectDeclarations(Deque<AbstractFrame> frameStack, DetailAST ast) {
         final AbstractFrame frame = frameStack.peek();

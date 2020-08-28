@@ -279,7 +279,7 @@ public class SuppressionFilter extends AutomaticBean implements Filter, External
     }
 
     @Override
-    @SuppressWarnings("determinism:return.type.incompatible")  // OK to assign immutable set to OrderNonDet set
+    @SuppressWarnings("determinism:return.type.incompatible")  // OK to assign immutable to OrderNonDet
     public @OrderNonDet Set<String> getExternalResourceLocations() {
         return Collections.singleton(file);
     }

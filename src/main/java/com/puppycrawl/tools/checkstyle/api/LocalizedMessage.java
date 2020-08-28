@@ -501,7 +501,7 @@ public final class LocalizedMessage
      * @param bundleName the bundle name
      * @return a ResourceBundle
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:argument.type.incompatible")  // Iteration over OrderNonDet collection for applying commutative operation: computeIfAbsent
     private ResourceBundle getBundle(String bundleName) {
         return BUNDLE_CACHE.computeIfAbsent(bundleName, name -> {
             return ResourceBundle.getBundle(

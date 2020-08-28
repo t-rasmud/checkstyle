@@ -408,7 +408,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
         }
 
         /** Checks if coupling less than allowed or not. */
-        @SuppressWarnings("determinism:argument.type.incompatible")  // referencedClassNames.toString() is NonDet (TreeSet doesn't have a toString implementation)
+        @SuppressWarnings("determinism:argument.type.incompatible")  // true positive; logging: referencedClassNames.toString() is NonDet (TreeSet doesn't have a toString implementation)
         public void checkCoupling() {
             referencedClassNames.remove(className);
             referencedClassNames.remove(packageName + DOT + className);

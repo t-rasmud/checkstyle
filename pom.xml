@@ -761,8 +761,8 @@
             <annotationProcessor>org.checkerframework.common.util.count.AnnotationStatistics</annotationProcessor>
           </annotationProcessors>
           <compilerArgs>
-	    <arg>-Aannotations</arg>
-	    <arg>-Anolocations</arg>
+            <arg>-Aannotations</arg>
+            <arg>-Anolocations</arg>
             <!-- If using JDK 8, use only the argument immediately below. -->
             <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
             <arg>-AwarnUnneededSuppressions</arg>

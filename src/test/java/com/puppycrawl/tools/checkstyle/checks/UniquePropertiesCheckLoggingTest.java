@@ -15,6 +15,13 @@ public class UniquePropertiesCheckLoggingTest extends AbstractModuleTestSupport 
         return "com/puppycrawl/tools/checkstyle/checks/uniqueproperties";
     }
 
+    /**
+     * Iteration over the duplicated keys and their logging in {@code processFiltered} method of
+     * {@code UniquePropertiesCheck} class is nondeterministic. This test reveals the nondeterminism
+     * by populating 2 instances of {@code UniqueProperties} with the same entries but in a different order.
+     *
+     * @throws Exception
+     */
     @Test
     @SuppressWarnings("unchecked")
     public void testLogging() throws Exception {
@@ -27,13 +34,13 @@ public class UniquePropertiesCheckLoggingTest extends AbstractModuleTestSupport 
         Iterator<Map.Entry<String, AtomicInteger>> duplication = properties.getDuplicatedKeys().entrySet().iterator();
         final String keyName = duplication.next().getKey();
         String expected = "alpha";
-        assertEquals(expected, keyName);
+        assertEquals(expected, keyName);  // This assert fails
 
         final UniqueProperties properties1 = new UniqueProperties();
         properties1.put("beta", "val2");
         properties1.put("alpha", "val1");
         properties1.put("beta", "val2");
-        properties1.put("alpha", "val1");
+        properties1.put("alpha", "val1");  // This assert passes
 
         Iterator<Map.Entry<String, AtomicInteger>> duplication1 = properties1.getDuplicatedKeys().entrySet().iterator();
         final String keyName1 = duplication1.next().getKey();
@@ -41,6 +48,12 @@ public class UniquePropertiesCheckLoggingTest extends AbstractModuleTestSupport 
         assertEquals(expected1, keyName1);
     }
 
+    /**
+     * Fixes the nondeterminism exposed in {@code testLogging} by using {@code UniquePropertiesOrdered}
+     * instead of {@code UniqueProperties}.
+     *
+     * @throws Exception
+     */
     @Test
     @SuppressWarnings("unchecked")
     public void testLoggingOrdered() throws Exception {
@@ -108,6 +121,11 @@ public class UniquePropertiesCheckLoggingTest extends AbstractModuleTestSupport 
         }
     }
 
+    /**
+     * Modified Properties subclass to store duplicated property keys in a separate ordered map.
+     *
+     * @noinspection ClassExtendsConcreteCollection, SerializableHasSerializationMethods
+     */
     private static class UniquePropertiesOrdered extends Properties {
 
         private static final long serialVersionUID = 1L;
@@ -137,7 +155,7 @@ public class UniquePropertiesCheckLoggingTest extends AbstractModuleTestSupport 
         /**
          * Retrieves a collections of duplicated properties keys.
          *
-         * @return A collection of duplicated keys.
+         * @return An ordered collection of duplicated keys.
          */
         public Map<String, AtomicInteger> getDuplicatedKeysOrdered() {
             return new TreeMap<>(duplicatedKeys);

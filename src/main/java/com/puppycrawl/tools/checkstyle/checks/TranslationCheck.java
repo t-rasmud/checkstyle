@@ -360,7 +360,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism:argument.type.incompatible")  // true positive; logging: Iteration over OrderNonDet collection
+    @SuppressWarnings("determinism:argument.type.incompatible")  // true positive (Fixed); logging: Iteration over OrderNonDet collection
     public void finishProcessing() {
         final @OrderNonDet Set<ResourceBundle> bundles = groupFilesIntoBundles(filesToProcess, baseName);
         for (ResourceBundle currentBundle : bundles) {

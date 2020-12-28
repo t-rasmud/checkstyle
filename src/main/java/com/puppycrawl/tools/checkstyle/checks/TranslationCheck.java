@@ -361,6 +361,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
 
     @Override
     // true positive; logging: Iteration over OrderNonDet collection
+    // Fixed: https://github.com/checkstyle/checkstyle/issues/8963
     public void finishProcessing() {
         final @OrderNonDet Set<ResourceBundle> bundles = groupFilesIntoBundles(filesToProcess, baseName);
         for (ResourceBundle currentBundle : bundles) {
@@ -389,6 +390,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * @param bundle resource bundle.
      */
     // true positive; logging: Iteration over OrderNonDet collection
+    // Fixed: https://github.com/checkstyle/checkstyle/issues/8963
     private void checkExistenceOfRequiredTranslations(ResourceBundle bundle) {
         for (String languageCode : requiredTranslations) {
             getMissingFileName(bundle, languageCode)

@@ -112,7 +112,7 @@ public abstract class AbstractHeaderCheck extends AbstractFileSetCheck
      *
      * @throws CheckstyleException if the file cannot be loaded
      */
-    @SuppressWarnings("determinism:argument.type.incompatible")  // true positive; System properties: character sets could be different across platforms (expected behavior)
+    // true positive; System properties: character sets could be different across platforms (expected behavior)
     private void loadHeaderFile() throws CheckstyleException {
         checkHeaderNotInitialized();
         try (Reader headerReader = new InputStreamReader(new BufferedInputStream(

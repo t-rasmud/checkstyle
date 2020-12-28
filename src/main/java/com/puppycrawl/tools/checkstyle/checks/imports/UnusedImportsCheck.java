@@ -167,7 +167,7 @@ public class UnusedImportsCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings("determinism:method.invocation.invalid")  // true positive; logging: Iteration over OrderNonDet collection `imports`
+    @SuppressWarnings("determinism:method.invocation.invalid")  // logging: Iteration over OrderNonDet collection `imports` is ok because log() method uses SortedSet
     public void finishTree(DetailAST rootAST) {
         // loop over all the imports to see if referenced.
         imports.stream()

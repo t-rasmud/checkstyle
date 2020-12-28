@@ -103,7 +103,7 @@ public class UniquePropertiesCheck extends AbstractFileSetCheck {
     }
 
     @Override
-    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  // true positive; logging: iteration over OrderNonDet collection
+    @SuppressWarnings({"determinism:argument.type.incompatible","determinism:method.invocation.invalid"})  // logging: iteration over OrderNonDet collection `properties.getDuplicatedKeys().entrySet()` is ok because log() method uses SortedSet
     protected void processFiltered(File file, FileText fileText) {
         final @Det UniqueProperties properties = new UniqueProperties();
         try (InputStream inputStream = Files.newInputStream(file.toPath())) {

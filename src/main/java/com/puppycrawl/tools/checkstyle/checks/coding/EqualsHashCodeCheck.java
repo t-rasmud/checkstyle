@@ -225,7 +225,7 @@ public class EqualsHashCodeCheck
     }
 
     @Override
-    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // true positive; logging: iteration over @OrderNonDet `objBlockWithHashCode`
+    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // logging: iteration over OrderNonDet collection `objBlockWithHashCode` is ok because log() method uses SortedSet
     public void finishTree(DetailAST rootAST) {
         objBlockWithEquals
             .entrySet().stream().filter(detailASTDetailASTEntry -> {

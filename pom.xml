@@ -229,7 +229,7 @@
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>3.8.0-SNAPSHOT</version>
+      <version>3.9.1-SNAPSHOT</version>
     </dependency>
     <!-- If using JDK 8, add the following additional dependency. -->
     <dependency>
@@ -752,7 +752,7 @@
             <path>
               <groupId>org.checkerframework</groupId>
               <artifactId>checker</artifactId>
-              <version>3.8.0-SNAPSHOT</version>
+              <version>3.9.1-SNAPSHOT</version>
             </path>
           </annotationProcessorPaths>
           <annotationProcessors>
@@ -3244,7 +3244,7 @@
                 <path>
                   <groupId>org.checkerframework</groupId>
                   <artifactId>checker</artifactId>
-                  <version>3.8.0-SNAPSHOT</version>
+                  <version>3.9.1-SNAPSHOT</version>
                 </path>
               </annotationProcessorPaths>
               <annotationProcessors>
@@ -3268,7 +3268,7 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>3.8.0-SNAPSHOT</version>
+          <version>3.9.1-SNAPSHOT</version>
         </dependency>
       </dependencies>
     </profile>

@@ -106,7 +106,8 @@ public final class ModuleReflectionUtil {
      * @param clazz class to check
      * @return true if the class has a default constructor.
      */
-    @SuppressWarnings("determinism:method.invocation.invalid")  // Iteration over OrderNonDet collection for searching
+    // Iteration over OrderNonDet collection for searching
+    // Source of flakiness in a test detected (as flaky) by DeFlaker.
     private static boolean hasDefaultConstructor(Class<?> clazz) {
         boolean result = false;
         for (Constructor<?> constructor : clazz.getDeclaredConstructors()) {

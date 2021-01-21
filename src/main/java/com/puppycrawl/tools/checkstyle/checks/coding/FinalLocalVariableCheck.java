@@ -316,7 +316,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     }
 
     @Override
-    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // logging: Iteration over OrderNonDet collection (`scope`)
+    @SuppressWarnings({"determinism:method.invocation.invalid","determinism:argument.type.incompatible"})  // logging: Iteration over OrderNonDet collection `scope.values()` is ok because log() method uses SortedSet
     public void leaveToken(DetailAST ast) {
         @OrderNonDet Map<String, FinalVariableCandidate> scope = null;
         switch (ast.getType()) {
